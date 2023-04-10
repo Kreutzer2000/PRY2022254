@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewBag.Title = "Respuestas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="mt-4">Respuestas</h1>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-users"></i> Lista de respuestas con sus respectivas preguntas
+    </div>
+    <div class="card-body">
+        @*<h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>*@
+
+        @*<div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-success" onclick="abrirModal(null)">Crear Usuario</button>
+            </div>
+        </div>*@
+
+        @*<hr />*@
+
+        <table id="tablaPreguntas" class="display cell-border" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th></th>
+                    @*<th>Respuesta</th>*@
+                    <th>Pregunta</th>
+                    <th>Funcion</th>
+                </tr>
+            </thead>
+
+            <tfoot>
+                <tr>
+                    <th></th>
+                    @*<th>Respuesta</th>*@
+                    <th>Pregunta</th>
+                    <th>Funcion</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+
+        $.ajax({
+                url: '@Url.Action("ListarPreguntas_Respuestas", "Framework")',
+                type: 'GET',
+                //data: JSON.stringify({ objeto: idpregunta }),
+                dataType: 'json'
+        }),
+        $.ajax({
+            url: '@Url.Action("ListarPreguntas", "Framework")',
+            type: 'GET',
+            dataType: 'json'
+        })
+
+        var tabladata;
+
+        function format(d) {
+            debugger;
+            // `d` is the original data object for the row
+            return (
+                '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                '<tr>' +
+                '<td>Respuesta 1:</td>' +
+                '<td>' +
+                d.respuesta +
+                '</td>' +
+                '</tr>' +
+
+                '</table>'
+            );
+        }
+
+        /* ///////////////// DATOS PARA LA CARGA DEL DATA TABLE ///////////////// */
+        tabladata = $('#tablaPreguntas').DataTable({
+            responsive: true,
+            ordering: false,
+            "ajax": {
+                "url": '@Url.Action("ListarPreguntas", "Framework")',
+                "type": "GET",
+                "datatype": "json"
+            },
+            //data: respuestas,
+            "columns": [ //data es el nombre de la propiedad del objeto que se recibe en el controlador y se envia al cliente en formato json
+                {
+                    className: 'dt-control',
+                    orderable: false,
+                    data: null,
+                    defaultContent: '',
+                    //"render": function () {
+                    //    return '<i class="fa fa-plus-square" aria-hidden="true"></i>';
+                    //},
+                },
+                //{ "data": "respuesta", "width": "100px", "className": "text-center" },
+                { "data": "oPregunta.pregunta", "className": "text-center" },
+                { "data": "oFuncionNist.funcion", "className": "text-center" },
+            ],
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
+            },
+            "rowGroup": {
+                dataSrc: "oFuncionNist.funcion",
+                startRender: function (rows, group) {
+                    return '<strong>' + group + '</strong>';
+                }
+            },
+        });
+
+        $('#tablaPreguntas tbody').on('click', 'td.dt-control', function () {
+            var tr = $(this).closest('tr');
+            debugger;
+            var tdi = tr.find("i.fa");
+            var row = tabladata.row(tr);
+
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('hasChild shown');
+                //tdi.first().removeClass('fa-minus-square');
+                //tdi.first().addClass('fa-plus-square');
+            } else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('hasChild shown');
+                //tdi.first().removeClass('fa-plus-square');
+                //tdi.first().addClass('fa-minus-square');
+            }
+        });
+
+        
+
+
+
+
+    </script>
+} 
+
