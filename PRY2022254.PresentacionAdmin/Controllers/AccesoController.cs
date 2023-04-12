@@ -57,7 +57,7 @@ namespace PRY2022254.PresentacionAdmin.Controllers
                     }
 
                     FormsAuthentication.SetAuthCookie(usuarios[i].email, false);
-
+                    TempData["rolUsuario"] = usuarios[i].oRolc.idRol;
                         ViewBag.Error = null;
                         return RedirectToAction("Index", "Home");
                     //}
