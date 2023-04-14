@@ -17,7 +17,12 @@ namespace CapaNegocio
         public List<Usuario> Listar()
         {
             return objUsuario.Listar();
-        }   
+        }
+
+        public List<Usuario> ListarAdmins()
+        {
+            return objUsuario.ListarAdmins();
+        }
 
         public int RegistrarUsuario(Usuario obj, out string Mensaje)
         {

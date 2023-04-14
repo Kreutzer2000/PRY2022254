@@ -12,7 +12,7 @@ namespace CapaDatos
 {
     public class CD_Usuario
     {
-        /* LISTAR USUARIOS */
+        /* LISTAR USUARIOS CLIENTES */
         public List<Usuario> Listar()
         {
             List<Usuario> lista = new List<Usuario>();
@@ -52,6 +52,53 @@ namespace CapaDatos
                 }
             }
             catch 
+            {
+                lista = new List<Usuario>();
+            }
+
+            return lista;
+        }
+
+        /* LISTAR USUARIOS ADMIN */
+        public List<Usuario> ListarAdmins()
+        {
+            List<Usuario> lista = new List<Usuario>();
+
+            try
+            {
+                using (SqlConnection oconexion = new SqlConnection(Conexion.CadenaConexion))
+                {
+                    string query = "select idUsuario,nombres,apellidos,cargoEmpleado,razonSocial,ruc,email,clave,restablecer,activo,r.idRol,r.rol from Usuario u inner join Rol r on u.idRol = r.idRol where u.idRol = 1";
+
+                    SqlCommand cmd = new SqlCommand(query, oconexion);
+                    cmd.CommandType = CommandType.Text;
+
+                    oconexion.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(
+                                new Usuario()
+                                {
+                                    idUsuario = Convert.ToInt32(reader["idUsuario"]),
+                                    nombres = reader["nombres"].ToString(),
+                                    apellidos = reader["apellidos"].ToString(),
+                                    cargoEmpleado = reader["cargoEmpleado"].ToString(),
+                                    razonSocial = reader["razonSocial"].ToString(),
+                                    ruc = reader["ruc"].ToString(),
+                                    email = reader["email"].ToString(),
+                                    clave = reader["clave"].ToString(),
+                                    restablecer = Convert.ToBoolean(reader["restablecer"]),
+                                    activo = Convert.ToBoolean(reader["activo"]),
+                                    oRolc = new Rol() { idRol = Convert.ToInt32(reader["idRol"]), rol = reader["rol"].ToString() }
+                                });
+                        }
+                    }
+                }
+            }
+            catch
             {
                 lista = new List<Usuario>();
             }

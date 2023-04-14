@@ -27,8 +27,6 @@ namespace PRY2022254.PresentacionAdmin.Controllers
             List<Usuario> usuarios = new List<Usuario>();
             usuarios = new CN_Usuario().Listar();
 
-
-
             return Json(new {data = usuarios},JsonRequestBehavior.AllowGet);
         }
 

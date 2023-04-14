@@ -310,6 +310,7 @@
     <Content Include="Content\Principal\animate\animate.css" />
     <Content Include="Content\Principal\animate\animate.min.css" />
     <Content Include="Content\Principal\carousel\owl.carousel.min.css" />
+    <Content Include="Content\Principal\filtro.css" />
     <Content Include="Content\Principal\lightbox\lightbox.min.css" />
     <Content Include="Content\regular.css" />
     <Content Include="Content\regular.min.css" />

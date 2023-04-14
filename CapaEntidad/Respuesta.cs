@@ -15,5 +15,6 @@ namespace CapaEntidad
         public FuncionNist oFuncion_DE { get; set; }
         public FuncionNist oFuncion_RS { get; set; }
         public FuncionNist oFuncion_RC { get; set; }
+        public DateTime fechaRegistro { get; set; }
     }                      
 }

@@ -37,30 +37,39 @@ namespace PRY2022254.PresentacionAdmin.Controllers
             string contraseña = CN_Recursos.ConvertirSha1(clave);
 
             List<Usuario> usuarios = new CN_Usuario().Listar();
+            List<Usuario> usuariosAdmin = new CN_Usuario().ListarAdmins();
             //usuario = usuarios;
             for (int i = 0; i < usuarios.Count; i++)
             {
                 if (usuarios[i].email == correo && usuarios[i].clave == contraseña)
                 {
-                    //if (usuarios[i] == null)
-                    //{
-                    //    ViewBag.Error = "Correo o contraseña no correcta";
-                    //    return View();
-                    //}
-                    //else
-                    //{
 
                     if (usuarios[i].restablecer)
                     {
-                        TempData["idusuario"] = usuarios[i].idUsuario;
+                        Session["idusuario"] = usuarios[i].idUsuario;
                         return RedirectToAction("CambiarClave");
                     }
 
                     FormsAuthentication.SetAuthCookie(usuarios[i].email, false);
-                    TempData["rolUsuario"] = usuarios[i].oRolc.idRol;
+                    Session["rolUsuario"] = usuarios[i].oRolc.idRol;
                         ViewBag.Error = null;
                         return RedirectToAction("Index", "Home");
-                    //}
+
+                }
+                else
+                {
+                    for (int y = 0; y < usuariosAdmin.Count; y++)
+                    {
+                        if (usuariosAdmin[i].email == correo && usuariosAdmin[i].clave == contraseña)
+                        {
+                            Session["idusuario"] = usuariosAdmin[i].idUsuario;
+                            FormsAuthentication.SetAuthCookie(usuariosAdmin[i].email, false);
+                            Session["rolUsuario"] = usuariosAdmin[i].oRolc.idRol;
+                            ViewBag.Error = null;
+                            return RedirectToAction("Index", "Home");
+
+                        }
+                    }
                 }
             }
 

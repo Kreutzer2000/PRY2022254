@@ -28,40 +28,40 @@
                         <div style="text-align: justify;">
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">
-                                <label class="form-check-label" for="flexCheckDefault1">
+                                <input class="form-check-input" type="checkbox" value="1" id="funcionIdentificacion">
+                                <label class="form-check-label" for="funcionIdentificacion">
                                     Identificación: ¿Su empresa identifica y gestiona sus activos de información, sistemas,
                                     datos y capacidades para mitigar el riesgo de ciberseguridad?
                                 </label>
                             </div>
                             <br />
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
-                                <label class="form-check-label" for="flexCheckDefault2">
+                                <input class="form-check-input" type="checkbox" value="2" id="funcionProteccion">
+                                <label class="form-check-label" for="funcionProteccion">
                                     Protección: ¿Su empresa protege sus activos de información mediante medidas de seguridad física y lógica,
                                     políticas y procedimientos de seguridad y se asegura de que se estén actualizando continuamente?
                                 </label>
                             </div>
                             <br />
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">
-                                <label class="form-check-label" for="flexCheckDefault3">
+                                <input class="form-check-input" type="checkbox" value="3" id="funcionDetectar">
+                                <label class="form-check-label" for="funcionDetectar">
                                     Detección: ¿Su empresa detecta posibles amenazas de ciberseguridad, monitoriza sus sistemas y redes para
                                     identificar anomalías y utiliza herramientas y tecnologías efectivas para la detección?
                                 </label>
                             </div>
                             <br />
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault4">
-                                <label class="form-check-label" for="flexCheckDefault4">
+                                <input class="form-check-input" type="checkbox" value="4" id="funcionResponder">
+                                <label class="form-check-label" for="funcionResponder">
                                     Respuesta: ¿Su empresa responde a un incidente de seguridad, entrena y prepara a su personal, y actualiza
                                     y mejora continuamente sus planes y procedimientos de respuesta?
                                 </label>
                             </div>
                             <br />
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault5">
-                                <label class="form-check-label" for="flexCheckDefault5">
+                                <input class="form-check-input" type="checkbox" value="5" id="funcionRecuperar">
+                                <label class="form-check-label" for="funcionRecuperar">
                                     Recuperación: ¿Su empresa se recupera después de un incidente de seguridad, tiene planes de recuperación
                                     de desastres actualizados y se asegura de que su personal esté capacitado para ejecutar el plan de recuperación de manera efectiva?
                                 </label>
@@ -70,8 +70,8 @@
                         </div>
 
                         <div class="position-relative w-100 mt-3">
-                            <input class="form-control border-0 rounded-pill w-100 ps-4 pe-5" type="text" placeholder="Escribe tu email brindado en tu correo" style="height: 48px;">
-                            <button type="button" class="btn shadow-none position-absolute top-0 end-0 mt-1 me-2"><i class="fa fa-paper-plane text-primary fs-4"></i></button>
+                            <input class="form-control border-0 rounded-pill w-100 ps-4 pe-5" id="correo" type="text" placeholder="Escribe tu email brindado en tu correo" style="height: 48px;">
+                            <button type="button" class="btn shadow-none position-absolute top-0 end-0 mt-1 me-2" onclick="GuardarRespuesta()"><i class="fa fa-paper-plane text-primary fs-4"></i></button>
                         </div>
 
                     </div>
@@ -81,3 +81,60 @@
         </div>
     </div>
 </div>
+
+
+@section scripts{
+    
+    <script>
+
+        function GuardarRespuesta() {
+            var correo = document.getElementById("correo").value;
+            var funcionIdentificacion = document.getElementById("funcionIdentificacion").checked;
+            var funcionProteccion = document.getElementById("funcionProteccion").checked;
+            var funcionDetectar = document.getElementById("funcionDetectar").checked;
+            var funcionResponder = document.getElementById("funcionResponder").checked;
+            var funcionRecuperar = document.getElementById("funcionRecuperar").checked;
+            var ide = 0;
+            var pro = 0;
+            var det = 0;
+            var res = 0;
+            var rec = 0; //debugger;
+            if (funcionIdentificacion == true) {
+                ide = $("#funcionIdentificacion").val();
+            }
+            if (funcionProteccion == true) {
+                pro = $("#funcionProteccion").val();
+            }
+            if (funcionDetectar == true) {
+                det = $("#funcionDetectar").val();
+            }
+            if (funcionResponder == true) {
+                res = $("#funcionResponder").val();
+            }
+            if (funcionRecuperar == true) {
+                rec = $("#funcionRecuperar").val();
+            }
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GuardarRespuesta", "Home")',
+                data: { correo: correo, ID: ide, PR: pro, DE: det, RS: res, RC: rec },
+                success: function (data) {
+                    //console.log(data)
+                    if (data.mensaje == "OK") {
+                        alert("Respuesta guardada correctamente, revise su correo");
+                        location.reload();
+                    }
+                    else {
+                        alert("Error al guardar su respuesta, el correo brindado no está registrado");
+                    }
+                },
+                error: function (data) {
+                    alert("Error al guardar la respuesta");
+                    location.reload();
+                }
+            });
+        }
+
+    </script>
+    
+    }
