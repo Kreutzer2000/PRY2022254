@@ -13,17 +13,13 @@ namespace PRY2022254.PresentacionCliente.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Filtro()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }

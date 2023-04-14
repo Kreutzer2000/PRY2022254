@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "Filtro";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-xxl py-5">
+    <div class="container py-5 px-lg-5">
+        <div class="wow fadeInUp" data-wow-delay="0.1s">
+            <p class="section-title text-secondary justify-content-center"><span></span>Our Projects<span></span></p>
+            <h1 class="text-center mb-5">Recently Completed Projects</h1>
+        </div>
+
+        <div class="row g-4 portfolio-container center">
+
+            <div class="col-lg-12 col-md-6 portfolio-item second wow fadeInUp" data-wow-delay="0.3s" style="text-align: -webkit-center;">
+                <div class="rounded overflow-hidden col-lg-8">
+                    <div class="position-relative overflow-hidden">
+                        @*<img class="img-fluid w-100" src="~/img/portfolio-2.jpg" alt="">*@
+                        <div class="portfolio-overlay">
+                            <a class="btn btn-square btn-outline-light mx-1" href="~/img/portfolio-2.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
+                            <a class="btn btn-square btn-outline-light mx-1" href=""><i class="fa fa-link"></i></a>
+                        </div>
+                    </div>
+                    <div class="bg-light p-4">
+                        <h2 class="text-primary fw-medium mb-2">Marca las casillas que más se adecuen a la empresa con respecto a estas funciones.</h2>
+                        <br />
+                        <div style="text-align: justify;">
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">
+                                <label class="form-check-label" for="flexCheckDefault1">
+                                    Identificación: ¿Su empresa identifica y gestiona sus activos de información, sistemas,
+                                    datos y capacidades para mitigar el riesgo de ciberseguridad?
+                                </label>
+                            </div>
+                            <br />
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
+                                <label class="form-check-label" for="flexCheckDefault2">
+                                    Protección: ¿Su empresa protege sus activos de información mediante medidas de seguridad física y lógica,
+                                    políticas y procedimientos de seguridad y se asegura de que se estén actualizando continuamente?
+                                </label>
+                            </div>
+                            <br />
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">
+                                <label class="form-check-label" for="flexCheckDefault3">
+                                    Detección: ¿Su empresa detecta posibles amenazas de ciberseguridad, monitoriza sus sistemas y redes para
+                                    identificar anomalías y utiliza herramientas y tecnologías efectivas para la detección?
+                                </label>
+                            </div>
+                            <br />
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault4">
+                                <label class="form-check-label" for="flexCheckDefault4">
+                                    Respuesta: ¿Su empresa responde a un incidente de seguridad, entrena y prepara a su personal, y actualiza
+                                    y mejora continuamente sus planes y procedimientos de respuesta?
+                                </label>
+                            </div>
+                            <br />
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault5">
+                                <label class="form-check-label" for="flexCheckDefault5">
+                                    Recuperación: ¿Su empresa se recupera después de un incidente de seguridad, tiene planes de recuperación
+                                    de desastres actualizados y se asegura de que su personal esté capacitado para ejecutar el plan de recuperación de manera efectiva?
+                                </label>
+                            </div>
+
+                        </div>
+
+                        <div class="position-relative w-100 mt-3">
+                            <input class="form-control border-0 rounded-pill w-100 ps-4 pe-5" type="text" placeholder="Escribe tu email brindado en tu correo" style="height: 48px;">
+                            <button type="button" class="btn shadow-none position-absolute top-0 end-0 mt-1 me-2"><i class="fa fa-paper-plane text-primary fs-4"></i></button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
