@@ -106,6 +106,73 @@ namespace CapaDatos
             return lista;
         }
 
+        /* ENCONTRAR EL TIPO DE USUARIO Y LOGEARSE */
+        public Usuario UsuarioLogeo(string correo)
+        {
+            Usuario usuario = null;
+
+            SqlConnection oconexion = new SqlConnection(Conexion.CadenaConexion);
+            SqlCommand cmd = default(SqlCommand);
+
+            try
+            {
+                cmd = new SqlCommand();
+                cmd.Connection = oconexion;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "sp_usuarios_completos_por_correo";
+                cmd.Parameters.Clear();
+
+                cmd.Parameters.Add("@correo", SqlDbType.VarChar).Value = correo;
+
+                cmd.Connection.Open();
+
+                SqlDataReader Reader = cmd.ExecuteReader();
+                if (Reader.HasRows)
+                {
+                    int idUsuario = Reader.GetOrdinal("idUsuario");
+                    int nombres = Reader.GetOrdinal("nombres");
+                    int apellidos = Reader.GetOrdinal("apellidos");
+                    int cargoEmpleado = Reader.GetOrdinal("cargoEmpleado");
+                    int razonSocial = Reader.GetOrdinal("razonSocial");
+                    int ruc = Reader.GetOrdinal("ruc");
+                    int email = Reader.GetOrdinal("email");
+                    int clave = Reader.GetOrdinal("clave");
+                    int confirmarClave = Reader.GetOrdinal("confirmarClave");
+                    int restablecer = Reader.GetOrdinal("restablecer");
+                    int activo = Reader.GetOrdinal("activo");
+                    int idRol = Reader.GetOrdinal("idRol");
+                    int rol = Reader.GetOrdinal("rol");
+
+                    if (Reader.Read())
+                    {
+                        Rol identificador = new Rol();
+                        usuario = new Usuario();
+                        usuario.idUsuario = Reader.GetInt32(idUsuario);
+                        usuario.nombres = Reader.GetString(nombres);
+                        usuario.apellidos = Reader.GetString(apellidos);
+                        usuario.cargoEmpleado = Reader.GetString(cargoEmpleado);
+                        usuario.razonSocial = Reader.GetString(razonSocial);
+                        usuario.ruc = Reader.GetString(ruc);
+                        usuario.email = Reader.GetString(email);
+                        usuario.clave = Reader.GetString(clave);
+                        usuario.confirmarClave = Reader.GetString(confirmarClave);
+                        usuario.restablecer = Reader.GetBoolean(restablecer);
+                        usuario.activo = Reader.GetBoolean(activo);
+                        //usuario.oRolc.idRol = Reader.GetInt32(idRol);
+                        //usuario.oRolc.rol = Reader.GetString(rol);
+                        usuario.oRolc = new Rol() { idRol = Reader.GetInt32(idRol), rol = Reader.GetString(rol) };
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+                usuario = new Usuario();
+            }
+            return usuario;
+        }
+
+
         /* REGISTRAR USUARIOS */
 
         public int RegistrarUsuario(Usuario obj, out string Mensaje)

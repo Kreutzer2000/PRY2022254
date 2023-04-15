@@ -35,56 +35,37 @@ namespace PRY2022254.PresentacionAdmin.Controllers
         {
             Usuario usuario = new Usuario();
             string contraseña = CN_Recursos.ConvertirSha1(clave);
-
-            List<Usuario> usuarios = new CN_Usuario().Listar();
-            List<Usuario> usuariosAdmin = new CN_Usuario().ListarAdmins();
+            Session["email"] = correo;
+            usuario = new CN_Usuario().UsuarioLogeo(correo);
+            //List<Usuario> usuarios = new CN_Usuario().Listar();
+            //List<Usuario> usuariosAdmin = new CN_Usuario().ListarAdmins();
             //usuario = usuarios;
-            for (int i = 0; i < usuarios.Count; i++)
+
+            if (usuario.email == correo && usuario.clave == contraseña)
             {
-                if (usuarios[i].email == correo && usuarios[i].clave == contraseña)
+                if (usuario.oRolc.idRol == 1)
                 {
-
-                    if (usuarios[i].restablecer)
-                    {
-                        Session["idusuario"] = usuarios[i].idUsuario;
-                        return RedirectToAction("CambiarClave");
-                    }
-
-                    FormsAuthentication.SetAuthCookie(usuarios[i].email, false);
-                    Session["rolUsuario"] = usuarios[i].oRolc.idRol;
-                        ViewBag.Error = null;
-                        return RedirectToAction("Index", "Home");
-
+                    Session["idusuario"] = usuario.idUsuario;
+                    FormsAuthentication.SetAuthCookie(usuario.email, false);
+                    Session["rolUsuario"] = usuario.oRolc.idRol;
+                    ViewBag.Error = null;
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    for (int y = 0; y < usuariosAdmin.Count; y++)
+                    if (usuario.restablecer)
                     {
-                        if (usuariosAdmin[i].email == correo && usuariosAdmin[i].clave == contraseña)
-                        {
-                            Session["idusuario"] = usuariosAdmin[i].idUsuario;
-                            FormsAuthentication.SetAuthCookie(usuariosAdmin[i].email, false);
-                            Session["rolUsuario"] = usuariosAdmin[i].oRolc.idRol;
-                            ViewBag.Error = null;
-                            return RedirectToAction("Index", "Home");
-
-                        }
+                        Session["idusuario"] = usuario.idUsuario;
+                        return RedirectToAction("CambiarClave");
                     }
+                    FormsAuthentication.SetAuthCookie(usuario.email, false);
+                    Session["rolUsuario"] = usuario.oRolc.idRol;
+                    ViewBag.Error = null;
+                    return RedirectToAction("Index", "Home");
                 }
+
             }
 
-            //usuario = new CN_Usuario().Listar().Where(u => u.email == correo && u.clave == aaaa).FirstOrDefault();
-
-            //if (usuario == null)
-            //{
-            //    ViewBag.Error = "Correo o contraseña no correcta";
-            //    return View();
-            //}
-            //else
-            //{
-            //    ViewBag.Error = null;
-            //    return RedirectToAction("Index", "Home");
-            //}
             ViewBag.Error = "Correo o contraseña no correcta";
             return View();
         }
@@ -96,49 +77,45 @@ namespace PRY2022254.PresentacionAdmin.Controllers
             Usuario usuario = new Usuario();
             string contraseñaAntigua = CN_Recursos.ConvertirSha1(claveAntigua);
             string contraseñaNueva = CN_Recursos.ConvertirSha1(claveNueva);
+            string correo = Convert.ToString(Session["email"]);
+
             //string contraseñaConfirmada = CN_Recursos.ConvertirSha1(confirmarClave);
             int id = int.Parse(idusuario);
 
-            List<Usuario> usuarios = new CN_Usuario().Listar();
+            usuario = new CN_Usuario().UsuarioLogeo(correo);
+            //List<Usuario> usuarios = new CN_Usuario().Listar();
 
-            for (int i = 0; i < usuarios.Count; i++)
+            if (usuario.idUsuario == id)
             {
-                if (usuarios[i].idUsuario == id)
+                if (usuario.clave != contraseñaAntigua)
                 {
-                    if (usuarios[i].clave != contraseñaAntigua)
-                    {
-                        TempData["idusuario"] = idusuario;
+                    TempData["idusuario"] = idusuario;
 
-                        ViewBag.Error = "La contraseña actual no es la correcta";
-                        ViewData["vclave"] = "";
-                        return View();
-                    }
-                    else if (claveNueva != confirmarClave)
-                    {
-                        TempData["idusuario"] = idusuario;
-                        ViewData["vclave"] = claveAntigua;
-                        ViewBag.Error = "Las contraseñas no coinciden";
-                        return View();
-                    }
-
+                    ViewBag.Error = "La contraseña actual no es la correcta";
                     ViewData["vclave"] = "";
+                    return View();
+                }
+                else if (claveNueva != confirmarClave)
+                {
+                    TempData["idusuario"] = idusuario;
+                    ViewData["vclave"] = claveAntigua;
+                    ViewBag.Error = "Las contraseñas no coinciden";
+                    return View();
+                }
+                ViewData["vclave"] = "";
 
-                    string mensaje = string.Empty;
-                    bool resultado = new CN_Usuario().CambiarClave(id, contraseñaNueva, out mensaje);
+                string mensaje = string.Empty;
+                bool resultado = new CN_Usuario().CambiarClave(id, contraseñaNueva, out mensaje);
 
-                    if (resultado)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        TempData["idusuario"] = idusuario;
-                        ViewBag.Error = mensaje;
-                        return View();
-                    }
-
-                    //return RedirectToAction("Index");
-
+                if (resultado)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["idusuario"] = idusuario;
+                    ViewBag.Error = mensaje;
+                    return View();
                 }
             }
 
@@ -150,32 +127,28 @@ namespace PRY2022254.PresentacionAdmin.Controllers
         {
             Usuario usuario = new Usuario();
 
-            List<Usuario> usuarios = new CN_Usuario().Listar();
+            usuario = new CN_Usuario().UsuarioLogeo(correo);
+            //List<Usuario> usuarios = new CN_Usuario().Listar();
 
-            for (int i = 0; i < usuarios.Count; i++)
+            if (usuario == null)
             {
-                if (usuarios == null)
-                {
-                    ViewBag.Error = "No se encontró un usuario relacionado a ese correo";
-                    return View();
-                }
-
-                string mensaje = string.Empty;
-                bool respuesta = new CN_Usuario().RestablecerClave(usuarios[i].idUsuario, correo, out mensaje);
-
-                if (respuesta)
-                {
-                    ViewBag.Error = null;
-                    return RedirectToAction("Index", "Acceso");
-                }
-                else
-                {
-                    ViewBag.Error = mensaje;
-                    return View();
-                }
-
+                ViewBag.Error = "No se encontró un usuario relacionado a ese correo";
+                return View();
             }
-            return View();
+
+            string mensaje = string.Empty;
+            bool respuesta = new CN_Usuario().RestablecerClave(usuario.idUsuario, correo, out mensaje);
+
+            if (respuesta)
+            {
+                ViewBag.Error = null;
+                return RedirectToAction("Index", "Acceso");
+            }
+            else
+            {
+                ViewBag.Error = mensaje;
+                return View();
+            }
         }
 
         public ActionResult CerrarSesion()

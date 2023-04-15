@@ -23,6 +23,10 @@ namespace CapaNegocio
         {
             return objUsuario.ListarAdmins();
         }
+        public Usuario UsuarioLogeo(string correo)
+        {
+            return objUsuario.UsuarioLogeo(correo);
+        }
 
         public int RegistrarUsuario(Usuario obj, out string Mensaje)
         {
