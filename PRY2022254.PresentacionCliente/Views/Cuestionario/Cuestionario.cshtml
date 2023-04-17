@@ -1,10 +1,14 @@
-﻿<!DOCTYPE html>
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    <meta name="viewport" content="width=device-width" />
+    <title>Cuestionario</title>
 
 
     <!-- Google Web Fonts -->
@@ -20,7 +24,6 @@
 
 </head>
 <body>
-
     <div class="container-xxl bg-white p-0">
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -52,29 +55,65 @@
             </nav>
 
 
-            <div id="hero-section" class="container-xxl bg-primary hero-header">
+            <div id="hero-section" class="container-xxl bg-primary hero-header-cuestionario">
                 <div class="container px-lg-5">
-                    <div class="row g-5 align-items-end">
-                        <div class="col-lg-6 text-center text-lg-start">
-                            <h1 class="text-white mb-4 animated slideInDown">Modelo de Madurez Para Evaluar los Protocolos de Seguridad</h1>
-                            <p class="text-white pb-3 animated slideInDown">DESCRIPCIÓN BREVE DE NUESTRO PROYECTO <p>
-                                <a href="" class="btn btn-secondary py-sm-3 px-sm-5 rounded-pill me-3 animated slideInLeft">Leer Más</a>
-                                <a href="@Url.Action("Contact","Home")" class="btn btn-light py-sm-3 px-sm-5 rounded-pill animated slideInRight">Contactanos</a>
-                        </div>
-                        <div class="col-lg-6 text-center text-lg-start">
-                            <img class="img-fluid animated zoomIn" src="~/img/hero.png" alt="">
-                        </div>
-                    </div>
                 </div>
             </div>
-
-
 
         </div>
         <!-- Navbar & Hero End -->
 
 
-        @RenderBody()
+        <div class="container-xxl py-5">
+            <div class="container py-5 px-lg-5">
+                <div class="wow fadeInUp" data-wow-delay="0.1s">
+                    <p class="section-title text-secondary justify-content-center"><span></span>Cuestionario<span></span></p>
+                    <h1 class="text-center mb-5">Evaluación de Protocólos de Seguridad</h1>
+                </div>
+
+                <div class="row g-4 portfolio-container center">
+
+                    <div class="col-lg-12 col-md-6 portfolio-item second wow fadeInUp" data-wow-delay="0.3s" style="text-align: -webkit-center;">
+                        <div class="rounded overflow-hidden col-lg-8">
+                            <div class="position-relative overflow-hidden">
+                                @*<img class="img-fluid w-100" src="~/img/portfolio-2.jpg" alt="">*@
+                                <div class="portfolio-overlay">
+                                    <a class="btn btn-square btn-outline-light mx-1" href="~/img/portfolio-2.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
+                                    <a class="btn btn-square btn-outline-light mx-1" href=""><i class="fa fa-link"></i></a>
+                                </div>
+                            </div>
+                            <div class="bg-light p-4">
+                                <form action="@Url.Action("Cuestionario", "Cuestionario")" method="post">
+                                    <h2 class="text-primary fw-medium mb-2">Para poder iniciar primero deberá ingresar su correo electrónico</h2>
+                                    <br />
+
+
+                                    <div class="position-relative w-100 mt-3">
+                                        <input class="form-control border-0 rounded-pill w-100 ps-4 pe-5" id="correo" type="text" name="correo" placeholder="Escribe tu email brindado en tu correo" style="height: 48px;">
+
+                                        @{
+                                            if (ViewBag.Error != null)
+                                            {
+                                                <!-- Alert input -->
+                                                <br />
+                                                <div class="alert alert-danger" role="alert">
+                                                    @ViewBag.Error
+                                                </div>
+                                            }
+                                        }
+
+                                        <button type="submit" class="btn shadow-none position-absolute top-0 end-0 mt-1 me-2"><i class="fa fa-paper-plane text-primary fs-4"></i></button>
+                                    </div>
+                                </form>
+                                
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
 
         <!-- Footer Start -->
@@ -161,11 +200,11 @@
         <a href="#" class="btn btn-lg btn-secondary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
-    
+
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/complementos")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
 </body>
 </html>

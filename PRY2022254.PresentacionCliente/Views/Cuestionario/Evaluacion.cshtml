@@ -1,0 +1,246 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Cuestionario</title>
+
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500&family=Jost:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link href="~/Content/quiz.css" rel="stylesheet" />
+    @Styles.Render("~/Content/css")
+
+</head>
+<body>
+    <div class="container-xxl bg-white p-0" style="height: 720px;">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+        <!-- Navbar & Hero Start -->
+        <div class="container-xxl position-relative p-0">
+            <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
+                <a href="" class="navbar-brand p-0">
+                    <h1 class="m-0">PRY20220254</h1>
+                    <!-- <img src="img/logo.png" alt="Logo"> -->
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav mx-auto py-0">
+                        <a href="@Url.Action("Index","Home")" class="nav-item nav-link active">Inicio</a>
+                        <a href="@Url.Action("Evaluacion","Cuestionario")" class="nav-item nav-link">Evaluación</a>
+                    </div>
+                    <a href="https://localhost:44300" class="btn rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Iniciar Sesión</a>
+                </div>
+            </nav>
+
+
+            <div id="hero-section" class="container-xxl bg-primary hero-header-cuestionario">
+                <div class="container px-lg-5">
+                </div>
+            </div>
+
+        </div>
+        <!-- Navbar & Hero End -->
+        <!-- start Quiz button -->
+        @*<div class="start_btn"><button>Start Quiz</button></div>*@
+
+        <!-- Info Box -->
+        @*<div class="info_box">
+                <div class="info-title"><span>Some Rules of this Quiz</span></div>
+                <div class="info-list">
+                    <div class="info">1. There are 10 questions</div>
+                    <div class="info">2. You will have only <span>15 seconds</span> per each question.</div>
+                    <div class="info">3. Once you select your answer, it can't be undone.</div>
+                    <div class="info">4. You can't select any option once time goes off.</div>
+                    <div class="info">5. You can't exit from the Quiz while you're playing.</div>
+                    <div class="info">6. You'll get points on the basis of your correct answers.</div>
+                </div>
+                <div class="buttons">
+                    <button class="quit">Exit Quiz</button>
+                    <button class="restart">Continue</button>
+                </div>
+            </div>*@
+
+        <!-- Quiz Box -->
+        <!--<div class="quiz_box">-->
+        <!--<header>
+            <div class="title">Awesome Quiz Application</div>
+            <div class="timer">
+                <div class="time_left_txt">Time Left</div>
+                <div class="timer_sec">15</div>
+            </div>
+            <div class="time_line"></div>
+        </header>
+        <section>
+            <div class="que_text">-->
+        <!-- Here I've inserted question from JavaScript -->
+        <!--</div>
+        <div class="option_list">-->
+        <!-- Here I've inserted options from JavaScript -->
+        <!--</div>
+        </section>-->
+        <!-- footer of Quiz Box -->
+        <!--<footer>
+        <div class="total_que">-->
+        <!-- Here I've inserted Question Count Number from JavaScript -->
+        <!--</div>
+            <button class="next_btn">Next Que</button>
+        </footer>-->
+        <!--</div>-->
+
+
+        <div class="container-xxl py-5">
+            <div class="container py-5 px-lg-5" style="height: 516px;">
+                <div class="wow fadeInUp" data-wow-delay="0.1s">
+
+                </div>
+
+                <div class="row g-4 portfolio-container center" style="position: relative; height: 474px;">
+
+                    <div class="col-lg-12 col-md-6 portfolio-item second wow fadeInUp" data-wow-delay="0.3s" style="text-align: -webkit-center;">
+                        <div class="rounded overflow-hidden col-lg-8" style="height: 450px;">
+                            <div class="position-relative overflow-hidden">
+
+                                <div class="portfolio-overlay">
+                                    <a class="btn btn-square btn-outline-light mx-1" href="~/img/portfolio-2.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
+                                    <a class="btn btn-square btn-outline-light mx-1" href=""><i class="fa fa-link"></i></a>
+                                </div>
+                            </div>
+                            <div class="bg p-4" style="height: 498px;">
+
+                                <br />
+                                <a href="" id="empezar" class="btn btn-success py-sm-3 px-sm-5 rounded-pill me-3 animated slideInLeft empezar"
+                                   onclick="mostrarReglas(event)">Empezar</a>
+
+                                <!-- REGLAS -->
+                                <div class="card" hidden="hidden" id="reglas">
+                                    <div class="card-header bg-primary ">
+                                        <h3 class="card-title text-light">Reglas antes de iniciar la evaluación</h3>
+                                    </div>
+                                    <div class="card-body" style="text-align: justify;">
+
+
+                                        <p class="card-text">1. Puede regresar a la anterior pregunta en caso de cambiar la respuesta.</p>
+                                        <p class="card-text">2. No puede salir de la evaluación una vez que lo empieza.</p>
+                                        <p class="card-text">3. Se contará el tiempo estimado para una mejor evaluación de los protocolos de seguridad.</p>
+                                        <p class="card-text">
+                                            4. Al finalizar la evaluación podrá revisar sus resultados en su panel administrativo en el siguiente enlace
+                                            <a href="https://localhost:44300" target="_blank">Aquí</a>.
+                                        </p>
+
+                                    </div>
+                                    <div class="card-footer text-body-secondary">
+                                        <a href="#" id="siguiente" class="btn btn-success" onclick="mostrarPreguntas(event)">Siguiente</a>
+                                    </div>
+                                </div>
+
+                                <!-- PREGUNTAS Y RESPUESTAS-->
+                                <div class="card" hidden="hidden" id="prg_rpta">
+                                    <div class="card-header bg-primary ">
+                                        <h3 class="card-title text-light" id="pregunta">Pregunta</h3>
+                                    </div>
+                                    <div class="card-body" style="text-align: justify;">
+
+                                        <div class="list-group">
+
+                                            <label class="list-group-item">
+                                                <input class="form-check-input me-1"
+                                                       type="radio" name="GFG">
+                                                Java
+                                            </label>
+                                            <label class="list-group-item">
+                                                <input class="form-check-input me-1"
+                                                       type="radio" name="GFG">
+                                                CSS
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="card-footer text-body-secondary">
+                                        <a href="#" id="atras" class="btn btn-warning" onclick="mostrarAtras(event)">Anterior</a>
+                                        <a href="#" id="" class="btn btn-success">Siguiente</a>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <!-- Result Box -->
+            <!--<div class="result_box">
+                <div class="icon">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div class="complete_text">You've completed the Quiz!</div>
+                <div class="score_text">-->
+            <!-- Here I've inserted Score Result from JavaScript -->
+            <!--</div>
+                <div class="buttons">
+                    <button class="restart">Replay Quiz</button>
+                    <button class="quit">Quit Quiz</button>
+                </div>
+            </div>-->
+
+        </div>
+
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/complementos")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/questions.js"></script>
+    <script src="~/Scripts/quiz.js"></script>
+
+    <script>
+
+        debugger;
+        /* LISTAR LAS PREGUNTAS */
+        jQuery.ajax({
+            url: '@Url.Action("ListarPreguntas", "Cuestionario")',
+            type: 'GET',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log(data);
+                $.each(data.data, function (index, valor) {
+                    //$("<option>").attr({ "value": valor.idRol }).text(valor.rol).appendTo("#cboRol");
+
+                })
+
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        })
+
+    </script>
+
+</body>
+</html>

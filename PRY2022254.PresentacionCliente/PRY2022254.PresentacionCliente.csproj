@@ -120,6 +120,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CuestionarioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -307,11 +308,13 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\fontawesome.css" />
     <Content Include="Content\fontawesome.min.css" />
+    <Content Include="Content\login_cuestionario.css" />
     <Content Include="Content\Principal\animate\animate.css" />
     <Content Include="Content\Principal\animate\animate.min.css" />
     <Content Include="Content\Principal\carousel\owl.carousel.min.css" />
     <Content Include="Content\Principal\filtro.css" />
     <Content Include="Content\Principal\lightbox\lightbox.min.css" />
+    <Content Include="Content\quiz.css" />
     <Content Include="Content\regular.css" />
     <Content Include="Content\regular.min.css" />
     <Content Include="Content\solid.css" />
@@ -466,6 +469,7 @@
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\owlcarousel\owl.carousel.min.js" />
+    <Content Include="Scripts\quiz.js" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\waypoints\waypoints.min.js" />
     <Content Include="Scripts\wow\wow.js" />
@@ -499,6 +503,8 @@
     <Content Include="webfonts\fa-brands-400.ttf" />
     <Content Include="webfonts\fa-brands-400.eot" />
     <Content Include="Views\Home\Filtro.cshtml" />
+    <Content Include="Views\Cuestionario\Cuestionario.cshtml" />
+    <Content Include="Views\Cuestionario\Evaluacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
