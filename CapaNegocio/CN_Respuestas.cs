@@ -23,5 +23,15 @@ namespace CapaNegocio
             return objRespuestas.ListarPreguntas();
         }
 
+        public List<RptaPreguntas> ListarRespuestas_Cliente()
+        {
+            return objRespuestas.ListarRespuestas_Cliente();
+        }
+
+        public List<Respuesta> FiltroRespuesta_Cliente()
+        {
+            return objRespuestas.FiltroRespuesta_Cliente();
+        }
+
     }
 }

@@ -268,6 +268,7 @@ namespace CapaDatos
                     cmd.Parameters.AddWithValue("@id", id);
                     cmd.CommandType = CommandType.Text;
                     conexion.Open();
+                    //string q = cmd.ExecuteNonQuery().ToString();
                     resultado = cmd.ExecuteNonQuery() > 0 ? true : false;
                 }
             }

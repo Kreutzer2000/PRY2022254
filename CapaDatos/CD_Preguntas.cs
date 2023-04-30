@@ -12,6 +12,7 @@ namespace CapaDatos
 {
     public class CD_Preguntas
     {
+        /* LISTA LAS PREGUNTAS PARA EL CLIENTE */
         public List<Preguntas> ListarPreguntas()
         {
             List<Preguntas> lista = new List<Preguntas>();

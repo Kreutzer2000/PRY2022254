@@ -12,5 +12,8 @@ namespace CapaEntidad
         public string pregunta { get; set; }
         public string comentario { get; set; }
         public SubCategoriaNist oSubCategoria { get; set; }
+        public List<Preguntas> preguntas { get; set; }
+        public RptaPreguntas respuesta { get; set; }
+        public List<RptaPreguntas> respuestas { get; set; }
     }
 }

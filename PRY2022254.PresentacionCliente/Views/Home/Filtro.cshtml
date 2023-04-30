@@ -122,7 +122,8 @@
                     //console.log(data)
                     if (data.mensaje == "OK") {
                         alert("Respuesta guardada correctamente, revise su correo");
-                        location.reload();
+                        //location.reload();
+                        window.location.href = "https://localhost:44392/Cuestionario/Cuestionario";
                     }
                     else {
                         alert("Error al guardar su respuesta, el correo brindado no está registrado");

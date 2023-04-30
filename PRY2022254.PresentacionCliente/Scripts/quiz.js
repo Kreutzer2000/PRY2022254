@@ -381,3 +381,55 @@ function mostrarAtras(event) {
     document.getElementById("prg_rpta").hidden = true;
     document.getElementById("reglas").hidden = false;
 }
+
+
+$(document).ready(function () {
+    var preguntas = $('.pregunta');
+    var totalPreguntas = preguntas.length;
+    var currentPregunta = 0;
+
+    // Oculta todas las preguntas excepto la primera
+    preguntas.slice(1).hide();
+
+    // Maneja el evento de hacer clic en el botón "Siguiente"
+    $('.siguiente').on('click', function (e) {
+        e.preventDefault();
+
+        // Valida la selección de una respuesta
+        if (!$('input[name=respuesta]:checked').val()) {
+            alert('Selecciona una respuesta antes de continuar');
+            return;
+        }
+
+        // Oculta la pregunta actual y muestra la siguiente
+        preguntas.eq(currentPregunta).hide();
+        currentPregunta++;
+        preguntas.eq(currentPregunta).show();
+
+        // Actualiza el estado de los botones "Anterior" y "Siguiente"
+        $('.atras').prop('disabled', false);
+        if (currentPregunta == totalPreguntas - 1) {
+            $(this).text('Finalizar');
+        }
+        if (currentPregunta == totalPreguntas) {
+            // Si es la última pregunta, envía el formulario
+            $('form').submit();
+        }
+    });
+
+    // Maneja el evento de hacer clic en el botón "Anterior"
+    $('.atras').on('click', function (e) {
+        e.preventDefault();
+
+        // Oculta la pregunta actual y muestra la anterior
+        preguntas.eq(currentPregunta).hide();
+        currentPregunta--;
+        preguntas.eq(currentPregunta).show();
+
+        // Actualiza el estado de los botones "Anterior" y "Siguiente"
+        $('.siguiente').text('Siguiente');
+        if (currentPregunta == 0) {
+            $(this).prop('disabled', true);
+        }
+    });
+});
