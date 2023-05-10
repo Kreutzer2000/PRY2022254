@@ -18,6 +18,7 @@ namespace PRY2022254.PresentacionAdmin
                 "~/Scripts/DataTables/dataTables.responsive.js",
                 "~/Scripts/loadingoverlay/loadingoverlay.min.js",
                 "~/Scripts/sweetalert.min.js",
+                "~/Scripts/jquery-ui.js",
                 "~/Scripts/scripts.js"));
 
             //bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -36,7 +37,8 @@ namespace PRY2022254.PresentacionAdmin
                       "~/Content/DataTables/css/jquery.dataTables.min.css",
                       "~/Content/DataTables/css/responsive.dataTables.css",
                       "~/Content/DataTables/css/dataTables.bootstrap5.min.css", 
-                      "~/Content/sweetalert.css"));
+                      "~/Content/sweetalert.css",
+                      "~/Content/jquery-ui.css"));
         }
     }
 }

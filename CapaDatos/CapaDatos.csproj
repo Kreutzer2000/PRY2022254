@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="CD_Preguntas.cs" />
     <Compile Include="CD_Respuesta.cs" />
+    <Compile Include="CD_Resultado.cs" />
+    <Compile Include="CD_Resumen.cs" />
     <Compile Include="CD_Rol.cs" />
     <Compile Include="CD_Usuario.cs" />
     <Compile Include="Conexion.cs" />

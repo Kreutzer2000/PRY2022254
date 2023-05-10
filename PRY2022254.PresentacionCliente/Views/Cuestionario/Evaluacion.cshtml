@@ -90,13 +90,58 @@
                 width: 100%;
             }
         }
+
+        .radio-group {
+            background-image: linear-gradient(to right, rgba(220, 220, 220, 0.3), rgba(169, 169, 169, 0.3));
+            padding: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            border-radius: 8px;
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+            .radio-group label {
+                padding-left: 28px;
+                position: relative;
+                cursor: pointer;
+                font-weight: 600;
+                transition: color 0.3s; /* Efecto de transición al pasar el mouse por encima */
+            }
+
+            .radio-group input[type="radio"] {
+                position: absolute;
+                left: 5px;
+                top: 2px;
+                cursor: pointer;
+                opacity: 0.5; /* Ajusta la opacidad de los botones de radio */
+                transition: opacity 0.3s; /* Efecto de transición al pasar el mouse por encima */
+            }
+
+            .radio-group label:hover input[type="radio"] {
+                opacity: 1; /* Cambia la opacidad al pasar el mouse por encima */
+            }
+
+            .radio-group input[type="radio"]:checked {
+                opacity: 1; /* Cambia la opacidad cuando se selecciona una opción */
+            }
+
+                .radio-group input[type="radio"]:checked + label {
+                    color: #007bff; /* Cambia el color del texto cuando se selecciona una opción */
+                }
     </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <script>
 
         let timeout;
         let timeAway = 0;
-        const timeToWait = 10 * 1000; // 10 segundos en milisegundos
+        const timeToWait = 10 * 60 * 1000; // 10 segundos en milisegundos
         const redirectToUrl = "https://localhost:44392"; // Asegúrate de actualizar esto a la ruta correcta
 
         function resetTimeout() {
@@ -258,48 +303,100 @@
                                     <div class="transition show" id="Identificar_Quiz" style="height: auto;">
                                         IDENTIFICAR
                                         <div class="quiz-box quiz-1">
+                                            <input id="pregunta_1" type="hidden" value="1" />
                                             <h2 class="quiz-question">1. ¿Cómo se establecen las políticas de seguridad cibernética y quienes son los implicados?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q1" value="1"> Las politicas de seguridad son planes de acciones respecto a afrontar los riesgos que se presentan, no se tiene un nivel de madurez para implementar estas tácticas.</label>
-                                                <label><input type="radio" name="q1" value="2"> Las politicas de seguridad tienen como objetivo el establecimiento de medidas y la administración de tecnologías de información.  Se realizan revisiones a las politicas anualmente para realizar actualizaciones, modificaciones y ajustes basados en la experiencia. Los principales objetivos de las politicas son la gestión y procesamiento de la gestión, cumplimiento y elaboraciones de planes seguridad y capacitaciones en base a temas de seguridades,  todo personal tiene acceso a modificar las politicas de seguridad.</label>
-                                                <label><input type="radio" name="q1" value="3"> Las politicas de seguridad tienen como objetivo el establecimiento de medidas y la administración de tecnologías de información.  Se realizan revisiones a las politicas semestralmente para realizar actualizaciones, modificaciones y ajustes basados en la experiencia. Los principales objetivos de las politicas son la gestión y procesamiento de la gestión, cumplimiento y elaboraciones de planes seguridad y capacitaciones en base a temas de seguridades,  todo personal tiene acceso a modificar las politicas de seguridad.</label>
-                                                <label><input type="radio" name="q1" value="4"> Las politicas de seguridad tienen como objetivo el establecimiento de medidas y la administración de tecnologías de información.  Se realizan revisiones a las politicas anualmente para realizar actualizaciones, modificaciones y ajustes basados en la experiencia. Los principales objetivos de las politicas son la gestión y procesamiento de la gestión, cumplimiento y elaboraciones de planes seguridad y capacitaciones en base a temas de seguridades,  no todo personal tiene acceso a las politicas seguridad solamente el comité y el responsable de seguridad.</label>
-                                                <label><input type="radio" name="q1" value="5"> Las politicas de seguridad tienen como objetivo el establecimiento de medidas y la administración de tecnologías de información.  Se realizan revisiones a las politicas semestralmente para realizar actualizaciones, modificaciones y ajustes basados en la experiencia. Los principales objetivos de las politicas son la gestión y procesamiento de la gestión, cumplimiento y elaboraciones de planes seguridad y capacitaciones en base a temas de seguridades,  no todo personal tiene acceso a las politicas seguridad solamente el comité y el responsable de seguridad.</label>
+                                                <label><input type="radio" name="q1" value="1" id="respuesta_1" onclick="deseleccionarRadio(event)"> Las politicas de seguridad son planes de acciones respecto a afrontar los riesgos que se presentan, no se tiene un nivel de madurez para implementar estas tácticas.</label>
+                                                <label><input type="radio" name="q1" value="2" id="respuesta_2" onclick="deseleccionarRadio(event)"> Las politicas de seguridad tienen como objetivo el establecimiento de medidas y la administración de tecnologías de información.  Se realizan revisiones a las politicas anualmente para realizar actualizaciones, modificaciones y ajustes basados en la experiencia. Los principales objetivos de las politicas son la gestión y procesamiento de la gestión, cumplimiento y elaboraciones de planes seguridad y capacitaciones en base a temas de seguridades,  todo personal tiene acceso a modificar las politicas de seguridad.</label>
+                                                <label><input type="radio" name="q1" value="3" id="respuesta_3" onclick="deseleccionarRadio(event)"> Las politicas de seguridad tienen como objetivo el establecimiento de medidas y la administración de tecnologías de información.  Se realizan revisiones a las politicas semestralmente para realizar actualizaciones, modificaciones y ajustes basados en la experiencia. Los principales objetivos de las politicas son la gestión y procesamiento de la gestión, cumplimiento y elaboraciones de planes seguridad y capacitaciones en base a temas de seguridades,  todo personal tiene acceso a modificar las politicas de seguridad.</label>
+                                                <label><input type="radio" name="q1" value="4" id="respuesta_4" onclick="deseleccionarRadio(event)"> Las politicas de seguridad tienen como objetivo el establecimiento de medidas y la administración de tecnologías de información.  Se realizan revisiones a las politicas anualmente para realizar actualizaciones, modificaciones y ajustes basados en la experiencia. Los principales objetivos de las politicas son la gestión y procesamiento de la gestión, cumplimiento y elaboraciones de planes seguridad y capacitaciones en base a temas de seguridades,  no todo personal tiene acceso a las politicas seguridad solamente el comité y el responsable de seguridad.</label>
+                                                <label><input type="radio" name="q1" value="5" id="respuesta_5" onclick="deseleccionarRadio(event)"> Las politicas de seguridad tienen como objetivo el establecimiento de medidas y la administración de tecnologías de información.  Se realizan revisiones a las politicas semestralmente para realizar actualizaciones, modificaciones y ajustes basados en la experiencia. Los principales objetivos de las politicas son la gestión y procesamiento de la gestión, cumplimiento y elaboraciones de planes seguridad y capacitaciones en base a temas de seguridades,  no todo personal tiene acceso a las politicas seguridad solamente el comité y el responsable de seguridad.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio1" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio1" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio1" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio1" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio1" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
 
                                         <div class="quiz-box quiz-2">
+                                            <input id="pregunta_2" type="hidden" value="2" />
                                             <h2 class="quiz-question">2. ¿Cómo se distribuye los roles y responsabilidades de la seguridad de la información?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q2" value="1"> La gestión de roles se basa en las necesidades de la empresa, en los cuales cada uno del personal de seguridad de información tiene acceso a los datos.</label>
-                                                <label><input type="radio" name="q2" value="2"> La gestión de roles se basa en la estructura del área de seguridad de información, en los cuales se encuentra solamente el comité de seguridad. Cuya responsabilidad es validez de mapa de riesgos,  politicas y normas respecto a la seguridad de información entre otros.</label>
-                                                <label><input type="radio" name="q2" value="3"> La gestión de roles se basa en la estructura del área de seguridad de información, en los cuales se encuentran el comité de seguridad y responsable de seguridad. Las responsabilidades de cada uno se basan en mapear los riesgos y mitigarlos para que no afecte a la compañia. Definir copias de respaldo de los datos e incidencias.</label>
-                                                <label><input type="radio" name="q2" value="4"> La gestión de roles se basa en la estructura del área de seguridad de información, los cuales son responsable de seguridad; persona más importante del desarrollo de seguridad cuyas funciones es promover y administrar la seguridad de información; El comité de seguridad; directores de seguridad encargados del mapeo de riesgos y supervisión del cumplimiento de los planes; y por ultimo los el personal de TI; cuya única función es administración de los sistemas de red.</label>
-                                                <label><input type="radio" name="q2" value="5"> La gestión de roles se basa en la estructura del área de seguridad de información, los cuales son responsable de seguridad; persona más importante del desarrollo de seguridad cuyas funciones es promover y administrar la seguridad de información; el comité de seguridad; directores de seguridad encargados del mapeo de riesgos y supervisión del cumplimiento de los planes; y personal de TI;  cumplen varios roles en base a las designaciones del responsable de seguridad.</label>
+                                                <label><input type="radio" name="q2" value="1" id="respuesta_6" onclick="deseleccionarRadio(event)"> La gestión de roles se basa en las necesidades de la empresa, en los cuales cada uno del personal de seguridad de información tiene acceso a los datos.</label>
+                                                <label><input type="radio" name="q2" value="2" id="respuesta_7" onclick="deseleccionarRadio(event)"> La gestión de roles se basa en la estructura del área de seguridad de información, en los cuales se encuentra solamente el comité de seguridad. Cuya responsabilidad es validez de mapa de riesgos,  politicas y normas respecto a la seguridad de información entre otros.</label>
+                                                <label><input type="radio" name="q2" value="3" id="respuesta_8" onclick="deseleccionarRadio(event)"> La gestión de roles se basa en la estructura del área de seguridad de información, en los cuales se encuentran el comité de seguridad y responsable de seguridad. Las responsabilidades de cada uno se basan en mapear los riesgos y mitigarlos para que no afecte a la compañia. Definir copias de respaldo de los datos e incidencias.</label>
+                                                <label><input type="radio" name="q2" value="4" id="respuesta_9" onclick="deseleccionarRadio(event)"> La gestión de roles se basa en la estructura del área de seguridad de información, los cuales son responsable de seguridad; persona más importante del desarrollo de seguridad cuyas funciones es promover y administrar la seguridad de información; El comité de seguridad; directores de seguridad encargados del mapeo de riesgos y supervisión del cumplimiento de los planes; y por ultimo los el personal de TI; cuya única función es administración de los sistemas de red.</label>
+                                                <label><input type="radio" name="q2" value="5" id="respuesta_10" onclick="deseleccionarRadio(event)"> La gestión de roles se basa en la estructura del área de seguridad de información, los cuales son responsable de seguridad; persona más importante del desarrollo de seguridad cuyas funciones es promover y administrar la seguridad de información; el comité de seguridad; directores de seguridad encargados del mapeo de riesgos y supervisión del cumplimiento de los planes; y personal de TI;  cumplen varios roles en base a las designaciones del responsable de seguridad.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio2" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio2" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio2" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio2" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio2" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-3">
+                                            <input id="pregunta_3" type="hidden" value="3" />
                                             <h2 class="quiz-question">3. ¿Cómo son las reacciones respecto a los riesgos que se podrian presentar?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q3" value="1"> Los riesgos que se presentan en la compañía son vitales, debido a que no se presenta respuestas frente ellos.</label>
-                                                <label><input type="radio" name="q3" value="2"> Todo riesgo que se presenta generaria un gran impacto dentro de la seguridad de la información, es por ello que siempre aplicamos la estrategia de mitigación para que se pueda reducir o nulificar el impacto.</label>
-                                                <label><input type="radio" name="q3" value="3"> Cuando un riesgo es mapeado, lo primero es identificar la estrategia de respuesta (escalar, evitar, transferir, mitigar, aceptar, entre otras) para minizarlo o nulificarlo, posteriomente clasificamos el riesgo en base a su impacto (plazos, costos, efectos en la compañía). En base a la estrategia, se realiza un analisis de riesgo para aprender de ello y no afecte en el futuro.</label>
-                                                <label><input type="radio" name="q3" value="4"> Cuando un riesgo es mapeado, lo primero es clasificar el riesgo en base a su impacto (plazos, costos, efectos en la compañía), posterior se realiza una estrategias de respuesta (escalar, evitar, transferir, mitigar, aceptar, entre otras) para que puedan reducir o nulificar el riesgo.</label>
-                                                <label><input type="radio" name="q3" value="5"> Cuando un riesgo es mapeado, lo primero es clasificar el riesgo en base a su impacto (plazos, costos, efectos en la compañía), posterior se realiza una estrategias de respuesta (escalar, evitar, transferir, mitigar, aceptar, entre otras) para que puedan reducir o nulificar el riesgo. En base a la estrategia, se realiza un analisis de riesgo para aprender de ello y no afecte en el futuro.</label>
+                                                <label><input type="radio" name="q3" value="1" id="respuesta_11" onclick="deseleccionarRadio(event)"> Los riesgos que se presentan en la compañía son vitales, debido a que no se presenta respuestas frente ellos.</label>
+                                                <label><input type="radio" name="q3" value="2" id="respuesta_12" onclick="deseleccionarRadio(event)"> Todo riesgo que se presenta generaria un gran impacto dentro de la seguridad de la información, es por ello que siempre aplicamos la estrategia de mitigación para que se pueda reducir o nulificar el impacto.</label>
+                                                <label><input type="radio" name="q3" value="3" id="respuesta_13" onclick="deseleccionarRadio(event)"> Cuando un riesgo es mapeado, lo primero es identificar la estrategia de respuesta (escalar, evitar, transferir, mitigar, aceptar, entre otras) para minizarlo o nulificarlo, posteriomente clasificamos el riesgo en base a su impacto (plazos, costos, efectos en la compañía). En base a la estrategia, se realiza un analisis de riesgo para aprender de ello y no afecte en el futuro.</label>
+                                                <label><input type="radio" name="q3" value="4" id="respuesta_14" onclick="deseleccionarRadio(event)"> Cuando un riesgo es mapeado, lo primero es clasificar el riesgo en base a su impacto (plazos, costos, efectos en la compañía), posterior se realiza una estrategias de respuesta (escalar, evitar, transferir, mitigar, aceptar, entre otras) para que puedan reducir o nulificar el riesgo.</label>
+                                                <label><input type="radio" name="q3" value="5" id="respuesta_15" onclick="deseleccionarRadio(event)"> Cuando un riesgo es mapeado, lo primero es clasificar el riesgo en base a su impacto (plazos, costos, efectos en la compañía), posterior se realiza una estrategias de respuesta (escalar, evitar, transferir, mitigar, aceptar, entre otras) para que puedan reducir o nulificar el riesgo. En base a la estrategia, se realiza un analisis de riesgo para aprender de ello y no afecte en el futuro.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio3" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio3" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio3" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio3" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio3" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-4">
+                                            <input id="pregunta_4" type="hidden" value="4" />
                                             <h2 class="quiz-question">4. ¿Cómo se emplea y que medidas ejerce la información en procesos involucrados?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q4" value="1"> La información sensible no se puede emplear en otros procesos o área, debido a que nuestros lineamientos de empresa no nos permiten compartirla.</label>
-                                                <label><input type="radio" name="q4" value="2"> La información sensible se puede emplear en otros procesos o áreas, cuando ellos lo requieran. Cada información que se comparte debe presentar un protocolo para el intercambio de información. </label>
-                                                <label><input type="radio" name="q4" value="3"> La información sensible se puede emplear en otros procesos o áreas, pero depende de los lineamientos de la empresa. Cada información que se comparte debe presentar un protocolo para el intercambio de información. </label>
-                                                <label><input type="radio" name="q4" value="4"> La información sensible se puede emplear en otros procesos o áreas, cuando ellos lo requieran. Cada información que se comparte debe presentar un protocolo para el intercambio de información. Se debe tener un plan de riesgos en base por posibles fuga de información.</label>
-                                                <label><input type="radio" name="q4" value="5"> La información sensible se puede emplear en otros procesos o áreas, pero depende de los lineamientos de la empresa. Cada información que se comparte debe presentar un protocolo para el intercambio de información. Se debe tener un plan de riesgos en base por posibles fuga de información.</label>
+                                                <label><input type="radio" name="q4" value="1" id="respuesta_16" onclick="deseleccionarRadio(event)"> La información sensible no se puede emplear en otros procesos o área, debido a que nuestros lineamientos de empresa no nos permiten compartirla.</label>
+                                                <label><input type="radio" name="q4" value="2" id="respuesta_17" onclick="deseleccionarRadio(event)"> La información sensible se puede emplear en otros procesos o áreas, cuando ellos lo requieran. Cada información que se comparte debe presentar un protocolo para el intercambio de información. </label>
+                                                <label><input type="radio" name="q4" value="3" id="respuesta_18" onclick="deseleccionarRadio(event)"> La información sensible se puede emplear en otros procesos o áreas, pero depende de los lineamientos de la empresa. Cada información que se comparte debe presentar un protocolo para el intercambio de información. </label>
+                                                <label><input type="radio" name="q4" value="4" id="respuesta_19" onclick="deseleccionarRadio(event)"> La información sensible se puede emplear en otros procesos o áreas, cuando ellos lo requieran. Cada información que se comparte debe presentar un protocolo para el intercambio de información. Se debe tener un plan de riesgos en base por posibles fuga de información.</label>
+                                                <label><input type="radio" name="q4" value="5" id="respuesta_20" onclick="deseleccionarRadio(event)"> La información sensible se puede emplear en otros procesos o áreas, pero depende de los lineamientos de la empresa. Cada información que se comparte debe presentar un protocolo para el intercambio de información. Se debe tener un plan de riesgos en base por posibles fuga de información.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio4" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio4" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio4" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio4" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio4" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <br />
@@ -311,124 +408,267 @@
                                     <div class="transition" id="Proteger_Quiz" style="height: auto;">
                                         PROTEGER
                                         <div class="quiz-box quiz-5">
+                                            <input id="pregunta_5" type="hidden" value="5" />
                                             <h2 class="quiz-question">5. ¿Cómo se divide los roles de seguridad física y cibernetica? ¿Cuáles son sus responsabilidades?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q5"> La gestión de seguridad no presenta una organización clara en la empresa, no se presenta ningun rol.</label>
-                                                <label><input type="radio" name="q5"> La gestión de seguridad se presenta dentro del equipo de seguridad informatica dentro de TI. Estos equipos no presentan roles estables, debido a que todos gestionan la información y son los encargados de la protección de datos.</label>
-                                                <label><input type="radio" name="q5"> La gestión de seguridad de información se divide en:- Responsable de la seguridad, encargado de gestionar la asignación de personal y recursos. Responsable en promover las buenas practicas de seguridad .- Comité de seguridad,  encargado en crear las politicas, lineamientos y metodologias de la seguridad de la información.</label>
-                                                <label><input type="radio" name="q5"> La gestión de seguridad de información se divide en:- Responsable de la seguridad, encargado de gestionar la asignación de personal y recursos. Responsable en promover las buenas practicas de seguridad.- Comité de seguridad,  encargado en crear las politicas, lineamientos y metodologias de la seguridad de la información.- Auditores, encargado de la administriación y evaluación de posibles riesgos.</label>
-                                                <label><input type="radio" name="q5"> La gestión de seguridad de información se divide en:- Responsable de la seguridad, encargado de gestionar la asignación de personal y recursos. Responsable en promover las buenas practicas de seguridad.- Comité de seguridad,  encargado en crear las politicas, lineamientos y metodologias de la seguridad de la información.- Equipo de proyecto, encargado de la administración de la seguridad de información. Responsable del mantenimiento de los registros.</label>
+                                                <label><input type="radio" name="q5" value="1" id="respuesta_21" onclick="deseleccionarRadio(event)"> La gestión de seguridad no presenta una organización clara en la empresa, no se presenta ningun rol.</label>
+                                                <label><input type="radio" name="q5" value="2" id="respuesta_22" onclick="deseleccionarRadio(event)"> La gestión de seguridad se presenta dentro del equipo de seguridad informatica dentro de TI. Estos equipos no presentan roles estables, debido a que todos gestionan la información y son los encargados de la protección de datos.</label>
+                                                <label><input type="radio" name="q5" value="3" id="respuesta_23" onclick="deseleccionarRadio(event)"> La gestión de seguridad de información se divide en:- Responsable de la seguridad, encargado de gestionar la asignación de personal y recursos. Responsable en promover las buenas practicas de seguridad .- Comité de seguridad,  encargado en crear las politicas, lineamientos y metodologias de la seguridad de la información.</label>
+                                                <label><input type="radio" name="q5" value="4" id="respuesta_24" onclick="deseleccionarRadio(event)"> La gestión de seguridad de información se divide en:- Responsable de la seguridad, encargado de gestionar la asignación de personal y recursos. Responsable en promover las buenas practicas de seguridad.- Comité de seguridad,  encargado en crear las politicas, lineamientos y metodologias de la seguridad de la información.- Auditores, encargado de la administriación y evaluación de posibles riesgos.</label>
+                                                <label><input type="radio" name="q5" value="5" id="respuesta_25" onclick="deseleccionarRadio(event)"> La gestión de seguridad de información se divide en:- Responsable de la seguridad, encargado de gestionar la asignación de personal y recursos. Responsable en promover las buenas practicas de seguridad.- Comité de seguridad,  encargado en crear las politicas, lineamientos y metodologias de la seguridad de la información.- Equipo de proyecto, encargado de la administración de la seguridad de información. Responsable del mantenimiento de los registros.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio5" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio5" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio5" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio5" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio5" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-6">
+                                            <input id="pregunta_6" type="hidden" value="6" />
                                             <h2 class="quiz-question">6. ¿Cómo es la administración de los datos en reposo?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q6"> Los datos en reposo no presentan un mayor cuidado debido a que como son datos que se almacenan no existe el riesgo para que posibles ataques de ingenieria social lo afecten.</label>
-                                                <label><input type="radio" name="q6"> Los datos en reposo estan protegidos debido a que a pesar de estar almacenados siguen corriendo riesgos frente ransomware, fuga de datos entre otros. Los datos estan almacenados en una nube privada y las personas que tienen acceso a ella pueden extraer la información.</label>
-                                                <label><input type="radio" name="q6"> Los datos en reposo estan protegidos debido a que a pesar de estar almacenados siguen corriendo riesgos frente ransomware, fuga de datos entre otros.Los datos estan almacenados en una nube privada y las personas que tienen acceso a ella pueden extraer la información.. Debe haber un encargado de auditar las claves de cifrado cuya función es gestión de identidad y acceso a los datos.</label>
-                                                <label><input type="radio" name="q6"> Los datos en reposo estan protegidos debido a que a pesar de estar almacenados siguen corriendo riesgos frente ransomware, fuga de datos entre otros. Es por ello, que se realiza una encriptaciones de estos datos para presentar esta información protegida. Todos tienen acceso a las claves de cifrado para acceder a la información.</label>
-                                                <label><input type="radio" name="q6"> Los datos en reposo estan protegidos debido a que a pesar de estar almacenados siguen corriendo riesgos frente ransomware, fuga de datos entre otros. Es por ello, que se realiza una encriptaciones de estos datos para presentar esta información protegida. Debe haber un encargado de auditar las claves de cifrado cuya función es gestión de identidad y acceso a los datos.</label>
+                                                <label><input type="radio" name="q6" value="1" id="respuesta_26" onclick="deseleccionarRadio(event)"> Los datos en reposo no presentan un mayor cuidado debido a que como son datos que se almacenan no existe el riesgo para que posibles ataques de ingenieria social lo afecten.</label>
+                                                <label><input type="radio" name="q6" value="2" id="respuesta_27" onclick="deseleccionarRadio(event)"> Los datos en reposo estan protegidos debido a que a pesar de estar almacenados siguen corriendo riesgos frente ransomware, fuga de datos entre otros. Los datos estan almacenados en una nube privada y las personas que tienen acceso a ella pueden extraer la información.</label>
+                                                <label><input type="radio" name="q6" value="3" id="respuesta_28" onclick="deseleccionarRadio(event)"> Los datos en reposo estan protegidos debido a que a pesar de estar almacenados siguen corriendo riesgos frente ransomware, fuga de datos entre otros.Los datos estan almacenados en una nube privada y las personas que tienen acceso a ella pueden extraer la información.. Debe haber un encargado de auditar las claves de cifrado cuya función es gestión de identidad y acceso a los datos.</label>
+                                                <label><input type="radio" name="q6" value="4" id="respuesta_29" onclick="deseleccionarRadio(event)"> Los datos en reposo estan protegidos debido a que a pesar de estar almacenados siguen corriendo riesgos frente ransomware, fuga de datos entre otros. Es por ello, que se realiza una encriptaciones de estos datos para presentar esta información protegida. Todos tienen acceso a las claves de cifrado para acceder a la información.</label>
+                                                <label><input type="radio" name="q6" value="5" id="respuesta_30" onclick="deseleccionarRadio(event)"> Los datos en reposo estan protegidos debido a que a pesar de estar almacenados siguen corriendo riesgos frente ransomware, fuga de datos entre otros. Es por ello, que se realiza una encriptaciones de estos datos para presentar esta información protegida. Debe haber un encargado de auditar las claves de cifrado cuya función es gestión de identidad y acceso a los datos.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio6" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio6" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio6" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio6" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio6" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-7">
+                                            <input id="pregunta_7" type="hidden" value="7" />
                                             <h2 class="quiz-question">7. ¿Cómo es la administración de los datos en tránsito?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q7"> Los datos en tránsito no estan protegidos debido a que no se emplean de manera correcta el uso de estos. Todo personal tiene acceso a los datos cuando ellos lo requieran.</label>
-                                                <label><input type="radio" name="q7"> Los datos en tránsito deben estar protegidos, por el motivo que son lo que más expuesto a ingenieria social. La protección de datos se puede gestionar en 2 practicas recomendadas:- Cifrado de tránsito; el cifrado debe ser de extremo a extremo que garantiza que los usuarios cuando usen esten los datos guardados.- Autentificación de redes; verificar las identidades de las personas que utilicen nuestros datos mediante el uso de protocolos.</label>
-                                                <label><input type="radio" name="q7"> Los datos en tránsito deben estar protegidos, por el motivo que son lo que más expuesto a ingenieria social. La protección de datos se puede gestionar en 2 practicas recomendadas:- Cifrado de tránsito; el cifrado debe ser de extremo a extremo que garantiza que los usuarios cuando usen esten los datos guardados.- Autentificación de redes; verificar las identidades de las personas que utilicen nuestros datos mediante el uso de protocolos. Cada practica debe ser validada por un especialista en el cual nos indica los pasos a seguir para usar los datos en tránsito.</label>
-                                                <label><input type="radio" name="q7"> Los datos en tránsito deben estar protegidos, por el motivo que son lo que más expuesto a ingenieria social. La protección de datos se puede gestionar en 3 practicas recomendadas:- Cifrado de tránsito; el cifrado debe ser de extremo a extremo que garantiza que los usuarios cuando usen esten los datos guardados.- Autentificación de redes; verificar las identidades de las personas que utilicen nuestros datos mediante el uso de protocolos.- Automatizar la detección de acceso; el uso de una herramienta externa puede ser vital para la detección del acceso de datos.</label>
-                                                <label><input type="radio" name="q7"> Los datos en tránsito deben estar protegidos, por el motivo que son lo que más expuesto a ingenieria social. La protección de datos se puede gestionar en 3 practicas recomendadas:- Cifrado de tránsito; el cifrado debe ser de extremo a extremo que garantiza que los usuarios cuando usen esten los datos guardados.- Autentificación de redes; verificar las identidades de las personas que utilicen nuestros datos mediante el uso de protocolos.- Automatizar la detección de acceso; el uso de una herramienta externa puede ser vital para la detección del acceso de datos. Cada practica debe ser validada por un especialista en el cual nos indica los pasos a seguir para usar los datos en tránsito.</label>
-                                            </span>
+                                                <label><input type="radio" name="q7" value="1" id="respuesta_31" onclick="deseleccionarRadio(event)"> Los datos en tránsito no estan protegidos debido a que no se emplean de manera correcta el uso de estos. Todo personal tiene acceso a los datos cuando ellos lo requieran.</label>
+                                                <label><input type="radio" name="q7" value="2" id="respuesta_32" onclick="deseleccionarRadio(event)"> Los datos en tránsito deben estar protegidos, por el motivo que son lo que más expuesto a ingenieria social. La protección de datos se puede gestionar en 2 practicas recomendadas:- Cifrado de tránsito; el cifrado debe ser de extremo a extremo que garantiza que los usuarios cuando usen esten los datos guardados.- Autentificación de redes; verificar las identidades de las personas que utilicen nuestros datos mediante el uso de protocolos.</label>
+                                                <label><input type="radio" name="q7" value="3" id="respuesta_33" onclick="deseleccionarRadio(event)"> Los datos en tránsito deben estar protegidos, por el motivo que son lo que más expuesto a ingenieria social. La protección de datos se puede gestionar en 2 practicas recomendadas:- Cifrado de tránsito; el cifrado debe ser de extremo a extremo que garantiza que los usuarios cuando usen esten los datos guardados.- Autentificación de redes; verificar las identidades de las personas que utilicen nuestros datos mediante el uso de protocolos. Cada practica debe ser validada por un especialista en el cual nos indica los pasos a seguir para usar los datos en tránsito.</label>
+                                                <label><input type="radio" name="q7" value="4" id="respuesta_34" onclick="deseleccionarRadio(event)"> Los datos en tránsito deben estar protegidos, por el motivo que son lo que más expuesto a ingenieria social. La protección de datos se puede gestionar en 3 practicas recomendadas:- Cifrado de tránsito; el cifrado debe ser de extremo a extremo que garantiza que los usuarios cuando usen esten los datos guardados.- Autentificación de redes; verificar las identidades de las personas que utilicen nuestros datos mediante el uso de protocolos.- Automatizar la detección de acceso; el uso de una herramienta externa puede ser vital para la detección del acceso de datos.</label>
+                                                <label><input type="radio" name="q7" value="5" id="respuesta_35" onclick="deseleccionarRadio(event)"> Los datos en tránsito deben estar protegidos, por el motivo que son lo que más expuesto a ingenieria social. La protección de datos se puede gestionar en 3 practicas recomendadas:- Cifrado de tránsito; el cifrado debe ser de extremo a extremo que garantiza que los usuarios cuando usen esten los datos guardados.- Autentificación de redes; verificar las identidades de las personas que utilicen nuestros datos mediante el uso de protocolos.- Automatizar la detección de acceso; el uso de una herramienta externa puede ser vital para la detección del acceso de datos. Cada practica debe ser validada por un especialista en el cual nos indica los pasos a seguir para usar los datos en tránsito.</label>
+                                            </span>                                                          
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio7" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio7" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio7" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio7" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio7" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-8">
+                                            <input id="pregunta_8" type="hidden" value="8" />
                                             <h2 class="quiz-question">8. ¿Cómo se implementan las protecciones de filtraciones de datos?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q8"> No se presentaron casos de filtraciones de datos, por ello, no se presentan implementaciones para la protecciones de datos.</label>
-                                                <label><input type="radio" name="q8"> Los datos son lo que más expuestos estan en la ingenieria social, por ello, las implementaciones de protección de datos son de prioridad. Por ello, un equipo de TI y seguridad de información es el encargado de gestionar los accesos.</label>
-                                                <label><input type="radio" name="q8"> Los datos son lo que más expuestos estan en la ingenieria social, por ello, las implementaciones de protección de datos son de prioridad. Por ello, solamente con una encriptaciones de estos se podra proteger.</label>
-                                                <label><input type="radio" name="q8"> Los datos son lo que más expuestos estan en la ingenieria social, por ello, las implementaciones de protección de datos son de prioridad. Entre ellos tener una seguridad de accesos a los datos, autentificaciones  y deteciones frente posibles riesgos. </label>
-                                                <label><input type="radio" name="q8"> Los datos son lo que más expuestos estan en la ingenieria social, por ello, las implementaciones de protección de datos son de prioridad. Entre ellos tener una seguridad de accesos a los datos, autentificaciones  y deteciones frente posibles riesgos. Además, presentar un equipo especializado que apoya en el soporte de la información de datos.</label>
+                                                <label><input type="radio" name="q8" value="1" id="respuesta_36" onclick="deseleccionarRadio(event)"> No se presentaron casos de filtraciones de datos, por ello, no se presentan implementaciones para la protecciones de datos.</label>
+                                                <label><input type="radio" name="q8" value="2" id="respuesta_37" onclick="deseleccionarRadio(event)"> Los datos son lo que más expuestos estan en la ingenieria social, por ello, las implementaciones de protección de datos son de prioridad. Por ello, un equipo de TI y seguridad de información es el encargado de gestionar los accesos.</label>
+                                                <label><input type="radio" name="q8" value="3" id="respuesta_38" onclick="deseleccionarRadio(event)"> Los datos son lo que más expuestos estan en la ingenieria social, por ello, las implementaciones de protección de datos son de prioridad. Por ello, solamente con una encriptaciones de estos se podra proteger.</label>
+                                                <label><input type="radio" name="q8" value="4" id="respuesta_39" onclick="deseleccionarRadio(event)"> Los datos son lo que más expuestos estan en la ingenieria social, por ello, las implementaciones de protección de datos son de prioridad. Entre ellos tener una seguridad de accesos a los datos, autentificaciones  y deteciones frente posibles riesgos. </label>
+                                                <label><input type="radio" name="q8" value="5" id="respuesta_40" onclick="deseleccionarRadio(event)"> Los datos son lo que más expuestos estan en la ingenieria social, por ello, las implementaciones de protección de datos son de prioridad. Entre ellos tener una seguridad de accesos a los datos, autentificaciones  y deteciones frente posibles riesgos. Además, presentar un equipo especializado que apoya en el soporte de la información de datos.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio8" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio8" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio8" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio8" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio8" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-9">
+                                            <input id="pregunta_9" type="hidden" value="9" />
                                             <h2 class="quiz-question">9. ¿Cómo son las copias de seguridad de la información en la compañia?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q9"> La empresa no presenta copias de seguridad de la información en la compañía. Por motivos como la falta de personal, costos, información no relevante entre otros motivos, la empresa no implementa las copias de seguridad de la información</label>
-                                                <label><input type="radio" name="q9"> Las copias de seguridad son esenciales para proteger los datos y garantizar su disponibilidad en caso de una pérdida o desastre. Para realizar copias de seguridad se debe almacenar la información en un lugar seguro, en le cual todas las personas presentan acceso para esta. Se realizaran anualmente las copias de seguridad para que no haya perdida de data.</label>
-                                                <label><input type="radio" name="q9"> Las copias de seguridad es fundamental para proteger los datos y asegurar que puedan ser recuperados en caso de una eventualidad. Para llevar a cabo esta tarea es importante almacenar la información en un lugar seguro, donde sólo las personas autorizadas tengan acceso. Es recomendable hacer las copias de seguridad regularmente, preferiblemente una vez al mes o según la necesidad, para evitar la pérdida de datos.</label>
-                                                <label><input type="radio" name="q9"> Las copias de seguridad son esenciales para proteger los datos y garantizar su disponibilidad en caso de una pérdida o desastre. Para realizar copias de seguridad de manera efectiva, es importante hacerlas regularmente, almacenarlas en un lugar seguro, verificarlas y actualizarlas anualmente. También es recomendable utilizar solamente un medio de almacenamiento, así como desarrollar un plan de recuperación ante desastres para garantizar la continuidad del negocio. </label>
-                                                <label><input type="radio" name="q9"> Las copias de seguridad son esenciales para proteger los datos y garantizar su disponibilidad en caso de una pérdida o desastre. Para realizar copias de seguridad de manera efectiva, es importante hacerlas regularmente, almacenarlas en un lugar seguro, verificarlas y actualizarlas con frecuencia. También es recomendable utilizar diferentes medios de almacenamiento y automatizar el proceso, así como desarrollar un plan de recuperación ante desastres para garantizar la continuidad del negocio. </label>
+                                                <label><input type="radio" name="q9" value="1" id="respuesta_41" onclick="deseleccionarRadio(event)"> La empresa no presenta copias de seguridad de la información en la compañía. Por motivos como la falta de personal, costos, información no relevante entre otros motivos, la empresa no implementa las copias de seguridad de la información</label>
+                                                <label><input type="radio" name="q9" value="2" id="respuesta_42" onclick="deseleccionarRadio(event)"> Las copias de seguridad son esenciales para proteger los datos y garantizar su disponibilidad en caso de una pérdida o desastre. Para realizar copias de seguridad se debe almacenar la información en un lugar seguro, en le cual todas las personas presentan acceso para esta. Se realizaran anualmente las copias de seguridad para que no haya perdida de data.</label>
+                                                <label><input type="radio" name="q9" value="3" id="respuesta_43" onclick="deseleccionarRadio(event)"> Las copias de seguridad es fundamental para proteger los datos y asegurar que puedan ser recuperados en caso de una eventualidad. Para llevar a cabo esta tarea es importante almacenar la información en un lugar seguro, donde sólo las personas autorizadas tengan acceso. Es recomendable hacer las copias de seguridad regularmente, preferiblemente una vez al mes o según la necesidad, para evitar la pérdida de datos.</label>
+                                                <label><input type="radio" name="q9" value="4" id="respuesta_44" onclick="deseleccionarRadio(event)"> Las copias de seguridad son esenciales para proteger los datos y garantizar su disponibilidad en caso de una pérdida o desastre. Para realizar copias de seguridad de manera efectiva, es importante hacerlas regularmente, almacenarlas en un lugar seguro, verificarlas y actualizarlas anualmente. También es recomendable utilizar solamente un medio de almacenamiento, así como desarrollar un plan de recuperación ante desastres para garantizar la continuidad del negocio. </label>
+                                                <label><input type="radio" name="q9" value="5" id="respuesta_45" onclick="deseleccionarRadio(event)"> Las copias de seguridad son esenciales para proteger los datos y garantizar su disponibilidad en caso de una pérdida o desastre. Para realizar copias de seguridad de manera efectiva, es importante hacerlas regularmente, almacenarlas en un lugar seguro, verificarlas y actualizarlas con frecuencia. También es recomendable utilizar diferentes medios de almacenamiento y automatizar el proceso, así como desarrollar un plan de recuperación ante desastres para garantizar la continuidad del negocio. </label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio9" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio9" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio9" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio9" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio9" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-10">
+                                            <input id="pregunta_10" type="hidden" value="10" />
                                             <h2 class="quiz-question">10. ¿Cómo es la gestión de la elimininación los datos?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q10"> Cualquier tipo de dato de la seguridad de la información puede ser eliminado por cualquier persona de la compañía sin permiso previo.</label>
-                                                <label><input type="radio" name="q10"> Cualquier dato de la seguridad de la información puede ser eliminado cuando son repetidos o que no aporten a la empresa por cualquier persona de la compañía sin permiso previo.</label>
-                                                <label><input type="radio" name="q10"> Cualquier dato de la seguridad de la información puede ser eliminado siempre y cuando se indique en sus politicas de seguridad de la información.</label>
-                                                <label><input type="radio" name="q10"> Cualquier dato de la seguridad de la información puede ser eliminado cuando son repetidos o que no aporten a la empresa, además si se indican en sus politicas de seguridad de la información.</label>
-                                                <label><input type="radio" name="q10"> Cualquier dato de la seguridad de la información puede ser eliminado cuando tienes riesgos a vulnerabilidades o posibles ataques de ingeniería social, además si se indican en sus politicas de seguridad de la información.</label>
+                                                <label><input type="radio" name="q10" value="1" id="respuesta_46" onclick="deseleccionarRadio(event)"> Cualquier tipo de dato de la seguridad de la información puede ser eliminado por cualquier persona de la compañía sin permiso previo.</label>
+                                                <label><input type="radio" name="q10" value="2" id="respuesta_47" onclick="deseleccionarRadio(event)"> Cualquier dato de la seguridad de la información puede ser eliminado cuando son repetidos o que no aporten a la empresa por cualquier persona de la compañía sin permiso previo.</label>
+                                                <label><input type="radio" name="q10" value="3" id="respuesta_48" onclick="deseleccionarRadio(event)"> Cualquier dato de la seguridad de la información puede ser eliminado siempre y cuando se indique en sus politicas de seguridad de la información.</label>
+                                                <label><input type="radio" name="q10" value="4" id="respuesta_49" onclick="deseleccionarRadio(event)"> Cualquier dato de la seguridad de la información puede ser eliminado cuando son repetidos o que no aporten a la empresa, además si se indican en sus politicas de seguridad de la información.</label>
+                                                <label><input type="radio" name="q10" value="5" id="respuesta_50" onclick="deseleccionarRadio(event)"> Cualquier dato de la seguridad de la información puede ser eliminado cuando tienes riesgos a vulnerabilidades o posibles ataques de ingeniería social, además si se indican en sus politicas de seguridad de la información.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio10" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio10" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio10" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio10" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio10" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-11">
+                                            <input id="pregunta_11" type="hidden" value="11" />
                                             <h2 class="quiz-question">11. ¿Cómo son los registros de auditoría dentro de la compañía?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q11"> No se aplican los registros de auditoria. Debido a que falta recursos financieros o conocimiento y compresión de los riesgos y amenazas de la seguridad de la información.</label>
-                                                <label><input type="radio" name="q11"> Los registros de auditoria son importantes debdio a que permite la detección de intrusiones y posibles amenazas. Por ello, se realizan auditorias solamente para dectectar el estado actual de nuestros procesos o información.</label>
-                                                <label><input type="radio" name="q11"> La realización de registros de auditoría es crucial ya que permite detectar intrusiones y posibles amenazas en la seguridad de la información. Por lo tanto, las auditorías se llevan a cabo para conocer el estado actual de los procesos o información y así detectar posibles vulnerabilidades o riesgos.</label>
-                                                <label><input type="radio" name="q11"> La importancia de los registros de auditoría radica en que posibilitan la identificación de intrusiones y amenazas a la seguridad de la información. Por esta razón, se realizan auditorías para determinar el estado actual de los procesos o información, a fin de detectar posibles debilidades o riesgos en el sistema.</label>
-                                                <label><input type="radio" name="q11"> Los registros de auditoria son importantes debdio a que permite la detección de intrusiones y posibles amenazas. Una evaluación y análisis de de los procesos nos brindan el estado actual de estos. Por ello, atraves de sus resultados, se detallaran y validaran para establecer medidas preventivas relacionada con la seguridad de la información.</label>
+                                                <label><input type="radio" name="q11" value="1" id="respuesta_51" onclick="deseleccionarRadio(event)"> No se aplican los registros de auditoria. Debido a que falta recursos financieros o conocimiento y compresión de los riesgos y amenazas de la seguridad de la información.</label>
+                                                <label><input type="radio" name="q11" value="2" id="respuesta_52" onclick="deseleccionarRadio(event)"> Los registros de auditoria son importantes debdio a que permite la detección de intrusiones y posibles amenazas. Por ello, se realizan auditorias solamente para dectectar el estado actual de nuestros procesos o información.</label>
+                                                <label><input type="radio" name="q11" value="3" id="respuesta_53" onclick="deseleccionarRadio(event)"> La realización de registros de auditoría es crucial ya que permite detectar intrusiones y posibles amenazas en la seguridad de la información. Por lo tanto, las auditorías se llevan a cabo para conocer el estado actual de los procesos o información y así detectar posibles vulnerabilidades o riesgos.</label>
+                                                <label><input type="radio" name="q11" value="4" id="respuesta_54" onclick="deseleccionarRadio(event)"> La importancia de los registros de auditoría radica en que posibilitan la identificación de intrusiones y amenazas a la seguridad de la información. Por esta razón, se realizan auditorías para determinar el estado actual de los procesos o información, a fin de detectar posibles debilidades o riesgos en el sistema.</label>
+                                                <label><input type="radio" name="q11" value="5" id="respuesta_55" onclick="deseleccionarRadio(event)"> Los registros de auditoria son importantes debdio a que permite la detección de intrusiones y posibles amenazas. Una evaluación y análisis de de los procesos nos brindan el estado actual de estos. Por ello, atraves de sus resultados, se detallaran y validaran para establecer medidas preventivas relacionada con la seguridad de la información.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio11" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio11" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio11" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio11" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio11" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-12">
+                                            <input id="pregunta_12" type="hidden" value="12" />
                                             <h2 class="quiz-question">12. ¿Cómo protegen los medios de comunicación para la entrega de datos de seguridad de la información</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q12"> Por seguridad de los datos de información, se restringe el uso de estos a todos los usuarios que lo necesitan. Así, se evita los posibles problemas de ataques de ingenieria social.</label>
-                                                <label><input type="radio" name="q12"> Para obtener el uso de los datos de información, todos los usuarios tienen acceso al medio de almacenamiento para aplicar el uso de los datos que requeiran. Los usuarios se comprometen a no soltar información valiosa a posibles riesgos de ingenieria social.</label>
-                                                <label><input type="radio" name="q12"> Para obtener el uso de datos de la infromación, cada usuario necesita tener un medio de comunicación para establecer un conversación con el responsable de la seguridad de la información. Este brindara los accesos ilimitados a la seguridad de información a cualquier personal de trabajo. </label>
-                                                <label><input type="radio" name="q12"> Para obtener el uso de datos de la infromación, cada usuario necesita tener un medio de comunicación para establecer un conversación con el responsable de la seguridad de la información. Este brindara los accesos limitados a la seguridad de información. No todos los usuarios van a tener acceso a la información, la entrega de información es regida por el comité de seguridad.</label>
-                                                <label><input type="radio" name="q12"> Para obtener el uso de datos de la infromación, cada usuario necesita tener un medio de comunicación para establecer un conversación con el responsable de la seguridad de la información. Este brindara los accesos limitados a la seguridad de información. No todos los usuarios van a tener acceso a la información, la entrega de información es regida por las políticas de seguridad.</label>
+                                                <label><input type="radio" name="q12" value="1" id="respuesta_56" onclick="deseleccionarRadio(event)"> Por seguridad de los datos de información, se restringe el uso de estos a todos los usuarios que lo necesitan. Así, se evita los posibles problemas de ataques de ingenieria social.</label>
+                                                <label><input type="radio" name="q12" value="2" id="respuesta_57" onclick="deseleccionarRadio(event)"> Para obtener el uso de los datos de información, todos los usuarios tienen acceso al medio de almacenamiento para aplicar el uso de los datos que requeiran. Los usuarios se comprometen a no soltar información valiosa a posibles riesgos de ingenieria social.</label>
+                                                <label><input type="radio" name="q12" value="3" id="respuesta_58" onclick="deseleccionarRadio(event)"> Para obtener el uso de datos de la infromación, cada usuario necesita tener un medio de comunicación para establecer un conversación con el responsable de la seguridad de la información. Este brindara los accesos ilimitados a la seguridad de información a cualquier personal de trabajo. </label>
+                                                <label><input type="radio" name="q12" value="4" id="respuesta_59" onclick="deseleccionarRadio(event)"> Para obtener el uso de datos de la infromación, cada usuario necesita tener un medio de comunicación para establecer un conversación con el responsable de la seguridad de la información. Este brindara los accesos limitados a la seguridad de información. No todos los usuarios van a tener acceso a la información, la entrega de información es regida por el comité de seguridad.</label>
+                                                <label><input type="radio" name="q12" value="5" id="respuesta_60" onclick="deseleccionarRadio(event)"> Para obtener el uso de datos de la infromación, cada usuario necesita tener un medio de comunicación para establecer un conversación con el responsable de la seguridad de la información. Este brindara los accesos limitados a la seguridad de información. No todos los usuarios van a tener acceso a la información, la entrega de información es regida por las políticas de seguridad.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio12" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio12" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio12" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio12" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio12" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-13">
+                                            <input id="pregunta_13" type="hidden" value="13" />
                                             <h2 class="quiz-question">13. ¿Cómo es la gestión del principio menor funcionalidad para la configuración de los sistemas?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q13"> La situación actual de la compañía no nos permite la incorporación del principio menor por falta de recursos financieros y personal encargado.</label>
-                                                <label><input type="radio" name="q13"> La gestión principio menor funcionalidad para la configuración de los sistemas solamente nos apoya en las buenas practicas de seguridad de la información.</label>
-                                                <label><input type="radio" name="q13"> La gestión principio menor funcionalidad para la configuración de los sistemas nos apoya en las buenas practica de seguridad que nos permite solamente llegar a adminsitrar la cantidad necesaria de permisos al usuario para desempeñar sus actividades.</label>
-                                                <label><input type="radio" name="q13"> La gestión principio menor funcionalidad para la configuración de los sistemas nos apoya en las buenas practicas de seguridad que nos permite solamente se puede simplificar la administración y el mantenimiento de los sistemas, lo que puede resultar en un ahorro de tiempo y recursos para la organización.</label>
-                                                <label><input type="radio" name="q13"> La gestión principio menor funcionalidad para la configuración de los sistemas nos apoya en las buenas practicas de seguridad que nos permite solamente se puede simplificar la administración y el mantenimiento de los sistemas, lo que puede resultar en un ahorro de tiempo y recursos para la organización. Además, de llegar a adminsitrar la cantidad necesaria de permisos al usuario para desempeñar sus actividades.</label>
+                                                <label><input type="radio" name="q13" value="1" id="respuesta_61" onclick="deseleccionarRadio(event)"> La situación actual de la compañía no nos permite la incorporación del principio menor por falta de recursos financieros y personal encargado.</label>
+                                                <label><input type="radio" name="q13" value="2" id="respuesta_62" onclick="deseleccionarRadio(event)"> La gestión principio menor funcionalidad para la configuración de los sistemas solamente nos apoya en las buenas practicas de seguridad de la información.</label>
+                                                <label><input type="radio" name="q13" value="3" id="respuesta_63" onclick="deseleccionarRadio(event)"> La gestión principio menor funcionalidad para la configuración de los sistemas nos apoya en las buenas practica de seguridad que nos permite solamente llegar a adminsitrar la cantidad necesaria de permisos al usuario para desempeñar sus actividades.</label>
+                                                <label><input type="radio" name="q13" value="4" id="respuesta_64" onclick="deseleccionarRadio(event)"> La gestión principio menor funcionalidad para la configuración de los sistemas nos apoya en las buenas practicas de seguridad que nos permite solamente se puede simplificar la administración y el mantenimiento de los sistemas, lo que puede resultar en un ahorro de tiempo y recursos para la organización.</label>
+                                                <label><input type="radio" name="q13" value="5" id="respuesta_65" onclick="deseleccionarRadio(event)"> La gestión principio menor funcionalidad para la configuración de los sistemas nos apoya en las buenas practicas de seguridad que nos permite solamente se puede simplificar la administración y el mantenimiento de los sistemas, lo que puede resultar en un ahorro de tiempo y recursos para la organización. Además, de llegar a adminsitrar la cantidad necesaria de permisos al usuario para desempeñar sus actividades.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio13" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio13" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio13" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio13" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio13" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-14">
+                                            <input id="pregunta_14" type="hidden" value="14" />
                                             <h2 class="quiz-question">14. ¿Cómo se encuentran las redes de comunicaciones y control de la compañía?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q14"> Las redes de comunicaciones y control de la compañía no se encuentran protegidas. Debido a que la situación de la compañía no nos permite presentar herramientas de seguridad de información.</label>
-                                                <label><input type="radio" name="q14"> La seguridad de la red debe cumplir solamente los 3 requisitos de seguridad de la información (Integridad, Confidencialidad, Disponibilidad). Solamente con el uso de estos requisitos nos podran apoyar en el uso de la información.</label>
-                                                <label><input type="radio" name="q14"> La seguridad de la red debe cumplir siempre los 3 requisitos de seguridad de la información (Integridad, Confidencialidad, Disponibilidad). Aparte, se debe implementar solo una de las herramientas de seguridad como las autentificaciones, firewalls, cifrados, auditorias, Vlans entre otras. Recuerda que si requieres la información de la red, solamente accedes a la información</label>
-                                                <label><input type="radio" name="q14"> La seguridad de la red debe cumplir siempre los 3 requisitos de seguridad de la información (Integridad, Confidencialidad, Disponibilidad). Aparte, se debe implementar más de una de las herramientas de seguridad como las autentificaciones, firewalls, cifrados, auditorias, Vlans entre otras. Recuerda que si requieres la información de la red, solamente accedes a la información</label>
-                                                <label><input type="radio" name="q14"> La seguridad de la red debe cumplir siempre los 3 requisitos de seguridad de la información (Integridad, Confidencialidad, Disponibilidad). Aparte, se debe implementar más de una de las herramientas de seguridad como las autentificaciones, firewalls, cifrados, auditorias, Vlans entre otras. Recuerda que toda información debe ser administrado por un responsable de cada herramienta para su gestión.</label>
+                                                <label><input type="radio" name="q14" value="1" id="respuesta_66" onclick="deseleccionarRadio(event)"> Las redes de comunicaciones y control de la compañía no se encuentran protegidas. Debido a que la situación de la compañía no nos permite presentar herramientas de seguridad de información.</label>
+                                                <label><input type="radio" name="q14" value="2" id="respuesta_67" onclick="deseleccionarRadio(event)"> La seguridad de la red debe cumplir solamente los 3 requisitos de seguridad de la información (Integridad, Confidencialidad, Disponibilidad). Solamente con el uso de estos requisitos nos podran apoyar en el uso de la información.</label>
+                                                <label><input type="radio" name="q14" value="3" id="respuesta_68" onclick="deseleccionarRadio(event)"> La seguridad de la red debe cumplir siempre los 3 requisitos de seguridad de la información (Integridad, Confidencialidad, Disponibilidad). Aparte, se debe implementar solo una de las herramientas de seguridad como las autentificaciones, firewalls, cifrados, auditorias, Vlans entre otras. Recuerda que si requieres la información de la red, solamente accedes a la información</label>
+                                                <label><input type="radio" name="q14" value="4" id="respuesta_69" onclick="deseleccionarRadio(event)"> La seguridad de la red debe cumplir siempre los 3 requisitos de seguridad de la información (Integridad, Confidencialidad, Disponibilidad). Aparte, se debe implementar más de una de las herramientas de seguridad como las autentificaciones, firewalls, cifrados, auditorias, Vlans entre otras. Recuerda que si requieres la información de la red, solamente accedes a la información</label>
+                                                <label><input type="radio" name="q14" value="5" id="respuesta_70" onclick="deseleccionarRadio(event)"> La seguridad de la red debe cumplir siempre los 3 requisitos de seguridad de la información (Integridad, Confidencialidad, Disponibilidad). Aparte, se debe implementar más de una de las herramientas de seguridad como las autentificaciones, firewalls, cifrados, auditorias, Vlans entre otras. Recuerda que toda información debe ser administrado por un responsable de cada herramienta para su gestión.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio14" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio14" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio14" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio14" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio14" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-15">
+                                            <input id="pregunta_15" type="hidden" value="15" />
                                             <h2 class="quiz-question">15. ¿En que influye la implementación de mecanismos que logran los requisitos de resilencia?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q15"> La situación actual de la compañía no nos permite la implementación de mecanismos de resilencia por falta de recursos financieros y personal encargado.</label>
-                                                <label><input type="radio" name="q15"> La implementación de mecanismos que logran los requisitos de resilencia influye en la falta de regularización de la empresa para implementar las medidas de resilencia.</label>
-                                                <label><input type="radio" name="q15"> La implementación de mecanismos mecanismos de resiliencia garantiza solamente la continuidad del negorcio en base a las normas y adversidades del sistema de resplado.</label>
-                                                <label><input type="radio" name="q15"> La implementación de mecanismos de resiliencia garantiza la continuidad del negocio en situaciones normales y adversas, a través de sistemas de respaldo, redundancia de infraestructura, planes de contingencia, entre otros.</label>
-                                                <label><input type="radio" name="q15"> La implementación de mecanismos de resiliencia garantiza la continuidad del negocio en situaciones normales y adversas, a través de sistemas de respaldo, redundancia de infraestructura, planes de contingencia, entre otros. Al implementar los sistemas de respaldo se la organización puede reducir los riesgos de interrupción de la operación y garantizar la continuidad del negocio.</label>
+                                                <label><input type="radio" name="q15" value="1" id="respuesta_71" onclick="deseleccionarRadio(event)"> La situación actual de la compañía no nos permite la implementación de mecanismos de resilencia por falta de recursos financieros y personal encargado.</label>
+                                                <label><input type="radio" name="q15" value="2" id="respuesta_72" onclick="deseleccionarRadio(event)"> La implementación de mecanismos que logran los requisitos de resilencia influye en la falta de regularización de la empresa para implementar las medidas de resilencia.</label>
+                                                <label><input type="radio" name="q15" value="3" id="respuesta_73" onclick="deseleccionarRadio(event)"> La implementación de mecanismos mecanismos de resiliencia garantiza solamente la continuidad del negorcio en base a las normas y adversidades del sistema de resplado.</label>
+                                                <label><input type="radio" name="q15" value="4" id="respuesta_74" onclick="deseleccionarRadio(event)"> La implementación de mecanismos de resiliencia garantiza la continuidad del negocio en situaciones normales y adversas, a través de sistemas de respaldo, redundancia de infraestructura, planes de contingencia, entre otros.</label>
+                                                <label><input type="radio" name="q15" value="5" id="respuesta_75" onclick="deseleccionarRadio(event)"> La implementación de mecanismos de resiliencia garantiza la continuidad del negocio en situaciones normales y adversas, a través de sistemas de respaldo, redundancia de infraestructura, planes de contingencia, entre otros. Al implementar los sistemas de respaldo se la organización puede reducir los riesgos de interrupción de la operación y garantizar la continuidad del negocio.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio15" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio15" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio15" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio15" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio15" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <br />
@@ -441,69 +681,147 @@
                                     <div class="transition" id="Detectar_Quiz">
                                         DETECTAR
                                         <div class="quiz-box quiz-16">
+                                            <input id="pregunta_16" type="hidden" value="16" />
                                             <h2 class="quiz-question">16. ¿Cómo se establecen y gestiona los flujos de datos esperados de los usuarios y sistemas?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q16"> La compañía no tiene un mapeo de como se gestiona los flujos de datos, debido a que  no presenta los recursos financieros ni el personal.</label>
-                                                <label><input type="radio" name="q16"> La gestión de flujo de datos para los usuarios y sistemas se gestiona de: - Identificación, corroborar si existe flujo de datos existentes en la compañía para identificar el sistema de origen y destino.- Diseño, diseñar un modelo de flujos de datos que especifique cómo se transferirán los datos de un sistema a otro. </label>
-                                                <label><input type="radio" name="q16"> La gestión de flujo de datos para los usuarios y sistemas se gestiona de:- Identificación, corroborar si existe flujo de datos existentes en la compañía para identificar el sistema de origen y destino.- Diseño, diseñar un modelo de flujos de datos que especifique cómo se transferirán los datos de un sistema a otro.- Implementación, involucrar la instalación y configuración de software de comunicaciones, la capacitación del personal en el uso del modelo.</label>
-                                                <label><input type="radio" name="q16"> La gestión de flujo de datos para los usuarios y sistemas se gestiona de:- Identificación, corroborar si existe flujo de datos existentes en la compañía para identificar el sistema de origen y destino.- Diseño, diseñar un modelo de flujos de datos que especifique cómo se transferirán los datos de un sistema a otro.- Implementación, involucrar la instalación y configuración de software de comunicaciones, la capacitación del personal en el uso del modelo.- Monitoreo y gestión, implicar el monitoreo continuo de los registros de actividad, la realización de pruebas de penetración y la implementación de medidas de seguridad para proteger los datos durante la transferencia.</label>
-                                                <label><input type="radio" name="q16"> La gestión de flujo de datos para los usuarios y sistemas se gestiona de:- Identificación, corroborar si existe flujo de datos existentes en la compañía para identificar el sistema de origen y destino.- Diseño, diseñar un modelo de flujos de datos que especifique cómo se transferirán los datos de un sistema a otro.- Implementación, involucrar la instalación y configuración de software de comunicaciones, la capacitación del personal en el uso del modelo.- Monitoreo y gestión, implicar el monitoreo continuo de los registros de actividad, la realización de pruebas de penetración y la implementación de medidas de seguridad para proteger los datos durante la transferencia.- Actualizaciones y mejoras continuas, implicar la realización de revisiones periódicas y la incorporación de nuevas tecnologías y mejores prácticas para garantizar que los flujos de datos sean eficientes y efectivos.</label>
+                                                <label><input type="radio" name="q16" value="1" id="respuesta_76" onclick="deseleccionarRadio(event)"> La compañía no tiene un mapeo de como se gestiona los flujos de datos, debido a que  no presenta los recursos financieros ni el personal.</label>
+                                                <label><input type="radio" name="q16" value="2" id="respuesta_77" onclick="deseleccionarRadio(event)"> La gestión de flujo de datos para los usuarios y sistemas se gestiona de: - Identificación, corroborar si existe flujo de datos existentes en la compañía para identificar el sistema de origen y destino.- Diseño, diseñar un modelo de flujos de datos que especifique cómo se transferirán los datos de un sistema a otro. </label>
+                                                <label><input type="radio" name="q16" value="3" id="respuesta_78" onclick="deseleccionarRadio(event)"> La gestión de flujo de datos para los usuarios y sistemas se gestiona de:- Identificación, corroborar si existe flujo de datos existentes en la compañía para identificar el sistema de origen y destino.- Diseño, diseñar un modelo de flujos de datos que especifique cómo se transferirán los datos de un sistema a otro.- Implementación, involucrar la instalación y configuración de software de comunicaciones, la capacitación del personal en el uso del modelo.</label>
+                                                <label><input type="radio" name="q16" value="4" id="respuesta_79" onclick="deseleccionarRadio(event)"> La gestión de flujo de datos para los usuarios y sistemas se gestiona de:- Identificación, corroborar si existe flujo de datos existentes en la compañía para identificar el sistema de origen y destino.- Diseño, diseñar un modelo de flujos de datos que especifique cómo se transferirán los datos de un sistema a otro.- Implementación, involucrar la instalación y configuración de software de comunicaciones, la capacitación del personal en el uso del modelo.- Monitoreo y gestión, implicar el monitoreo continuo de los registros de actividad, la realización de pruebas de penetración y la implementación de medidas de seguridad para proteger los datos durante la transferencia.</label>
+                                                <label><input type="radio" name="q16" value="5" id="respuesta_80" onclick="deseleccionarRadio(event)"> La gestión de flujo de datos para los usuarios y sistemas se gestiona de:- Identificación, corroborar si existe flujo de datos existentes en la compañía para identificar el sistema de origen y destino.- Diseño, diseñar un modelo de flujos de datos que especifique cómo se transferirán los datos de un sistema a otro.- Implementación, involucrar la instalación y configuración de software de comunicaciones, la capacitación del personal en el uso del modelo.- Monitoreo y gestión, implicar el monitoreo continuo de los registros de actividad, la realización de pruebas de penetración y la implementación de medidas de seguridad para proteger los datos durante la transferencia.- Actualizaciones y mejoras continuas, implicar la realización de revisiones periódicas y la incorporación de nuevas tecnologías y mejores prácticas para garantizar que los flujos de datos sean eficientes y efectivos.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio16" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio16" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio16" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio16" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio16" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-17">
+                                            <input id="pregunta_17" type="hidden" value="17" />
                                             <h2 class="quiz-question">17. ¿Qué se realizan con los datos de los eventos?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q17"> Dentro de la compañía, no hay un mapeo claro respecto a los datos del evento por falta de concientización.</label>
-                                                <label><input type="radio" name="q17"> En seguridad de la información, se recopilan y correlacionan datos de múltiples fuentes para obtener una visión completa de la actividad en la red y los sistemas, lo que permite a los equipos de seguridad identificar posibles amenazas y tomar medidas preventivas y de mitigación adecuadas.</label>
-                                                <label><input type="radio" name="q17"> En seguridad de la información, se recopilan y correlacionan datos de múltiples fuentes para obtener una visión completa de la actividad en la red y los sistemas, lo que permite a los equipos de seguridad identificar posibles amenazas y tomar medidas preventivas y de mitigación adecuadas. Los datos no se encuentran mapeados en ninguna herramienta de seguridad.</label>
-                                                <label><input type="radio" name="q17"> En la seguridad de la información, los datos de los eventos se recopilan y correlacionan de múltiples fuentes y sensores para proporcionar una visión más completa de la actividad en la red y los sistemas. Algunos de los datos que se recopilan incluyen registros de eventos de dispositivos de red, registros de eventos de sistemas operativos, entre otros.</label>
-                                                <label><input type="radio" name="q17"> En la seguridad de la información, los datos de los eventos se recopilan y correlacionan de múltiples fuentes y sensores para proporcionar una visión más completa de la actividad en la red y los sistemas. Algunos de los datos que se recopilan incluyen registros de eventos de dispositivos de red, registros de eventos de sistemas operativos, registros de seguridad de aplicaciones, registros de bases de datos, registros de firewall, entre otros. La correlación de estos datos permite a los equipos de seguridad identificar patrones y anomalías que pueden indicar una posible amenaza o actividad malintencionada.</label>
+                                                <label><input type="radio" name="q17" value="1" id="respuesta_81" onclick="deseleccionarRadio(event)"> Dentro de la compañía, no hay un mapeo claro respecto a los datos del evento por falta de concientización.</label>
+                                                <label><input type="radio" name="q17" value="2" id="respuesta_82" onclick="deseleccionarRadio(event)"> En seguridad de la información, se recopilan y correlacionan datos de múltiples fuentes para obtener una visión completa de la actividad en la red y los sistemas, lo que permite a los equipos de seguridad identificar posibles amenazas y tomar medidas preventivas y de mitigación adecuadas.</label>
+                                                <label><input type="radio" name="q17" value="3" id="respuesta_83" onclick="deseleccionarRadio(event)"> En seguridad de la información, se recopilan y correlacionan datos de múltiples fuentes para obtener una visión completa de la actividad en la red y los sistemas, lo que permite a los equipos de seguridad identificar posibles amenazas y tomar medidas preventivas y de mitigación adecuadas. Los datos no se encuentran mapeados en ninguna herramienta de seguridad.</label>
+                                                <label><input type="radio" name="q17" value="4" id="respuesta_84" onclick="deseleccionarRadio(event)"> En la seguridad de la información, los datos de los eventos se recopilan y correlacionan de múltiples fuentes y sensores para proporcionar una visión más completa de la actividad en la red y los sistemas. Algunos de los datos que se recopilan incluyen registros de eventos de dispositivos de red, registros de eventos de sistemas operativos, entre otros.</label>
+                                                <label><input type="radio" name="q17" value="5" id="respuesta_85" onclick="deseleccionarRadio(event)"> En la seguridad de la información, los datos de los eventos se recopilan y correlacionan de múltiples fuentes y sensores para proporcionar una visión más completa de la actividad en la red y los sistemas. Algunos de los datos que se recopilan incluyen registros de eventos de dispositivos de red, registros de eventos de sistemas operativos, registros de seguridad de aplicaciones, registros de bases de datos, registros de firewall, entre otros. La correlación de estos datos permite a los equipos de seguridad identificar patrones y anomalías que pueden indicar una posible amenaza o actividad malintencionada.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio17" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio17" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio17" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio17" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio17" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-18">
+                                            <input id="pregunta_18" type="hidden" value="18" />
                                             <h2 class="quiz-question">18. ¿Cómo es el monitoreo de red para los posibles eventos de seguridad cibernética?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q18"> Dentro de la compañía, no hay un mapeo claro respecto a los datos del evento por falta de concientización.</label>
-                                                <label><input type="radio" name="q18"> El monitoreo de red se establece en base a los recursos que tiene presenta la empresa para la protección y monitoreo de los datos de la empresa y asi recopilar la información que se obtiene.</label>
-                                                <label><input type="radio" name="q18"> El monitoreo constante y la detección temprana de eventos de seguridad son fundamentales para prevenir y responder eficazmente a los incidentes de seguridad cibernética.</label>
-                                                <label><input type="radio" name="q18"> El monitoreo de eventos de seguridad cibernética se realiza mediante herramientas y tecnologías de monitoreo de seguridad que recopilan y correlacionan datos de múltiples fuentes y sensores para detectar posibles amenazas de seguridad y tomar medidas para mitigar el riesgo.</label>
-                                                <label><input type="radio" name="q18"> El monitoreo de eventos de seguridad cibernética se realiza mediante el uso de herramientas y tecnologías de monitoreo de seguridad, que recopilan y correlacionan datos de múltiples fuentes y sensores en tiempo real. Estas herramientas pueden incluir firewalls, sistemas de detección de intrusos, entre otros. Los eventos se monitorean en busca de patrones y comportamientos sospechosos que puedan indicar una posible amenaza de seguridad. Una vez detectado un evento, se evalúa la gravedad del mismo y se toman las medidas necesarias para mitigar el riesgo y proteger los sistemas y datos críticos. </label>
+                                                <label><input type="radio" name="q18" value="1" id="respuesta_86" onclick="deseleccionarRadio(event)"> Dentro de la compañía, no hay un mapeo claro respecto a los datos del evento por falta de concientización.</label>
+                                                <label><input type="radio" name="q18" value="2" id="respuesta_87" onclick="deseleccionarRadio(event)"> El monitoreo de red se establece en base a los recursos que tiene presenta la empresa para la protección y monitoreo de los datos de la empresa y asi recopilar la información que se obtiene.</label>
+                                                <label><input type="radio" name="q18" value="3" id="respuesta_88" onclick="deseleccionarRadio(event)"> El monitoreo constante y la detección temprana de eventos de seguridad son fundamentales para prevenir y responder eficazmente a los incidentes de seguridad cibernética.</label>
+                                                <label><input type="radio" name="q18" value="4" id="respuesta_89" onclick="deseleccionarRadio(event)"> El monitoreo de eventos de seguridad cibernética se realiza mediante herramientas y tecnologías de monitoreo de seguridad que recopilan y correlacionan datos de múltiples fuentes y sensores para detectar posibles amenazas de seguridad y tomar medidas para mitigar el riesgo.</label>
+                                                <label><input type="radio" name="q18" value="5" id="respuesta_90" onclick="deseleccionarRadio(event)"> El monitoreo de eventos de seguridad cibernética se realiza mediante el uso de herramientas y tecnologías de monitoreo de seguridad, que recopilan y correlacionan datos de múltiples fuentes y sensores en tiempo real. Estas herramientas pueden incluir firewalls, sistemas de detección de intrusos, entre otros. Los eventos se monitorean en busca de patrones y comportamientos sospechosos que puedan indicar una posible amenaza de seguridad. Una vez detectado un evento, se evalúa la gravedad del mismo y se toman las medidas necesarias para mitigar el riesgo y proteger los sistemas y datos críticos. </label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio18" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio18" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio18" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio18" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio18" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-19">
+                                            <input id="pregunta_19" type="hidden" value="19" />
                                             <h2 class="quiz-question">19. ¿Cómo es el monitoreo de físico para los posibles eventos de seguridad cibernética?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q19"> Dentro de la compañía, no hay un mapeo claro respecto a los datos del evento por falta de concientización.</label>
-                                                <label><input type="radio" name="q19"> El monitoreo de red se establece en base a los recursos que tiene presenta la empresa para la protección y monitoreo de los datos de la empresa y asi recopilar la información que se obtiene.</label>
-                                                <label><input type="radio" name="q19"> El monitoreo constante y la detección temprana de eventos de seguridad son fundamentales para prevenir y responder eficazmente a los incidentes de seguridad cibernética.</label>
-                                                <label><input type="radio" name="q19"> El monitoreo de eventos de seguridad cibernética se realiza mediante herramientas y tecnologías de monitoreo de seguridad que recopilan y correlacionan datos de múltiples fuentes y sensores para detectar posibles amenazas de seguridad y tomar medidas para mitigar el riesgo.</label>
-                                                <label><input type="radio" name="q19"> El monitoreo de eventos de seguridad cibernética se realiza mediante el uso de herramientas y tecnologías de monitoreo de seguridad, que recopilan y correlacionan datos de múltiples fuentes y sensores en tiempo real. Estas herramientas pueden incluir firewalls, sistemas de detección de intrusos, entre otros. Los eventos se monitorean en busca de patrones y comportamientos sospechosos que puedan indicar una posible amenaza de seguridad. Una vez detectado un evento, se evalúa la gravedad del mismo y se toman las medidas necesarias para mitigar el riesgo y proteger los sistemas y datos críticos. </label>
+                                                <label><input type="radio" name="q19" value="1" id="respuesta_91" onclick="deseleccionarRadio(event)"> Dentro de la compañía, no hay un mapeo claro respecto a los datos del evento por falta de concientización.</label>
+                                                <label><input type="radio" name="q19" value="2" id="respuesta_92" onclick="deseleccionarRadio(event)"> El monitoreo de red se establece en base a los recursos que tiene presenta la empresa para la protección y monitoreo de los datos de la empresa y asi recopilar la información que se obtiene.</label>
+                                                <label><input type="radio" name="q19" value="3" id="respuesta_93" onclick="deseleccionarRadio(event)"> El monitoreo constante y la detección temprana de eventos de seguridad son fundamentales para prevenir y responder eficazmente a los incidentes de seguridad cibernética.</label>
+                                                <label><input type="radio" name="q19" value="4" id="respuesta_94" onclick="deseleccionarRadio(event)"> El monitoreo de eventos de seguridad cibernética se realiza mediante herramientas y tecnologías de monitoreo de seguridad que recopilan y correlacionan datos de múltiples fuentes y sensores para detectar posibles amenazas de seguridad y tomar medidas para mitigar el riesgo.</label>
+                                                <label><input type="radio" name="q19" value="5" id="respuesta_95" onclick="deseleccionarRadio(event)"> El monitoreo de eventos de seguridad cibernética se realiza mediante el uso de herramientas y tecnologías de monitoreo de seguridad, que recopilan y correlacionan datos de múltiples fuentes y sensores en tiempo real. Estas herramientas pueden incluir firewalls, sistemas de detección de intrusos, entre otros. Los eventos se monitorean en busca de patrones y comportamientos sospechosos que puedan indicar una posible amenaza de seguridad. Una vez detectado un evento, se evalúa la gravedad del mismo y se toman las medidas necesarias para mitigar el riesgo y proteger los sistemas y datos críticos. </label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio19" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio19" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio19" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio19" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio19" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-20">
+                                            <input id="pregunta_20" type="hidden" value="20" />
                                             <h2 class="quiz-question">20. ¿Cómo es la actividad personal para detectar los posibles riesgos de seguridad cibernética?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q20"> El personal del área de riesgos solamente debe estar atento ante los riesgos que ya estan pasando, y solucionarlo lo más rapido posible.</label>
-                                                <label><input type="radio" name="q20"> El personal del área de riesgos detectar posibles riesgos de seguridad cibernética debe  implicar al personal de la empresa seguir prácticas recomendadas de seguridad.</label>
-                                                <label><input type="radio" name="q20"> El personal del área de riesgos detectar posibles riesgos de seguridad cibernética debe tener una bítacora que nos implique ver cuales son los riesgos que han pasado y como lo han solucionado para no presentar denuevo el mismo riesgo y saber como actuar.</label>
-                                                <label><input type="radio" name="q20"> El personal del área de riesgos detectar posibles riesgos de seguridad cibernética debe  implicar al personal de la empresa seguir prácticas recomendadas de seguridad. Al seguir estas prácticas, se pueden detectar y mitigar posibles riesgos de seguridad cibernética.</label>
-                                                <label><input type="radio" name="q20"> El personal del área de riesgos detectar posibles riesgos de seguridad cibernética debe  implicar al personal de la empresa seguir prácticas recomendadas de seguridad. Al seguir estas prácticas, se pueden detectar y mitigar posibles riesgos de seguridad cibernética. Además, debe tener una bítacora que nos implique ver cuales son los riesgos que han pasado y como lo han solucionado para no presentar denuevo el mismo riesgo y saber como actuar.</label>
+                                                <label><input type="radio" name="q20" value="1" id="respuesta_96" onclick="deseleccionarRadio(event)"> El personal del área de riesgos solamente debe estar atento ante los riesgos que ya estan pasando, y solucionarlo lo más rapido posible.</label>
+                                                <label><input type="radio" name="q20" value="2" id="respuesta_97" onclick="deseleccionarRadio(event)"> El personal del área de riesgos detectar posibles riesgos de seguridad cibernética debe  implicar al personal de la empresa seguir prácticas recomendadas de seguridad.</label>
+                                                <label><input type="radio" name="q20" value="3" id="respuesta_98" onclick="deseleccionarRadio(event)"> El personal del área de riesgos detectar posibles riesgos de seguridad cibernética debe tener una bítacora que nos implique ver cuales son los riesgos que han pasado y como lo han solucionado para no presentar denuevo el mismo riesgo y saber como actuar.</label>
+                                                <label><input type="radio" name="q20" value="4" id="respuesta_99" onclick="deseleccionarRadio(event)"> El personal del área de riesgos detectar posibles riesgos de seguridad cibernética debe  implicar al personal de la empresa seguir prácticas recomendadas de seguridad. Al seguir estas prácticas, se pueden detectar y mitigar posibles riesgos de seguridad cibernética.</label>
+                                                <label><input type="radio" name="q20" value="5" id="respuesta_100" onclick="deseleccionarRadio(event)"> El personal del área de riesgos detectar posibles riesgos de seguridad cibernética debe  implicar al personal de la empresa seguir prácticas recomendadas de seguridad. Al seguir estas prácticas, se pueden detectar y mitigar posibles riesgos de seguridad cibernética. Además, debe tener una bítacora que nos implique ver cuales son los riesgos que han pasado y como lo han solucionado para no presentar denuevo el mismo riesgo y saber como actuar.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio20" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio20" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio20" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio20" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio20" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-21">
+                                            <input id="pregunta_21" type="hidden" value="21" />
                                             <h2 class="quiz-question">21. ¿Cómo se realiza el monitoreo a la actividad de proveedores externos frente a posibles eventos de seguridad cibernética?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q21"> Dentro de la compañía, no hay un mapeo claro respecto al monitoreo a la actividad de proveedores externos por falta de concientización, recursos financieros o personal.</label>
-                                                <label><input type="radio" name="q21"> Se realiza el monitoreo de proveedores para detectar posibles eventos de seguridad cibernética y proteger la información de la organización.  Para establecer cuales son los requisitos de seguridad de información que pueden regularse.</label>
-                                                <label><input type="radio" name="q21"> Se realiza el monitoreo de proveedores para detectar posibles eventos de seguridad cibernética y proteger la información de la organización. Los proveedores de servicios externos pueden tener acceso a la red o sistemas de la organización.</label>
-                                                <label><input type="radio" name="q21"> Se realiza el monitoreo de proveedores para detectar posibles eventos de seguridad cibernética además de cualquier comportamiento inusual o actividad sospechosa que pueda indicar un posible evento de seguridad cibernética.</label>
-                                                <label><input type="radio" name="q21"> Se realiza el monitoreo de proveedores para detectar posibles eventos de seguridad cibernética y proteger la información de la organización. Los proveedores de servicios externos pueden tener acceso a la red o sistemas de la organización y, por lo tanto, representar un riesgo potencial de seguridad. Al monitorear su actividad, se puede detectar cualquier comportamiento inusual o actividad sospechosa que pueda indicar un posible evento de seguridad cibernética.</label>
+                                                <label><input type="radio" name="q21" value="1" id="respuesta_101" onclick="deseleccionarRadio(event)"> Dentro de la compañía, no hay un mapeo claro respecto al monitoreo a la actividad de proveedores externos por falta de concientización, recursos financieros o personal.</label>
+                                                <label><input type="radio" name="q21" value="2" id="respuesta_102" onclick="deseleccionarRadio(event)"> Se realiza el monitoreo de proveedores para detectar posibles eventos de seguridad cibernética y proteger la información de la organización.  Para establecer cuales son los requisitos de seguridad de información que pueden regularse.</label>
+                                                <label><input type="radio" name="q21" value="3" id="respuesta_103" onclick="deseleccionarRadio(event)"> Se realiza el monitoreo de proveedores para detectar posibles eventos de seguridad cibernética y proteger la información de la organización. Los proveedores de servicios externos pueden tener acceso a la red o sistemas de la organización.</label>
+                                                <label><input type="radio" name="q21" value="4" id="respuesta_104" onclick="deseleccionarRadio(event)"> Se realiza el monitoreo de proveedores para detectar posibles eventos de seguridad cibernética además de cualquier comportamiento inusual o actividad sospechosa que pueda indicar un posible evento de seguridad cibernética.</label>
+                                                <label><input type="radio" name="q21" value="5" id="respuesta_105" onclick="deseleccionarRadio(event)"> Se realiza el monitoreo de proveedores para detectar posibles eventos de seguridad cibernética y proteger la información de la organización. Los proveedores de servicios externos pueden tener acceso a la red o sistemas de la organización y, por lo tanto, representar un riesgo potencial de seguridad. Al monitorear su actividad, se puede detectar cualquier comportamiento inusual o actividad sospechosa que pueda indicar un posible evento de seguridad cibernética.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio21" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio21" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio21" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio21" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio21" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <br />
@@ -516,92 +834,196 @@
                                     <div class="transition" id="Responder_Quiz">
                                         RESPONDER
                                         <div class="quiz-box quiz-22">
+                                            <input id="pregunta_22" type="hidden" value="22" />
                                             <h2 class="quiz-question">22. ¿Cómo actuan con las notificaciones del sistema de detección?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q22"> La situación actual de la compañía no nos permite presentar un sistema de detección por recursos financieros o por falta de personal.</label>
-                                                <label><input type="radio" name="q22"> Las notificaciones del sistema de detección solamente son revisadas cuando se detectan posibles riesgo o vulnerabilidades.</label>
-                                                <label><input type="radio" name="q22"> Las notificaciones del sistema de detección solamente son revisadas cuando detectan actividades sospechosas y posibles amenazas de seguridad en la red de la organización. Si se ignoran las notificaciones del sistema de detección, no se podrian detectar amenazas.</label>
-                                                <label><input type="radio" name="q22"> Las notificaciones del sistema de detección solamente son revisadas cuando detectan actividades sospechosas y posibles amenazas de seguridad en la red de la organización. Si se ignoran las notificaciones del sistema de detección, se corre el riesgo de que las amenazas de seguridad se conviertan en un problema real para la organización.</label>
-                                                <label><input type="radio" name="q22"> Las notificaciones del sistema de detección solamente son revisadas cuando detectan actividades sospechosas y posibles amenazas de seguridad en la red de la organización. Si se ignoran las notificaciones del sistema de detección, se corre el riesgo de que las amenazas de seguridad se conviertan en un problema real para la organización. Es importante que el equipo de seguridad de la información investiguen estas notificaciones.</label>
+                                                <label><input type="radio" name="q22" value="1" id="respuesta_106" onclick="deseleccionarRadio(event)"> La situación actual de la compañía no nos permite presentar un sistema de detección por recursos financieros o por falta de personal.</label>
+                                                <label><input type="radio" name="q22" value="2" id="respuesta_107" onclick="deseleccionarRadio(event)"> Las notificaciones del sistema de detección solamente son revisadas cuando se detectan posibles riesgo o vulnerabilidades.</label>
+                                                <label><input type="radio" name="q22" value="3" id="respuesta_108" onclick="deseleccionarRadio(event)"> Las notificaciones del sistema de detección solamente son revisadas cuando detectan actividades sospechosas y posibles amenazas de seguridad en la red de la organización. Si se ignoran las notificaciones del sistema de detección, no se podrian detectar amenazas.</label>
+                                                <label><input type="radio" name="q22" value="4" id="respuesta_109" onclick="deseleccionarRadio(event)"> Las notificaciones del sistema de detección solamente son revisadas cuando detectan actividades sospechosas y posibles amenazas de seguridad en la red de la organización. Si se ignoran las notificaciones del sistema de detección, se corre el riesgo de que las amenazas de seguridad se conviertan en un problema real para la organización.</label>
+                                                <label><input type="radio" name="q22" value="5" id="respuesta_110" onclick="deseleccionarRadio(event)"> Las notificaciones del sistema de detección solamente son revisadas cuando detectan actividades sospechosas y posibles amenazas de seguridad en la red de la organización. Si se ignoran las notificaciones del sistema de detección, se corre el riesgo de que las amenazas de seguridad se conviertan en un problema real para la organización. Es importante que el equipo de seguridad de la información investiguen estas notificaciones.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio22" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio22" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio22" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio22" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio22" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
 
                                         <div class="quiz-box quiz-23">
+                                            <input id="pregunta_23" type="hidden" value="23" />
                                             <h2 class="quiz-question">23. ¿Cómo la compañía comprende el impacto de los incidentes?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q23"> La compañía no se encuentra en la capacidad de comprender los impactos que podrian generar los incidentes por falta de personal o recursos financieros.</label>
-                                                <label><input type="radio" name="q23"> Comprender el impacto de un incidente es de vital importancia, porque existe la posibilidad de afectar a nuestros datos informaticos y generar un posible riesgo de perdida.</label>
-                                                <label><input type="radio" name="q23"> Comprender el impacto solamente es importante para informar a las partes interesadas, como clientes, socios y reguladores, y proporcionar transparencia sobre lo que ha ocurrido y qué medidas se están tomando para resolver el problema.</label>
-                                                <label><input type="radio" name="q23"> Comprender el impacto de un incidente de seguridad de la información porque permite a la organización evaluar la magnitud del daño causado y tomar decisiones informadas sobre cómo mitigar y remediar el problema. </label>
-                                                <label><input type="radio" name="q23"> Comprender el impacto de un incidente de seguridad de la información porque permite a la organización evaluar la magnitud del daño causado y tomar decisiones informadas sobre cómo mitigar y remediar el problema. Además, conocer el impacto también ayuda a determinar el costo financiero y la posible pérdida de reputación que puede afectar a la organización. </label>
+                                                <label><input type="radio" name="q23" value="1" id="respuesta_111" onclick="deseleccionarRadio(event)"> La compañía no se encuentra en la capacidad de comprender los impactos que podrian generar los incidentes por falta de personal o recursos financieros.</label>
+                                                <label><input type="radio" name="q23" value="2" id="respuesta_112" onclick="deseleccionarRadio(event)"> Comprender el impacto de un incidente es de vital importancia, porque existe la posibilidad de afectar a nuestros datos informaticos y generar un posible riesgo de perdida.</label>
+                                                <label><input type="radio" name="q23" value="3" id="respuesta_113" onclick="deseleccionarRadio(event)"> Comprender el impacto solamente es importante para informar a las partes interesadas, como clientes, socios y reguladores, y proporcionar transparencia sobre lo que ha ocurrido y qué medidas se están tomando para resolver el problema.</label>
+                                                <label><input type="radio" name="q23" value="4" id="respuesta_114" onclick="deseleccionarRadio(event)"> Comprender el impacto de un incidente de seguridad de la información porque permite a la organización evaluar la magnitud del daño causado y tomar decisiones informadas sobre cómo mitigar y remediar el problema. </label>
+                                                <label><input type="radio" name="q23" value="5" id="respuesta_115" onclick="deseleccionarRadio(event)"> Comprender el impacto de un incidente de seguridad de la información porque permite a la organización evaluar la magnitud del daño causado y tomar decisiones informadas sobre cómo mitigar y remediar el problema. Además, conocer el impacto también ayuda a determinar el costo financiero y la posible pérdida de reputación que puede afectar a la organización. </label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio23" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio23" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio23" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio23" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio23" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-24">
+                                            <input id="pregunta_24" type="hidden" value="24" />
                                             <h2 class="quiz-question">24. ¿Cuál es la importanca de realizar análisis forenses?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q24"> La compañía no se encuentra en la capacidad de realizar anális forenses por falta de recursos financieros y de personal.</label>
-                                                <label><input type="radio" name="q24"> Los análisis forenses de la compañía buscan encontrar los incidentes de seguridad de información para incorporarlos en un plan de riesgos y recuperación que nos servira para mitigar los riesgos.</label>
-                                                <label><input type="radio" name="q24"> Los análisis forenses de la compañía ayudan a mejorar la seguridad y prevenir futuros incidentes, al identificar vulnerabilidades y áreas de mejora en los sistemas y procesos de la organización.</label>
-                                                <label><input type="radio" name="q24"> Los análisis forenses de la compañía nos permiten investigar incidentes de seguridad, determinar su causa raíz y recopilar pruebas digitales para ser utilizadas en procesos legales o administrativos.</label>
-                                                <label><input type="radio" name="q24"> Los análisis forenses de la compañía nos permiten investigar incidentes de seguridad, determinar su causa raíz y recopilar pruebas digitales para ser utilizadas en procesos legales o administrativos. También ayudan a mejorar la seguridad y prevenir futuros incidentes, al identificar vulnerabilidades y áreas de mejora en los sistemas y procesos de la organización.</label>
+                                                <label><input type="radio" name="q24" value="1" id="respuesta_116" onclick="deseleccionarRadio(event)"> La compañía no se encuentra en la capacidad de realizar anális forenses por falta de recursos financieros y de personal.</label>
+                                                <label><input type="radio" name="q24" value="2" id="respuesta_117" onclick="deseleccionarRadio(event)"> Los análisis forenses de la compañía buscan encontrar los incidentes de seguridad de información para incorporarlos en un plan de riesgos y recuperación que nos servira para mitigar los riesgos.</label>
+                                                <label><input type="radio" name="q24" value="3" id="respuesta_118" onclick="deseleccionarRadio(event)"> Los análisis forenses de la compañía ayudan a mejorar la seguridad y prevenir futuros incidentes, al identificar vulnerabilidades y áreas de mejora en los sistemas y procesos de la organización.</label>
+                                                <label><input type="radio" name="q24" value="4" id="respuesta_119" onclick="deseleccionarRadio(event)"> Los análisis forenses de la compañía nos permiten investigar incidentes de seguridad, determinar su causa raíz y recopilar pruebas digitales para ser utilizadas en procesos legales o administrativos.</label>
+                                                <label><input type="radio" name="q24" value="5" id="respuesta_120" onclick="deseleccionarRadio(event)"> Los análisis forenses de la compañía nos permiten investigar incidentes de seguridad, determinar su causa raíz y recopilar pruebas digitales para ser utilizadas en procesos legales o administrativos. También ayudan a mejorar la seguridad y prevenir futuros incidentes, al identificar vulnerabilidades y áreas de mejora en los sistemas y procesos de la organización.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio24" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio24" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio24" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio24" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio24" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-25">
+                                            <input id="pregunta_25" type="hidden" value="25" />
                                             <h2 class="quiz-question">25. ¿Cómo se establecen los procesos para analizar y responder vulnerabilidades de fuentes internas y externas?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q25"> La empresa no presenta el análisis de vulnerabilidades debido a diversos factores como falta de recursos financieros o de personal encargado.</label>
-                                                <label><input type="radio" name="q25"> Para establecer procesos de respuesta a vulnerabilidades solamente es empleando elsubprocesos como análisis y mitigaciones de estas.</label>
-                                                <label><input type="radio" name="q25"> Para establecer procesos de respuesta a vulnerabilidades, se debe dar un enfoque proactivo hacia la seguridad es fundamental para minimizar el riesgo de ataques y proteger la información sensible de la organización.</label>
-                                                <label><input type="radio" name="q25"> Para establecer procesos de respuesta a vulnerabilidades, se deben crear canales de comunicación, definir protocolos de recepción, asignar un equipo responsable, establecer procesos de análisis y respuesta, priorizar las vulnerabilidades y monitorear la efectividad de las soluciones implementadas.</label>
-                                                <label><input type="radio" name="q25"> Para establecer procesos de respuesta a vulnerabilidades, se deben crear canales de comunicación, definir protocolos de recepción, asignar un equipo responsable, establecer procesos de análisis y respuesta, priorizar las vulnerabilidades y monitorear la efectividad de las soluciones implementadas. Un enfoque proactivo hacia la seguridad es fundamental para minimizar el riesgo de ataques y proteger la información sensible de la organización.</label>
+                                                <label><input type="radio" name="q25" value="1" id="respuesta_121" onclick="deseleccionarRadio(event)"> La empresa no presenta el análisis de vulnerabilidades debido a diversos factores como falta de recursos financieros o de personal encargado.</label>
+                                                <label><input type="radio" name="q25" value="2" id="respuesta_122" onclick="deseleccionarRadio(event)"> Para establecer procesos de respuesta a vulnerabilidades solamente es empleando elsubprocesos como análisis y mitigaciones de estas.</label>
+                                                <label><input type="radio" name="q25" value="3" id="respuesta_123" onclick="deseleccionarRadio(event)"> Para establecer procesos de respuesta a vulnerabilidades, se debe dar un enfoque proactivo hacia la seguridad es fundamental para minimizar el riesgo de ataques y proteger la información sensible de la organización.</label>
+                                                <label><input type="radio" name="q25" value="4" id="respuesta_124" onclick="deseleccionarRadio(event)"> Para establecer procesos de respuesta a vulnerabilidades, se deben crear canales de comunicación, definir protocolos de recepción, asignar un equipo responsable, establecer procesos de análisis y respuesta, priorizar las vulnerabilidades y monitorear la efectividad de las soluciones implementadas.</label>
+                                                <label><input type="radio" name="q25" value="5" id="respuesta_125" onclick="deseleccionarRadio(event)"> Para establecer procesos de respuesta a vulnerabilidades, se deben crear canales de comunicación, definir protocolos de recepción, asignar un equipo responsable, establecer procesos de análisis y respuesta, priorizar las vulnerabilidades y monitorear la efectividad de las soluciones implementadas. Un enfoque proactivo hacia la seguridad es fundamental para minimizar el riesgo de ataques y proteger la información sensible de la organización.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio25" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio25" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio25" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio25" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio25" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-26">
+                                            <input id="pregunta_26" type="hidden" value="26" />
                                             <h2 class="quiz-question">26. ¿Cómo se contienen los incidentes de la seguridad de la información?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q26"> Los incidentes de seguridad de la información no se pueden contener por diversos factores como financieros o por falta de persona en la empresa,</label>
-                                                <label><input type="radio" name="q26"> Para contener los incidentes de seguridad de la información, no es necesario identificar la fuente del incidente. Solamente mapeando los incidentes son suficiente para implementar medidas de respuesta contra ellos.</label>
-                                                <label><input type="radio" name="q26"> Para contener los incidentes de seguridad de la información, es necesario identificar y aislar la fuente del incidente, detener la propagación del mismo y proteger los datos y sistemas afectados. </label>
-                                                <label><input type="radio" name="q26"> Para contener los incidentes de seguridad de la información, es necesario implementar de medidas de respuesta a incidentes, como la aplicación de parches, la eliminación de malware, el restablecimiento de sistemas y la comunicación clara con los afectados.</label>
-                                                <label><input type="radio" name="q26"> Para contener los incidentes de seguridad de la información, es necesario identificar y aislar la fuente del incidente, detener la propagación del mismo y proteger los datos y sistemas afectados. Esto se logra mediante la implementación de medidas de respuesta a incidentes, como la aplicación de parches, la eliminación de malware, el restablecimiento de sistemas y la comunicación clara con los afectados.</label>
+                                                <label><input type="radio" name="q26" value="1" id="respuesta_126" onclick="deseleccionarRadio(event)"> Los incidentes de seguridad de la información no se pueden contener por diversos factores como financieros o por falta de persona en la empresa,</label>
+                                                <label><input type="radio" name="q26" value="2" id="respuesta_127" onclick="deseleccionarRadio(event)"> Para contener los incidentes de seguridad de la información, no es necesario identificar la fuente del incidente. Solamente mapeando los incidentes son suficiente para implementar medidas de respuesta contra ellos.</label>
+                                                <label><input type="radio" name="q26" value="3" id="respuesta_128" onclick="deseleccionarRadio(event)"> Para contener los incidentes de seguridad de la información, es necesario identificar y aislar la fuente del incidente, detener la propagación del mismo y proteger los datos y sistemas afectados. </label>
+                                                <label><input type="radio" name="q26" value="4" id="respuesta_129" onclick="deseleccionarRadio(event)"> Para contener los incidentes de seguridad de la información, es necesario implementar de medidas de respuesta a incidentes, como la aplicación de parches, la eliminación de malware, el restablecimiento de sistemas y la comunicación clara con los afectados.</label>
+                                                <label><input type="radio" name="q26" value="5" id="respuesta_130" onclick="deseleccionarRadio(event)"> Para contener los incidentes de seguridad de la información, es necesario identificar y aislar la fuente del incidente, detener la propagación del mismo y proteger los datos y sistemas afectados. Esto se logra mediante la implementación de medidas de respuesta a incidentes, como la aplicación de parches, la eliminación de malware, el restablecimiento de sistemas y la comunicación clara con los afectados.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio26" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio26" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio26" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio26" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio26" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-27">
+                                            <input id="pregunta_27" type="hidden" value="27" />
                                             <h2 class="quiz-question">27. ¿Cómo se mitigan los incidentes de la seguridad de la información?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q27"> Los incidentes de seguridad de la información no se pueden mitigar por diversos factores como financieros o por falta de persona en la empresa,</label>
-                                                <label><input type="radio" name="q27"> Los incidentes de seguridad de la información solamente se pueden mitigar en base a los recursos que presenta la compañía. En caso de presentarse un incidente que no se pueda mitigar, solamente queda aceptar el riesgo.</label>
-                                                <label><input type="radio" name="q27"> Los incidentes de seguridad de la información solamente se pueden mitigar mediante la implementación de medidas preventivas, como la configuración de la seguridad de los sistemas y la educación de los empleados.</label>
-                                                <label><input type="radio" name="q27"> Los incidentes de seguridad de la información se pueden mitigar mediante la identificación y eliminación de la amenaza, la recuperación de datos y la mejora de las medidas de seguridad para prevenir futuros incidentes.</label>
-                                                <label><input type="radio" name="q27"> Los incidentes de seguridad de la información se pueden mitigar mediante la implementación de medidas preventivas, como la configuración de la seguridad de los sistemas y la educación de los empleados, y mediante la implementación de medidas de respuesta a incidentes, como la identificación y eliminación de la amenaza, la recuperación de datos y la mejora de las medidas de seguridad para prevenir futuros incidentes.</label>
+                                                <label><input type="radio" name="q27" value="1" id="respuesta_131" onclick="deseleccionarRadio(event)"> Los incidentes de seguridad de la información no se pueden mitigar por diversos factores como financieros o por falta de persona en la empresa,</label>
+                                                <label><input type="radio" name="q27" value="2" id="respuesta_132" onclick="deseleccionarRadio(event)"> Los incidentes de seguridad de la información solamente se pueden mitigar en base a los recursos que presenta la compañía. En caso de presentarse un incidente que no se pueda mitigar, solamente queda aceptar el riesgo.</label>
+                                                <label><input type="radio" name="q27" value="3" id="respuesta_133" onclick="deseleccionarRadio(event)"> Los incidentes de seguridad de la información solamente se pueden mitigar mediante la implementación de medidas preventivas, como la configuración de la seguridad de los sistemas y la educación de los empleados.</label>
+                                                <label><input type="radio" name="q27" value="4" id="respuesta_134" onclick="deseleccionarRadio(event)"> Los incidentes de seguridad de la información se pueden mitigar mediante la identificación y eliminación de la amenaza, la recuperación de datos y la mejora de las medidas de seguridad para prevenir futuros incidentes.</label>
+                                                <label><input type="radio" name="q27" value="5" id="respuesta_135" onclick="deseleccionarRadio(event)"> Los incidentes de seguridad de la información se pueden mitigar mediante la implementación de medidas preventivas, como la configuración de la seguridad de los sistemas y la educación de los empleados, y mediante la implementación de medidas de respuesta a incidentes, como la identificación y eliminación de la amenaza, la recuperación de datos y la mejora de las medidas de seguridad para prevenir futuros incidentes.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio27" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio27" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio27" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio27" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio27" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-28">
+                                            <input id="pregunta_28" type="hidden" value="28" />
                                             <h2 class="quiz-question">28. ¿Qué acciones realiza si se encuentran vulnerabilidades dentro de la seguridad de la información?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q28"> Los factores internos de la empresa no permiten mapear las vulneranbilidades que se presentan.</label>
-                                                <label><input type="radio" name="q28"> Las acciones que toman los equipos de seguridad de información son primero evaluan si la vulnerabilidad afecta a los propositos de la compañía para ver si se realizan pruebas de seguridad para proteger los sistemas que solamente afecte.</label>
-                                                <label><input type="radio" name="q28"> Las acciones que toman los equipos de seguridad de información son que evalúan la gravedad y priorizan las vulnerabilidades, implementan parches y actualizaciones de software, configuran la seguridad y realizan pruebas de seguridad para proteger los sistemas y datos de una organización. </label>
-                                                <label><input type="radio" name="q28"> Las acciones que toman los equipos de seguridad de información son que evalúan la gravedad y priorizan las vulnerabilidades, implementan parches y actualizaciones de software, configuran la seguridad y realizan pruebas de seguridad para proteger los sistemas y datos de una organización. Estas medidas tienen como objetivo solucionar las vulnerabilidades y que no se presenten más adelante.</label>
-                                                <label><input type="radio" name="q28"> Las acciones que toman los equipos de seguridad de información son que evalúan la gravedad y priorizan las vulnerabilidades, implementan parches y actualizaciones de software, configuran la seguridad y realizan pruebas de seguridad para proteger los sistemas y datos de una organización. Estas medidas tienen como objetivo solucionar las vulnerabilidades y prevenir futuras amenazas a la integridad, disponibilidad y confidencialidad de los sistemas y datos.</label>
+                                                <label><input type="radio" name="q28" value="1" id="respuesta_136" onclick="deseleccionarRadio(event)"> Los factores internos de la empresa no permiten mapear las vulneranbilidades que se presentan.</label>
+                                                <label><input type="radio" name="q28" value="2" id="respuesta_137" onclick="deseleccionarRadio(event)"> Las acciones que toman los equipos de seguridad de información son primero evaluan si la vulnerabilidad afecta a los propositos de la compañía para ver si se realizan pruebas de seguridad para proteger los sistemas que solamente afecte.</label>
+                                                <label><input type="radio" name="q28" value="3" id="respuesta_138" onclick="deseleccionarRadio(event)"> Las acciones que toman los equipos de seguridad de información son que evalúan la gravedad y priorizan las vulnerabilidades, implementan parches y actualizaciones de software, configuran la seguridad y realizan pruebas de seguridad para proteger los sistemas y datos de una organización. </label>
+                                                <label><input type="radio" name="q28" value="4" id="respuesta_139" onclick="deseleccionarRadio(event)"> Las acciones que toman los equipos de seguridad de información son que evalúan la gravedad y priorizan las vulnerabilidades, implementan parches y actualizaciones de software, configuran la seguridad y realizan pruebas de seguridad para proteger los sistemas y datos de una organización. Estas medidas tienen como objetivo solucionar las vulnerabilidades y que no se presenten más adelante.</label>
+                                                <label><input type="radio" name="q28" value="5" id="respuesta_140" onclick="deseleccionarRadio(event)"> Las acciones que toman los equipos de seguridad de información son que evalúan la gravedad y priorizan las vulnerabilidades, implementan parches y actualizaciones de software, configuran la seguridad y realizan pruebas de seguridad para proteger los sistemas y datos de una organización. Estas medidas tienen como objetivo solucionar las vulnerabilidades y prevenir futuras amenazas a la integridad, disponibilidad y confidencialidad de los sistemas y datos.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio28" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio28" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio28" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio28" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio28" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-29">
+                                            <input id="pregunta_29" type="hidden" value="29" />
                                             <h2 class="quiz-question">29. ¿Se realiza un proceso de lecciones aprendidas por los planes de respuesta?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q29"> La compañía no presenta un plan de respuesta, por falta de recursos financieros o por personal.</label>
-                                                <label><input type="radio" name="q29"> La compañía presenta planes de recuperacion, pero no se tiene un mapeo de las lecciones aprendidas, por falta de recursos o personal. Los planes de respuesta debe ser evaluados constantemente debido a que siempre existen posibles riesgos que puedan afectar. </label>
-                                                <label><input type="radio" name="q29"> Los planes de respuesta apoyan en la evaluación la naturaleza del caso y apoyan a identificar posibles implicaciones. Es por ello que las lecciones aprendidas solamente se aprenden de los errores que se comenten. Así se genera un mejor reconocimiento de los riesgos que han afectado. Los planes de respuesta debe ser evaluados constantemente debido a que siempre existen posibles riesgos que puedan afectar. </label>
-                                                <label><input type="radio" name="q29"> Los planes de respuesta apoyan en la evaluación la naturaleza del caso y apoyan a identificar posibles implicaciones. Es por ello que las lecciones aprendidas de un plan de respuesta no solamente son las recopilaciones de errores, sino la información util que apoya en el autoaprendizaje de los posibles riesgos que se emplean. Los planes de respuesta debe ser evaluados anualmente debido a que siempre existen posibles riesgos que puedan afectar. </label>
-                                                <label><input type="radio" name="q29"> Los planes de respuesta apoyan en la evaluación la naturaleza del caso y apoyan a identificar posibles implicaciones. Es por ello que las lecciones aprendidas de un plan de respuesta no solamente son las recopilaciones de errores, sino la información util que apoya en el autoaprendizaje de los posibles riesgos que se emplean. Los planes de respuesta debe ser evaluados constantemente debido a que siempre existen posibles riesgos que puedan afectar. </label>
+                                                <label><input type="radio" name="q29" value="1" id="respuesta_141" onclick="deseleccionarRadio(event)"> La compañía no presenta un plan de respuesta, por falta de recursos financieros o por personal.</label>
+                                                <label><input type="radio" name="q29" value="2" id="respuesta_142" onclick="deseleccionarRadio(event)"> La compañía presenta planes de recuperacion, pero no se tiene un mapeo de las lecciones aprendidas, por falta de recursos o personal. Los planes de respuesta debe ser evaluados constantemente debido a que siempre existen posibles riesgos que puedan afectar. </label>
+                                                <label><input type="radio" name="q29" value="3" id="respuesta_143" onclick="deseleccionarRadio(event)"> Los planes de respuesta apoyan en la evaluación la naturaleza del caso y apoyan a identificar posibles implicaciones. Es por ello que las lecciones aprendidas solamente se aprenden de los errores que se comenten. Así se genera un mejor reconocimiento de los riesgos que han afectado. Los planes de respuesta debe ser evaluados constantemente debido a que siempre existen posibles riesgos que puedan afectar. </label>
+                                                <label><input type="radio" name="q29" value="4" id="respuesta_144" onclick="deseleccionarRadio(event)"> Los planes de respuesta apoyan en la evaluación la naturaleza del caso y apoyan a identificar posibles implicaciones. Es por ello que las lecciones aprendidas de un plan de respuesta no solamente son las recopilaciones de errores, sino la información util que apoya en el autoaprendizaje de los posibles riesgos que se emplean. Los planes de respuesta debe ser evaluados anualmente debido a que siempre existen posibles riesgos que puedan afectar. </label>
+                                                <label><input type="radio" name="q29" value="5" id="respuesta_145" onclick="deseleccionarRadio(event)"> Los planes de respuesta apoyan en la evaluación la naturaleza del caso y apoyan a identificar posibles implicaciones. Es por ello que las lecciones aprendidas de un plan de respuesta no solamente son las recopilaciones de errores, sino la información util que apoya en el autoaprendizaje de los posibles riesgos que se emplean. Los planes de respuesta debe ser evaluados constantemente debido a que siempre existen posibles riesgos que puedan afectar. </label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio29" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio29" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio29" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio29" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio29" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <br />
@@ -614,31 +1036,58 @@
                                     <div class="transition" id="Recuperar_Quiz">
                                         RECUPERAR
                                         <div class="quiz-box quiz-30">
+                                            <input id="pregunta_30" type="hidden" value="30" />
                                             <h2 class="quiz-question">30. ¿Cómo son los pasos a seguir para la ejecución de un plan de recuperación?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q30"> La compañía no presenta un plan de recuperación, por falta de recursos financieros o por personal.</label>
-                                                <label><input type="radio" name="q30"> No existe un orden en especifico para la ejecución de los planes de recuperación, por ello que todos los planes de recuperación mapean diferentes campos protección y recuperación de datos.</label>
-                                                <label><input type="radio" name="q30"> No existe un orden en especifico para la ejecución de los planes de recuperación, pero es importante que dentro de estos sea mapeado el indcidente por el cual se creo el plan de recuperación y las medidas a implementar para informar acerca de este.</label>
-                                                <label><input type="radio" name="q30"> Los planes de recuperación de seguridad cibernética implican una serie de pasos esenciales para recuperar los datos afectados y proteger los sistemas en el futuro. Estos pasos incluyen la identificación del incidente, la evaluación del impacto, la contención del incidente, la recopilación de datos, el análisis de la causa, la restauración de los datos, la verificación de la restauración, la implementación de medidas preventivas y la informe del incidente a las partes interesadas y autoridades. El objetivo es prevenir futuros incidentes y proteger los sistemas y datos de la organización.</label>
-                                                <label><input type="radio" name="q30"> Los pasos a seguir para la ejecución correcta de los planes de recuperación son los: Identificar el incidente, evaluar el impacto, contener el incidente, recopilar datos, analizar la causa, restaurar los datos, verificar la restauración, implementar medidas preventivas e informar del incidente. Todo ello con el objetivo de recuperar los datos afectados y mejorar la protección de los sistemas en el futuro.</label>
+                                                <label><input type="radio" name="q30" value="1" id="respuesta_146" onclick="deseleccionarRadio(event)"> La compañía no presenta un plan de recuperación, por falta de recursos financieros o por personal.</label>
+                                                <label><input type="radio" name="q30" value="2" id="respuesta_147" onclick="deseleccionarRadio(event)"> No existe un orden en especifico para la ejecución de los planes de recuperación, por ello que todos los planes de recuperación mapean diferentes campos protección y recuperación de datos.</label>
+                                                <label><input type="radio" name="q30" value="3" id="respuesta_148" onclick="deseleccionarRadio(event)"> No existe un orden en especifico para la ejecución de los planes de recuperación, pero es importante que dentro de estos sea mapeado el indcidente por el cual se creo el plan de recuperación y las medidas a implementar para informar acerca de este.</label>
+                                                <label><input type="radio" name="q30" value="4" id="respuesta_149" onclick="deseleccionarRadio(event)"> Los planes de recuperación de seguridad cibernética implican una serie de pasos esenciales para recuperar los datos afectados y proteger los sistemas en el futuro. Estos pasos incluyen la identificación del incidente, la evaluación del impacto, la contención del incidente, la recopilación de datos, el análisis de la causa, la restauración de los datos, la verificación de la restauración, la implementación de medidas preventivas y la informe del incidente a las partes interesadas y autoridades. El objetivo es prevenir futuros incidentes y proteger los sistemas y datos de la organización.</label>
+                                                <label><input type="radio" name="q30" value="5" id="respuesta_150" onclick="deseleccionarRadio(event)"> Los pasos a seguir para la ejecución correcta de los planes de recuperación son los: Identificar el incidente, evaluar el impacto, contener el incidente, recopilar datos, analizar la causa, restaurar los datos, verificar la restauración, implementar medidas preventivas e informar del incidente. Todo ello con el objetivo de recuperar los datos afectados y mejorar la protección de los sistemas en el futuro.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio30" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio30" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio30" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio30" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio30" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <div class="quiz-box quiz-31">
+                                            <input id="pregunta_31" type="hidden" value="31" />
                                             <h2 class="quiz-question">31. ¿Cómo se efectuan las estrategias se recuperación?</h2>
                                             <span class="quiz-answer">
-                                                <label><input type="radio" name="q31"> La compañía no afectua planes de recuperación por falta de personal o recursos financieros.</label>
-                                                <label><input type="radio" name="q31"> Las estrategias de recuperación en seguridad de la información buscan recuperar los sistemas y datos después de cada perdida de datos. Lo que se emplea en estos casos son la restauración de los  backuops que presenta la empresa.</label>
-                                                <label><input type="radio" name="q31"> Las estrategias de recuperación en seguridad de la información buscan recuperar los sistemas y datos después de un incidente de seguridad mediante medidas como la respuesta a incidentes y riesgos que se presentan.</label>
-                                                <label><input type="radio" name="q31"> Las estrategias de recuperación en seguridad de la información buscan recuperar los sistemas y datos después de un incidente de seguridad mediante medidas como la respuesta a incidentes, copias de seguridad, análisis de causa raíz y mejoras regularmente.</label>
-                                                <label><input type="radio" name="q31"> Las estrategias de recuperación en seguridad de la información buscan recuperar los sistemas y datos después de un incidente de seguridad mediante medidas como la respuesta a incidentes, copias de seguridad, análisis de causa raíz, planes de continuidad del negocio y pruebas regulares, y es importante actualizarlas y mejorarlas regularmente.</label>
+                                                <label><input type="radio" name="q31" value="1" id="respuesta_151" onclick="deseleccionarRadio(event)"> La compañía no afectua planes de recuperación por falta de personal o recursos financieros.</label>
+                                                <label><input type="radio" name="q31" value="2" id="respuesta_152" onclick="deseleccionarRadio(event)"> Las estrategias de recuperación en seguridad de la información buscan recuperar los sistemas y datos después de cada perdida de datos. Lo que se emplea en estos casos son la restauración de los  backuops que presenta la empresa.</label>
+                                                <label><input type="radio" name="q31" value="3" id="respuesta_153" onclick="deseleccionarRadio(event)"> Las estrategias de recuperación en seguridad de la información buscan recuperar los sistemas y datos después de un incidente de seguridad mediante medidas como la respuesta a incidentes y riesgos que se presentan.</label>
+                                                <label><input type="radio" name="q31" value="4" id="respuesta_154" onclick="deseleccionarRadio(event)"> Las estrategias de recuperación en seguridad de la información buscan recuperar los sistemas y datos después de un incidente de seguridad mediante medidas como la respuesta a incidentes, copias de seguridad, análisis de causa raíz y mejoras regularmente.</label>
+                                                <label><input type="radio" name="q31" value="5" id="respuesta_155" onclick="deseleccionarRadio(event)"> Las estrategias de recuperación en seguridad de la información buscan recuperar los sistemas y datos después de un incidente de seguridad mediante medidas como la respuesta a incidentes, copias de seguridad, análisis de causa raíz, planes de continuidad del negocio y pruebas regulares, y es importante actualizarlas y mejorarlas regularmente.</label>
                                             </span>
+                                            <br />
+                                            <!-- Casillas de verificación -->
+                                            <h5 style="text-align: center;">
+                                                ¿En que nivel te gustaría estar?
+                                            </h5>
+                                            <div class="radio-group">
+                                                <label><input type="radio" name="radio31" value="1"> Inicial</label>
+                                                <label><input type="radio" name="radio31" value="2"> Optimizado</label>
+                                                <label><input type="radio" name="radio31" value="3"> Definido</label>
+                                                <label><input type="radio" name="radio31" value="4"> Predecible</label>
+                                                <label><input type="radio" name="radio31" value="5"> Optimizado</label>
+                                            </div>
                                         </div>
 
                                         <br />
                                         <div style="text-align: center;">
+                                            <input id="txtid" type="hidden" value="@Session["idCliente"]" />
                                             <button class="custom-button" id="volverARecuperarQuiz">Atras</button>
-                                            <button class="custom-button" id="mostrarFinalizar">Finalizar</button>
+                                            <button class="custom-button" id="mostrarFinalizar" onclick="finalizarCuestionario()">Finalizar</button>
                                         </div>
 
                                     </div>
@@ -893,6 +1342,171 @@
 
                 requestAnimationFrame(animation);
             }
+        }
+
+        var radioSeleccionado = null;
+
+        function deseleccionarRadio(event) {
+            var radio = event.target;
+
+            if (radioSeleccionado == radio) {
+                radio.checked = false;
+                radioSeleccionado = null;
+            } else {
+                radioSeleccionado = radio;
+            }
+        }
+
+        function validarSeleccion() {
+            var preguntasNoCompletadas = [];
+            var nivelesDeseadosNoCompletados = [];
+
+            for (var i = 1; i <= 31; i++) {
+                if (!$(`input[name=q${i}]:checked`).val()) {
+                    preguntasNoCompletadas.push(i);
+                }
+                if (!$(`input[name=radio${i}]:checked`).val()) {
+                    nivelesDeseadosNoCompletados.push(i);
+                }
+            }
+
+            return {
+                todasPreguntasCompletadas: preguntasNoCompletadas.length === 0,
+                todasNivelesDeseadosCompletados: nivelesDeseadosNoCompletados.length === 0,
+                preguntasNoCompletadas: preguntasNoCompletadas,
+                nivelesDeseadosNoCompletados: nivelesDeseadosNoCompletados
+            };
+        }
+
+        function finalizarCuestionario() {
+            var validacion = validarSeleccion();
+
+            if (!validacion.todasPreguntasCompletadas || !validacion.todasNivelesDeseadosCompletados) {
+                var mensaje = "";
+
+                if (!validacion.todasPreguntasCompletadas) {
+                    mensaje += "Faltan por marcar las siguientes Preguntas: " + validacion.preguntasNoCompletadas.join(', ') + "<br>";
+                }
+                if (!validacion.todasNivelesDeseadosCompletados) {
+                    mensaje += "Faltan por marcar los Niveles Deseados de las siguientes Preguntas: " + validacion.nivelesDeseadosNoCompletados.join(', ');
+                }
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Por favor, completa todas las preguntas y niveles deseados',
+                    html: mensaje,
+                    confirmButtonText: 'Aceptar',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: '¿Has revisado todas las preguntas correctamente?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí',
+                cancelButtonText: 'No',
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    guardarResultados();
+                }
+            });
+        }
+
+        function validarNivelDeseado(pregunta) {
+            var respuestaValor = parseInt($(`input[name=q${pregunta}]:checked`).val());
+            var nivelDeseadoValor = parseInt($(`input[name=radio${pregunta}]:checked`).val());
+
+            if (nivelDeseadoValor < respuestaValor) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: `El nivel deseado para la pregunta ${pregunta} debe ser mayor`,
+                    confirmButtonText: 'Aceptar',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                }).then(() => {
+                    // Desmarca la opción seleccionada del estado deseado para la pregunta en cuestión
+                    $(`input[name='radio${pregunta}']:checked`).prop('checked', false);
+                });
+                return false;
+            }
+            return true;
+        }
+
+        $(document).ready(function () {
+
+            for (var i = 1; i <= 31; i++) {
+                $(`input[name=radio${i}]`).on('change', function () {
+                    var pregunta = parseInt($(this).attr("name").replace("radio", ""));
+                    validarNivelDeseado(pregunta);
+                });
+            }
+        });
+
+
+        function guardarResultados() {
+            debugger;
+            var idResultado = parseInt($('#txtid').val());
+
+            var preguntas = [];
+            var totalPreguntas = 31;
+
+            for (var i = 1; i <= totalPreguntas; i++) {
+                preguntas.push(i);
+            }
+
+            var datos = [];
+
+            preguntas.forEach(function (pregunta) {
+                debugger;
+                var idPregunta = $("#pregunta_" + pregunta).val();
+                var respuestaSeleccionada = $("input[name='q" + pregunta + "']:checked");
+                var idRptaPreguntas = respuestaSeleccionada.attr("id").replace("respuesta_", "");
+                var idPuntaje_Actual = respuestaSeleccionada.val();
+                var idPuntaje_Deseado = $("input[name='radio" + pregunta + "']:checked").val();
+
+                datos.push({
+                    idPregunta: idPregunta,
+                    idRptaPreguntas: idRptaPreguntas,
+                    idPuntaje_Actual: idPuntaje_Actual,
+                    idPuntaje_Deseado: idPuntaje_Deseado
+                });
+            });
+
+            $.ajax({
+                url: '@Url.Action("GuardarResultado", "Cuestionario")', // Asegúrate de actualizar esto con la ruta correcta
+                type: "POST",
+                dataType: "json",
+                /*contentType: "application/json; charset=utf-8",*/
+                data: {
+                    idResultado: idResultado,
+                    datos: datos
+                },
+                success: function (response) {
+                    // Aquí puedes manejar la respuesta de tu controlador, por ejemplo, mostrar un mensaje
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Evaluación completada con éxito',
+                        html: 'Haz clic <a href="https://localhost:44300" target="_blank" >aquí</a> e ingresa con tu usuario y contraseña para poder ver tus resultados.',
+                        confirmButtonText: 'Aceptar',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Redirige a la página que desees cuando el usuario presione "Aceptar"
+                            window.location.href = '@Url.Action("Index", "Home")';
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    // Aquí puedes manejar los errores en la solicitud
+                    alert("Error al guardar los resultados: " + error);
+                }
+            });
         }
 
 

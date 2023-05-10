@@ -1,48 +1,228 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+
+
 }
 
-<h1 class="mt-4">Dashboard</h1>
+<h1 class="mt-4">Reportes</h1>
 <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item active">Dashboard</li>
+    <li class="breadcrumb-item active">Reportes</li>
 </ol>
-<div class="row">
-    <div class="col-xl-4 col-md-6">
-        <div class="card bg-primary text-white mb-4">
-            <div class="card-body">Usuarios Totales</div>
-            @*<div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="#">View Details</a>
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                </div>*@
-            <div class="card-footer d-flex align-items-center justify-content-between">
-                <h3>6</h3>
-            </div>
+@{
+    if (Convert.ToInt32(Session["rolUsuario"]) == 1)
+    {
 
-        </div>
-    </div>
-    @*<div class="col-xl-3 col-md-6">
-            <div class="card bg-warning text-white mb-4">
-                <div class="card-body">Warning Card</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="#">View Details</a>
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+
+        @*<div class="row">
+                <div class="col-xl-4 col-md-6">
+                    <div class="card bg-primary text-white mb-4">
+                        <div class="card-body">Usuarios Totales</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <h3>6</h3>
+                        </div>
+
+                    </div>
                 </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="card bg-success text-white mb-4">
+                        <div class="card-body">Usuarios Activos</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <h3>4</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="card bg-danger text-white mb-4">
+                        <div class="card-body">Usuarios Inactivos</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <h3>2</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-users"></i> Lista de Reportes
             </div>
-        </div>*@
-    <div class="col-xl-4 col-md-6">
-        <div class="card bg-success text-white mb-4">
-            <div class="card-body">Usuarios Activos</div>
-            <div class="card-footer d-flex align-items-center justify-content-between">
-                <h3>4</h3>
+            <div class="card-body">
+
+                <form>
+
+                    <div class="row align-items-end">
+
+                        <div class="col-sm-2">
+                            <div class="col-sm-12">
+                                <label class="form-label">Fecha Inicio</label>
+                                <input class="form-control" type="text" id="dateInicio" name="dateInicio" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="col-sm-12">
+                                <label class="form-label">Fecha Final</label>
+                                <input class="form-control" type="text" id="dateFinal" name="dateFinal" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="col-sm-12">
+                                <label class="form-label">Codigo</label>
+                                <input class="form-control" type="text" id="txtcodigo" name="codigo" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="d-grid mb-2">
+                                <button class="btn btn-primary" type="button" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="d-grid mb-2">
+                                <button class="btn btn-success" type="submit"><i class="fas fa-file-excel"></i> Exportar</button>
+                            </div>
+                        </div>
+
+                        <br />
+                    </div>
+
+                </form>
+
+                <hr />
+
+                <div class="row">
+
+                    <div class="col-sm-12">
+
+                        <table id="tablaReporte" class="display cell-border" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Nombres y Apellidos</th>
+                                    <th>Email</th>
+                                    <th>Codigo</th>
+                                    <th>Fecha</th>
+                                    <th>Reportes</th>
+                                </tr>
+                            </thead>
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+
             </div>
         </div>
-    </div>
-    <div class="col-xl-4 col-md-6">
-        <div class="card bg-danger text-white mb-4">
-            <div class="card-body">Usuarios Inactivos</div>
-            <div class="card-footer d-flex align-items-center justify-content-between">
-                <h3>2</h3>
-            </div>
-        </div>
-    </div>
-</div>
+    }
+    else
+    {
+        <h1>Hola</h1>
+    }
+}
+
+@section scripts{
+
+    <script>
+
+        $(document).ready(function () {
+
+            var tabladata;
+            var filaSeleccionada;
+
+            $(function () {
+                $("#dateInicio").datepicker({
+                    dateFormat: 'dd/mm/yy',
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: "1900:2100",
+                }).datepicker('setDate', new Date());
+
+                $("#dateFinal").datepicker({
+                    dateFormat: 'dd/mm/yy',
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: "1900:2100",
+                }).datepicker('setDate', new Date());
+            });
+            debugger;
+            /* ///////////////// DATOS PARA LA CARGA DEL DATA TABLE ///////////////// */
+            tabladata = $('#tablaReporte').DataTable({
+                responsive: true,
+                ordering: false,
+                "ajax": {
+                    "url": '@Url.Action("ListarResumen", "Home")',
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [ //data es el nombre de la propiedad del objeto que se recibe en el controlador y se envia al cliente en formato json
+                    {
+                        "data": null, "render": function (data, type, row) {
+                            return data.oResultado.oUsuario.nombres + ' ' + data.oResultado.oUsuario.apellidos;
+                        }, "width": "80px", "className": "text-center"
+                    },
+                    { "data": "oResultado.oUsuario.email", "width": "80px", "className": "text-center" },
+                    { "data": "codigo", "width": "80px", "className": "text-center" },
+                    { "data": "fechaResumen", "width": "100px", "className": "text-center" },
+                    {
+                        "defaultContent": '<button type="button" class="btn btn-success btn-sm btn-excel"><i class="fas fa-file-excel"></i></button>' + ' ' +
+                            '<button type="button" class="btn btn-danger btn-sm ms-2 btn-pdf"><i class="fas fa-file-pdf"></i></button>',
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "50px"
+                        , "className": "text-center"
+                    }
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
+                }
+            });
+
+            $('#tablaReporte tbody').on('click', '.btn-excel', function () {
+                debugger;
+                var data = tabladata.row($(this).parents('tr')).data();
+                var codigo = data.codigo;
+
+                // Envía el código al controlador a través de una solicitud AJAX
+                //$.ajax({
+                //    url: 'Url.Action("ReporteExcel_Cliente", "Home")', // Reemplaza "AccionControlador" y "Controlador" con los nombres correspondientes
+                //    type: 'POST',
+                //    data: { 'codigo': codigo },
+                //    success: function (resultado) {
+                //        // Maneja la respuesta del controlador aquí, por ejemplo:
+                //        console.log(resultado);
+                //    },
+                //    error: function (error) {
+                //        // Maneja los errores aquí, por ejemplo:
+                //        console.error(error);
+                //    }
+                //});
+
+                // Crear un formulario dinámicamente para enviar la solicitud POST
+                var form = document.createElement("form");
+                form.method = "POST";
+                form.action = '@Url.Action("ReporteExcel_Cliente", "Home")';
+
+                // Agregar el campo "codigo" al formulario
+                var input = document.createElement("input");
+                input.type = "hidden";
+                input.name = "codigo";
+                input.value = codigo;
+                form.appendChild(input);
+
+                // Agregar el formulario al documento y enviarlo
+                document.body.appendChild(form);
+                form.submit();
+
+                // Eliminar el formulario del documento
+                document.body.removeChild(form);
+
+            });
+
+        });
+
+
+    </script>
+
+}
