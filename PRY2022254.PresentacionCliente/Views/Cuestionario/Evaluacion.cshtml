@@ -1418,8 +1418,25 @@
         }
 
         function validarNivelDeseado(pregunta) {
-            var respuestaValor = parseInt($(`input[name=q${pregunta}]:checked`).val());
-            var nivelDeseadoValor = parseInt($(`input[name=radio${pregunta}]:checked`).val());
+            var respuestaSeleccionada = $(`input[name=q${pregunta}]:checked`);
+            var nivelDeseado = $(`input[name=radio${pregunta}]:checked`);
+
+            if (!respuestaSeleccionada.length) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: `Por favor, selecciona una respuesta para la pregunta ${pregunta} antes de seleccionar el nivel deseado`,
+                    confirmButtonText: 'Aceptar',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                }).then(() => {
+                    // Desmarca la opción seleccionada del estado deseado para la pregunta en cuestión
+                    nivelDeseado.prop('checked', false);
+                });
+                return false;
+            }
+
+            var respuestaValor = parseInt(respuestaSeleccionada.val());
+            var nivelDeseadoValor = parseInt(nivelDeseado.val());
 
             if (nivelDeseadoValor < respuestaValor) {
                 Swal.fire({
@@ -1430,7 +1447,7 @@
                     allowEscapeKey: false
                 }).then(() => {
                     // Desmarca la opción seleccionada del estado deseado para la pregunta en cuestión
-                    $(`input[name='radio${pregunta}']:checked`).prop('checked', false);
+                    nivelDeseado.prop('checked', false);
                 });
                 return false;
             }
