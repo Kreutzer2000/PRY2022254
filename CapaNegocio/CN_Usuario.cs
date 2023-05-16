@@ -199,5 +199,60 @@ namespace CapaNegocio
             
         }
 
+        /* FUNCION PARA ENVIAR CORREO A CORREO DEL PROYECTO */
+        public bool EnviarContacto_CorreoProyecto(string name, string correo, string asunto, string mensaje, out string Mensaje)
+        {
+            Mensaje = string.Empty;
+            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+            {
+                Mensaje = "El nombre y apellido no pueden ser vacío";
+            }
+            else if (string.IsNullOrEmpty(correo) || string.IsNullOrWhiteSpace(correo))
+            {
+                Mensaje = "El correo no puede estar vacío";
+            }
+            else if (string.IsNullOrEmpty(asunto) || string.IsNullOrWhiteSpace(asunto))
+            {
+                Mensaje = "El asunto no puede estar vacío";
+            }
+            else if (string.IsNullOrEmpty(mensaje) || string.IsNullOrWhiteSpace(mensaje))
+            {
+                Mensaje = "El mensaje no puede estar vacío";
+            }
+
+            if (string.IsNullOrEmpty(Mensaje))
+            {
+                //string clave = CN_Recursos.GenerarClave();
+
+                //asunto = "Creación de Cuenta";
+
+                string mensajeCorreo = "<h1 style=\"color: #5e9ca0;\">Mensaje de !name!</h1></br>" +
+                    "<p>!mensaje!</p>" +
+                    "<p>Atte.<br />" +
+                    "!name!.<br /><a href=\"!correo!\">!correo!</a></p>";
+
+                //mensajeCorreo = mensajeCorreo.Replace("!clave!", clave);
+                mensajeCorreo = mensajeCorreo.Replace("!correo!", correo);
+                mensajeCorreo = mensajeCorreo.Replace("!name!", name);
+                mensajeCorreo = mensajeCorreo.Replace("!mensaje!", mensaje);
+
+                bool respuesta = CN_Recursos.EnviarCorreo_Contacto(correo, asunto, mensajeCorreo);
+
+                if (respuesta)
+                {
+                    return true;
+                }
+                else
+                {
+                    Mensaje = "No se pudo enviar el correo";
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

@@ -100,6 +100,7 @@ namespace PRY2022254.PresentacionCliente.Controllers
             public int IdRptaPreguntas { get; set; }
             public int IdPuntaje_Actual { get; set; }
             public int IdPuntaje_Deseado { get; set; }
+            public int IdUrgencia { get; set; }
         }
 
         [HttpPost]
@@ -124,9 +125,10 @@ namespace PRY2022254.PresentacionCliente.Controllers
                     resumen.IdPregunta = datos[i].IdPregunta;
                     resumen.IdRptaPreguntas = datos[i].IdRptaPreguntas;
                     resumen.IdPuntaje_Deseado = datos[i].IdPuntaje_Deseado;
+                    resumen.IdUrgencia = datos[i].IdUrgencia;
 
                     resultado = new CN_Resumen().RegistrarResumen(ultimo_registro.codigo, ultimo_registro.idResultado, resumen.IdPuntaje_Actual,
-                        resumen.IdPregunta, resumen.IdRptaPreguntas, resumen.IdPuntaje_Deseado,
+                        resumen.IdPregunta, resumen.IdRptaPreguntas, resumen.IdPuntaje_Deseado, resumen.IdUrgencia,
                         out mensaje);
 
                     if (Convert.ToInt32(resultado) == 31)

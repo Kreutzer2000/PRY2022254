@@ -41,13 +41,14 @@
                     <div class="nav">
 
                         <div class="sb-sidenav-menu-heading">Resumen</div>
-                        <a class="nav-link" href="@Url.Action("Index","Home")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Dashboard
-                        </a>
+
                         @{
                             if (Convert.ToInt32(Session["rolUsuario"]) == 1)
                             {
+                                <a class="nav-link" href="@Url.Action("Index","Home")">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                    Dashboard
+                                </a>
                                 <a class="nav-link" href="@Url.Action("Usuarios","Home")">
                                     <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                                     Usuarios
@@ -55,6 +56,10 @@
                             }
                             else
                             {
+                                <a class="nav-link" href="@Url.Action("Index","Home")">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                    Dashboard
+                                </a>
                                 <a class="nav-link" href="@Url.Action("Usuarios","Home")" hidden="hidden">
                                     <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                                     Usuarios
@@ -64,14 +69,14 @@
 
 
                         @*<div class="sb-sidenav-menu-heading">Addons</div>
-                            <a class="nav-link" href="charts.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts
-                            </a>
-                            <a class="nav-link" href="tables.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables
-                            </a>*@
+        <a class="nav-link" href="charts.html">
+            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+            Charts
+        </a>
+        <a class="nav-link" href="tables.html">
+            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+            Tables
+        </a>*@
 
                         <div class="sb-sidenav-menu-heading">Framework</div>
                         @{
@@ -84,7 +89,7 @@
                                 </a>
                                 <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="@Url.Action("Preguntas","Framework")">Preguntas</a>
+                                        @*<a class="nav-link" href="@Url.Action("Preguntas","Framework")">Preguntas</a>*@
                                         <a class="nav-link" href="@Url.Action("Respuestas","Framework")">Respuestas</a>
                                     </nav>
                                 </div>
@@ -98,7 +103,7 @@
                                 </a>
                                 <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion" hidden="hidden">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="@Url.Action("Preguntas","Framework")">Preguntas</a>
+                                        @*<a class="nav-link" href="@Url.Action("Preguntas","Framework")">Preguntas</a>*@
                                         <a class="nav-link" href="@Url.Action("Respuestas","Framework")">Respuestas</a>
                                     </nav>
                                 </div>

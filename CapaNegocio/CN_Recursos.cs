@@ -69,6 +69,38 @@ namespace CapaNegocio
             return resultado;
         }
 
+        //Envio de correo electronico PARA EL CONTACTO
+        public static bool EnviarCorreo_Contacto(string correo, string asunto, string mensaje)
+        {
+            bool resultado = false;
+
+            try
+            {
+                MailMessage mail = new MailMessage();
+                mail.To.Add("pry20220254.tp2@gmail.com");
+                mail.From = new MailAddress("pry20220254.tp2@gmail.com");
+                mail.Subject = asunto;
+                mail.Body = mensaje;
+                mail.IsBodyHtml = true;
+
+                var smtp = new SmtpClient()
+                {
+                    Credentials = new NetworkCredential("pry20220254.tp2@gmail.com", "wwlubymcmikhhktn"),
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true
+                };
+
+                smtp.Send(mail);
+                resultado = true;
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+            }
+            return resultado;
+        }
+
         //Convertir imagen a base64
         public static string ConvertirBase64(string ruta, out bool conversion)
         {

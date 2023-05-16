@@ -24,6 +24,15 @@ namespace PRY2022254.PresentacionCliente.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public ActionResult Contacto(string name, string correo, string asunto, string mensaje)
+        {
+            object resultado;
+            string Mensaje = string.Empty;
+
+            resultado = new CN_Usuario().EnviarContacto_CorreoProyecto(name, correo, asunto, mensaje, out Mensaje);
+            return RedirectToAction("Contact");
+        }
 
         [HttpPost]
         public JsonResult GuardarRespuesta(string correo, int ID, int PR, int DE, int RS, int RC)

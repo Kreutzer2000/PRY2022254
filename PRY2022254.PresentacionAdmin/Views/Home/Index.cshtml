@@ -11,36 +11,6 @@
 @{
     if (Convert.ToInt32(Session["rolUsuario"]) == 1)
     {
-
-
-        @*<div class="row">
-                <div class="col-xl-4 col-md-6">
-                    <div class="card bg-primary text-white mb-4">
-                        <div class="card-body">Usuarios Totales</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <h3>6</h3>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6">
-                    <div class="card bg-success text-white mb-4">
-                        <div class="card-body">Usuarios Activos</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <h3>4</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6">
-                    <div class="card bg-danger text-white mb-4">
-                        <div class="card-body">Usuarios Inactivos</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <h3>2</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>*@
-
         <div class="card">
             <div class="card-header">
                 <i class="fas fa-users"></i> Lista de Reportes
@@ -118,7 +88,80 @@
     }
     else
     {
-        <h1>Hola</h1>
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-users"></i> Lista de Reportes
+            </div>
+            <div class="card-body">
+
+                <form>
+
+                    <div class="row align-items-end">
+
+                        <div class="col-sm-2">
+                            <div class="col-sm-12">
+                                <label class="form-label">Fecha Inicio</label>
+                                <input class="form-control" type="text" id="dateInicio" name="dateInicio" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="col-sm-12">
+                                <label class="form-label">Fecha Final</label>
+                                <input class="form-control" type="text" id="dateFinal" name="dateFinal" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="col-sm-12">
+                                <label class="form-label">Codigo</label>
+                                <input class="form-control" type="text" id="txtcodigo" name="codigo" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="d-grid mb-2">
+                                <button class="btn btn-primary" type="button" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="d-grid mb-2">
+                                <button class="btn btn-success" type="submit"><i class="fas fa-file-excel"></i> Exportar</button>
+                            </div>
+                        </div>
+
+                        <br />
+                    </div>
+
+                </form>
+
+                <hr />
+
+                <div class="row">
+
+                    <div class="col-sm-12">
+
+                        <table id="tablaReporte" class="display cell-border" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Nombres y Apellidos</th>
+                                    <th>Email</th>
+                                    <th>Codigo</th>
+                                    <th>Fecha</th>
+                                    <th>Reportes</th>
+                                </tr>
+                            </thead>
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
     }
 }
 
@@ -219,6 +262,38 @@
                 document.body.removeChild(form);
 
             });
+
+            $('#tablaReporte').on('click', '.btn-pdf', function () {
+                debugger;
+                var data = tabladata.row($(this).parents('tr')).data();
+                var email = data.oResultado.oUsuario.email;
+                var codigo = data.codigo;
+
+                // Crear un formulario temporal para enviar la solicitud POST.
+                var form = $('<form>', {
+                    action: '@Url.Action("GenerarPDF", "Home")',
+                    method: 'post'
+                });
+
+                // Añadir el código como otro campo oculto en el formulario.
+                form.append($('<input>', {
+                    type: 'hidden',
+                    name: 'codigo',
+                    value: codigo
+                }));
+
+                // Añadir el correo electrónico como un campo oculto en el formulario.
+                form.append($('<input>', {
+                    type: 'hidden',
+                    name: 'email',
+                    value: email
+                }));
+
+                // Añadir el formulario al cuerpo del documento y enviarlo.
+                form.appendTo('body').submit();
+            });
+
+
 
         });
 

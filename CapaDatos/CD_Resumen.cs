@@ -14,7 +14,7 @@ namespace CapaDatos
     public class CD_Resumen
     {
         /* FUNCION PARA GUARDAR EL RESUMEN DEL CLIENTE */
-        public int RegistrarResumen(string codigo, int idResultado, int idPuntaje_Actual, int idPregunta, int idRptaPreguntas, int idPuntaje_Deseado, out string Mensaje)
+        public int RegistrarResumen(string codigo, int idResultado, int idPuntaje_Actual, int idPregunta, int idRptaPreguntas, int idPuntaje_Deseado, int idUrgencia, out string Mensaje)
         {
             int idautogenerado = 0;
             Mensaje = string.Empty;
@@ -30,6 +30,7 @@ namespace CapaDatos
                     cmd.Parameters.AddWithValue("idPregunta", idPregunta);
                     cmd.Parameters.AddWithValue("idRptaPreguntas", idRptaPreguntas);
                     cmd.Parameters.AddWithValue("idPuntaje_Deseado", idPuntaje_Deseado);
+                    cmd.Parameters.AddWithValue("idUrgencia", idUrgencia);
                     cmd.Parameters.Add("resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -48,7 +49,7 @@ namespace CapaDatos
             return idautogenerado;
         }
 
-        /* FUNCION PARA LISTAR RESUMENES AGRUPADOS POR EL CODIGO */
+        /* FUNCION PARA LISTAR RESUMENES AGRUPADOS */
         public List<Resumen> ListarResumen()
         {
             List<Resumen> resumenes = new List<Resumen>();
@@ -83,18 +84,55 @@ namespace CapaDatos
                                             email = reader["email"].ToString()
                                         }
                                     },
-                                    //oPuntajeActual = new Puntaje() { idPuntaje = Convert.ToInt32(reader["idPuntaje_Actual"]) },
-                                    //oPregunta = new Preguntas() { idPregunta = Convert.ToInt32(reader["idPregunta"]), 
-                                    //    oSubCategoria = new SubCategoriaNist() { idSubCategoria = Convert.ToInt32(reader["idSubCategoria"]), 
-                                    //        subCategoria = reader["subCategoria"].ToString(), 
-                                    //        oCategoria = new CategoriaNist() { idCategoria = Convert.ToInt32(reader["idCategoria"]),
-                                    //            categoria = reader["categoria"].ToString(), 
-                                    //            oFuncion = new FuncionNist() { 
-                                    //                idFuncion = Convert.ToInt32(reader["idFuncion"]), 
-                                    //                codigo = reader["codigoFuncion"].ToString(),
-                                    //                funcion = reader["funcion"].ToString() } } } },
-                                    //oRptaPreguntas = new RptaPreguntas() { idRptaPregunta = Convert.ToInt32(reader["idRptaPreguntas"]) },
-                                    //oPuntajeDeseado = new Puntaje() { idPuntaje = Convert.ToInt32(reader["idPuntaje_Deseado"]) }
+                                });
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                resumenes = new List<Resumen>();
+            }
+
+            return resumenes;
+        }
+
+        /* FUNCION PARA LISTAR RESUMENES AGRUPADOS Y FILTRADOS POR EL CORREO DEL CLIENTE PARA LA VISTA DEL CLIENTE */
+        public List<Resumen> ListarResumen_Cliente(string correo)
+        {
+            List<Resumen> resumenes = new List<Resumen>();
+
+            try
+            {
+                using (SqlConnection oconexion = new SqlConnection(Conexion.CadenaConexion))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_ListarResumenes_Correo", oconexion);
+                    cmd.Parameters.AddWithValue("correo", correo);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    oconexion.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            resumenes.Add(
+                                new Resumen()
+                                {
+                                    //idResumen = Convert.ToInt32(reader["idResumen"]),
+                                    codigo = reader["codigo"].ToString(),
+                                    fechaResumen = Convert.ToDateTime(reader["fechaResultado"]).ToString("dd/MM/yyyy"),
+                                    oResultado = new Resultado()
+                                    {
+                                        idResultado = Convert.ToInt32(reader["idResultado"]),
+                                        oUsuario = new Usuario()
+                                        {
+                                            idUsuario = Convert.ToInt32(reader["idUsuario"]),
+                                            nombres = reader["nombres"].ToString(),
+                                            apellidos = reader["apellidos"].ToString(),
+                                            email = reader["email"].ToString()
+                                        }
+                                    },
                                 });
                         }
                     }
@@ -165,8 +203,11 @@ namespace CapaDatos
                                             }
                                         }
                                     },
-                                    oRptaPreguntas = new RptaPreguntas() { idRptaPregunta = Convert.ToInt32(reader["idRptaPreguntas"]) },
-                                    oPuntajeDeseado = new Puntaje() { idPuntaje = Convert.ToInt32(reader["idPuntaje_Deseado"]) }
+                                    oRptaPreguntas = new RptaPreguntas() { idRptaPregunta = Convert.ToInt32(reader["idRptaPreguntas"]), 
+                                        respuesta = reader["respuesta"].ToString() },
+                                    oPuntajeDeseado = new Puntaje() { idPuntaje = Convert.ToInt32(reader["idPuntaje_Deseado"]) },
+                                    oNivelUrgencia = new NivelUrgencia { idUrgencia = Convert.ToInt32(reader["idUrgencia"]), 
+                                        nivel = (float)Convert.ToDouble(reader["nivel"]) }
                                 });
                         }
                     }

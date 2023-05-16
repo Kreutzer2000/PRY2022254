@@ -19,5 +19,6 @@ namespace CapaEntidad
         public RptaPreguntas oRptaPreguntas { get; set; }
         //public List<Respuesta> oRespuestas { get; set; }
         public Puntaje oPuntajeDeseado { get; set; }
+        public NivelUrgencia oNivelUrgencia { get; set; }
     }
 }
