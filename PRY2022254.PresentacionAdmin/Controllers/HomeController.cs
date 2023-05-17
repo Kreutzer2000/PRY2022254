@@ -28,6 +28,7 @@ using System.Net.Http.Headers;
 
 using Aspose.Cells;
 using Aspose.Cells.Rendering;
+using Google.Cloud.Translation.V2;
 
 namespace PRY2022254.PresentacionAdmin.Controllers
 {
@@ -153,16 +154,85 @@ namespace PRY2022254.PresentacionAdmin.Controllers
                 // Aquí procesamos el archivo de Excel en memoria
                 using (ExcelPackage excelPackage = new ExcelPackage())
                 {
+                    #region Cargar el archivo Excel en el documento como imagen
+                    //// Cargar el archivo Excel en memoria.
+                    //excelPackage.Load(new MemoryStream(excelFile));
+
+                    //// Obtener la hoja de trabajo "Resumen".
+                    //var workbook = new Aspose.Cells.Workbook(new MemoryStream(excelFile));
+                    //var worksheetResumen = workbook.Worksheets["Resumen"];
+                    //var worksheetEstadistica = workbook.Worksheets["Estadística"];  // Nueva línea
+
+                    //worksheetResumen.Cells.HideColumn(0);
+                    //worksheetResumen.Cells.HideColumn(2);
+                    //worksheetResumen.Cells.HideColumn(3);
+                    //worksheetResumen.Cells.HideColumn(4);
+                    //worksheetResumen.Cells.HideColumn(5);
+                    //worksheetResumen.Cells.HideColumn(6);
+                    //worksheetResumen.Cells.HideColumn(7);
+
+                    //// Renderizar la hoja de cálculo como imagen
+                    //ImageOrPrintOptions options = new ImageOrPrintOptions
+                    //{
+                    //    OnePagePerSheet = true,
+                    //    SaveFormat = SaveFormat.Png
+                    //};
+
+                    //// Renderizar la hoja "Resumen" como imagen
+                    //SheetRender srResumen = new SheetRender(worksheetResumen, options);
+                    //MemoryStream imageStreamResumen = new MemoryStream();
+                    //srResumen.ToImage(0, imageStreamResumen);
+
+                    //// Convertir la imagen en un iTextSharp Image
+                    //iTextSharp.text.Image imageResumen = iTextSharp.text.Image.GetInstance(imageStreamResumen.GetBuffer());
+
+                    //// Ajustar la imagen al tamaño de la página.
+                    //imageResumen.ScaleToFit(document.PageSize.Width, document.PageSize.Height);
+
+                    //// Alinear la imagen al centro de la página.
+                    //imageResumen.Alignment = iTextSharp.text.Image.ALIGN_CENTER;
+
+                    //// Antes de agregar la imagen de Resumen
+                    //document.Add(new Paragraph("Reporte de Prioridades"));
+
+                    //document.Add(imageResumen);
+                    //document.Add(new Paragraph("Se muestra todas las prioridades de la evaluación para un mayor entendimiento del problema " +
+                    //    "de la empresa y tomar las desiciones correspondientes del caso dado."));
+                    //// Renderizar la hoja "Estadística" como imagen  // Nueva sección
+                    //SheetRender srEstadistica = new SheetRender(worksheetEstadistica, options);
+                    //MemoryStream imageStreamEstadistica = new MemoryStream();
+                    //srEstadistica.ToImage(0, imageStreamEstadistica);
+
+                    //// Convertir la imagen en un iTextSharp Image
+                    //iTextSharp.text.Image imageEstadistica = iTextSharp.text.Image.GetInstance(imageStreamEstadistica.GetBuffer());
+
+                    //// Ajustar la imagen al tamaño de la página.
+                    //imageEstadistica.ScaleToFit(document.PageSize.Width, document.PageSize.Height);
+
+                    //// Alinear la imagen al centro de la página.
+                    //imageEstadistica.Alignment = iTextSharp.text.Image.ALIGN_CENTER;
+
+                    //// Antes de agregar la imagen de Estadística
+                    //document.NewPage();
+                    //document.Add(new Paragraph("Reporte de Estadísticas"));
+
+                    //document.Add(imageEstadistica);  // Nueva línea
+                    #endregion
+
+                    // Cargar el archivo Excel en memoria.
+                    excelPackage.Load(new MemoryStream(excelFile));
+
+                    // Obtener la hoja de trabajo "Resumen".
+                    var worksheetResumen = excelPackage.Workbook.Worksheets["Resumen"];
+
+                    
+
                     // Cargar el archivo Excel en memoria.
                     excelPackage.Load(new MemoryStream(excelFile));
 
                     // Obtener la hoja de trabajo "Resumen".
                     var workbook = new Aspose.Cells.Workbook(new MemoryStream(excelFile));
-                    var worksheet = workbook.Worksheets["Resumen"];
-
-                    // Ocultar la columna A.
-                    worksheet.Cells.HideColumn(0);
-                    worksheet.Cells.HideColumn(1);
+                    var worksheetEstadistica = workbook.Worksheets["Estadística"];  // Nueva línea
 
                     // Renderizar la hoja de cálculo como imagen
                     ImageOrPrintOptions options = new ImageOrPrintOptions
@@ -171,28 +241,210 @@ namespace PRY2022254.PresentacionAdmin.Controllers
                         SaveFormat = SaveFormat.Png
                     };
 
-                    SheetRender sr = new SheetRender(worksheet, options);
-                    MemoryStream imageStream = new MemoryStream();
-                    sr.ToImage(0, imageStream);
+                    // Renderizar la hoja "Estadística" como imagen  // Nueva sección
+                    SheetRender srEstadistica = new SheetRender(worksheetEstadistica, options);
+                    MemoryStream imageStreamEstadistica = new MemoryStream();
+                    srEstadistica.ToImage(0, imageStreamEstadistica);
 
                     // Convertir la imagen en un iTextSharp Image
-                    iTextSharp.text.Image image = iTextSharp.text.Image.GetInstance(imageStream.GetBuffer());
+                    iTextSharp.text.Image imageEstadistica = iTextSharp.text.Image.GetInstance(imageStreamEstadistica.GetBuffer());
 
                     // Ajustar la imagen al tamaño de la página.
-                    image.ScaleToFit(document.PageSize.Width, document.PageSize.Height);
+                    imageEstadistica.ScaleToFit(document.PageSize.Width, document.PageSize.Height);
 
                     // Alinear la imagen al centro de la página.
-                    image.Alignment = iTextSharp.text.Image.ALIGN_CENTER;
+                    imageEstadistica.Alignment = iTextSharp.text.Image.ALIGN_CENTER;
 
-                    document.Add(image);
+                    // Para darle formato al titulo
+                    Paragraph tituloEstadistica = new Paragraph("Reporte de Estadísticas", new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 18, iTextSharp.text.Font.UNDERLINE));
+                    tituloEstadistica.Alignment = Element.ALIGN_CENTER;
+                    document.Add(tituloEstadistica);
+
+                    document.Add(imageEstadistica);  // Nueva línea
+
+                    document.NewPage();
+                    // Crear una tabla PDF.
+                    var table = new PdfPTable(2);  // Ajustar el número de columnas.
+
+                    // Establecer los anchos de las columnas
+                    float[] columnWidths = { 5f, 1f };
+                    table.SetWidths(columnWidths);
+
+                    // Para darle formato al titulo
+                    Paragraph tituloPrioridad = new Paragraph("Reporte de Prioridades", new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 18, iTextSharp.text.Font.UNDERLINE));
+                    tituloPrioridad.Alignment = Element.ALIGN_CENTER;
+                    document.Add(tituloPrioridad);
+                    document.Add(new Paragraph(" "));
+                    document.Add(new Paragraph(" "));
+
+                    // Iterar a través de todas las filas y columnas en la hoja de trabajo de Excel.
+                    for (int row = worksheetResumen.Dimension.Start.Row; row <= worksheetResumen.Dimension.End.Row; row++)
+                    {
+                        // Comprobar si el valor de la segunda columna es "Objetivo Alcanzado".
+                        if (worksheetResumen.Cells[row, 9].Text == "Objetivo Alcanzado")
+                        {
+                            continue;  // Saltar al siguiente ciclo del bucle.
+                        }
+
+                        for (int col = worksheetResumen.Dimension.Start.Column; col <= worksheetResumen.Dimension.End.Column; col++)
+                        {
+                            // Excluir las columnas que no se quieren incluir.
+                            if (col == 1 || col == 3 || col == 4 || col == 5 || col == 6 || col == 7 || col == 8)
+                            {
+                                continue;
+                            }
+                            //string[] splitSubcategoria = worksheetResumen.Cells[row, 1].Text.Split('-');
+                            //string subcategoriaCorta = splitSubcategoria[1].Split(':')[0];
+
+                            // Obtener el valor de la celda.
+                            var cellValue = worksheetResumen.Cells[row, col].Text;
+
+                            // Crear una celda PDF con el valor y añadirla a la tabla.
+                            var pdfCell = new PdfPCell(new Phrase(cellValue));
+
+                            if (col == 2)  // La primera columna en la tabla PDF.
+                            {
+                                pdfCell.HorizontalAlignment = Element.ALIGN_JUSTIFIED;
+                            }
+                            else if (col == 9)  // La segunda columna en la tabla PDF.
+                            {
+                                pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                                pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                            }
+
+                            table.AddCell(pdfCell);
+                        }
+                    }
+
+
+                    
+
+                    // Añadir la tabla al documento.
+                    document.Add(table);
+
+                    // Generar texto utilizando OpenAI.
+                    document.NewPage();
+
+                    // Para darle formato al titulo
+                    Paragraph tituloMejora = new Paragraph("Reporte de Mejoras", new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 18, iTextSharp.text.Font.UNDERLINE));
+                    tituloMejora.Alignment = Element.ALIGN_CENTER;
+                    document.Add(tituloMejora);
+                    document.Add(new Paragraph(" "));
+                    document.Add(new Paragraph(" "));
+                    //string preguntaParaOpenAI = "Como te llamas?";
+                    //string respuestaOpenAI = await new OpenAIService().GenerarTextoConOpenAI(preguntaParaOpenAI);
+
+                    //// Inicializar el diccionario para guardar las respuestas agrupadas por prioridad.
+                    //Dictionary<string, List<string>> respuestasPorPrioridad = new Dictionary<string, List<string>>();
+
+                    //int lastRow = worksheetResumen.Dimension.End.Row;
+
+                    //// Recorrer las filas de la hoja de trabajo.
+                    //for (int i = 3; i <= lastRow; i++)
+                    //{
+                    //    // Accede a los valores de las celdas en las columnas que necesitas.
+                    //    string celda1 = worksheetResumen.Cells[i, 1].Text; // Columna B.
+                    //    string celdaI = worksheetResumen.Cells[i, 9].Text; // Columna I.
+
+                    //    // Solo llama a la API de OpenAI si la celda en la columna I no contiene "Objetivo Alcanzado".
+                    //    if (celdaI != "Objetivo Alcanzado")
+                    //    {
+                    //        // Crear el prompt para OpenAI.
+                    //        string prompt = $"Como un experto en seguridad de la información y prevención de fugas de datos, analiza la siguiente situación de prioridad {celdaI}: '{celda1}'. ¿Cuál sería tu recomendación de mejora?";
+
+                    //        // Generar la respuesta de OpenAI.
+                    //        string respuestaOpenAI = await new OpenAIService().GenerarTextoConOpenAI(prompt);
+
+                    //        // Agregar la respuesta al diccionario en la lista correspondiente a su prioridad.
+                    //        if (!respuestasPorPrioridad.ContainsKey(celdaI))
+                    //        {
+                    //            respuestasPorPrioridad[celdaI] = new List<string>();
+                    //        }
+                    //        respuestasPorPrioridad[celdaI].Add(respuestaOpenAI);
+                    //    }
+                    //}
+
+                    //// Recorrer el diccionario y agregar las respuestas al documento PDF.
+                    //foreach (string prioridad in respuestasPorPrioridad.Keys)
+                    //{
+                    //    // Agregar la prioridad al documento.
+                    //    document.Add(new Paragraph($"Prioridad: {prioridad}"));
+
+                    //    // Recorrer las respuestas de esta prioridad y agregarlas al documento.
+                    //    foreach (string respuesta in respuestasPorPrioridad[prioridad])
+                    //    {
+                    //        document.Add(new Paragraph($"Mejora: {respuesta}"));
+                    //    }
+                    //}
+                    int lastRow = worksheetResumen.Dimension.End.Row;
+                    List<(string RespuestaCliente, string Prioridad)> datos = new List<(string, string)>();
+
+                    for (int i = 3; i <= lastRow; i++)
+                    {
+                        // Accede a los valores de las celdas en las columnas que necesitas.
+                        string celda1 = worksheetResumen.Cells[i, 2].Text; // Columna B.
+                        string celdaI = worksheetResumen.Cells[i, 9].Text; // Columna I.
+
+                        // Solo llama a la API de OpenAI si la celda en la columna I no contiene "Objetivo Alcanzado".
+                        if (celdaI != "Objetivo Alcanzado")
+                        {
+                            datos.Add((celda1, celdaI));
+                        }
+                    }
+
+                    // Después de generar la tabla en el PDF...
+                    List<Task<string>> respuestaTareas = new List<Task<string>>();
+                    foreach (var dato in datos)
+                    {
+                        string prompt = $"Soy un especialista en seguridad de la información y prevención de fuga de datos. Me he percatado de un problema clasificado con una prioridad " +
+                            $"{dato.Prioridad} en nuestra infraestructura de seguridad. El problema específico es: {dato.RespuestaCliente}. " +
+                            $"Como experto, ¿qué acciones inmediatas recomendarías para mitigar este problema y prevenir futuras ocurrencias similares? " +
+                            $"Por favor, ofrece una respuesta detallada y en español."; respuestaTareas.Add(new OpenAIService().GenerarTextoConOpenAI(prompt));
+                    }
+
+                    // Espera a que todas las tareas de generación de texto se completen.
+                    string[] respuestas = await Task.WhenAll(respuestaTareas);
+
+                    // Crea una fuente en negrita
+                    var boldFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+                    // Crea una fuente normal
+                    var normalFont = FontFactory.GetFont(FontFactory.HELVETICA, 12);
+
+                    // Imprime las respuestas de OpenAI en el PDF.
+                    for (int i = 0; i < respuestas.Length; i++)
+                    {
+                        // Usa la fuente en negrita para las etiquetas y la normal para el texto
+                        Paragraph prioridad = new Paragraph();
+                        prioridad.Add(new Chunk("Prioridad: ", boldFont));
+                        prioridad.Add(new Chunk($"{datos[i].Prioridad}", normalFont));
+                        prioridad.Alignment = Element.ALIGN_JUSTIFIED;
+                        //prioridad.SpacingAfter = 10f;  // Agrega un espacio después de este párrafo.
+                        document.Add(prioridad);
+
+                        Paragraph respuestaCliente = new Paragraph();
+                        respuestaCliente.Add(new Chunk("Respuesta del Cliente: ", boldFont));
+                        respuestaCliente.Add(new Chunk($"{datos[i].RespuestaCliente}", normalFont));
+                        respuestaCliente.Alignment = Element.ALIGN_JUSTIFIED;
+                        //respuestaCliente.SpacingAfter = 10f;  // Agrega un espacio después de este párrafo.
+                        document.Add(respuestaCliente);
+
+                        // Traduce la respuesta de OpenAI al español antes de añadirla al PDF.
+                        string respuestaTraducida = TranslateText(respuestas[i]);
+                        Paragraph mejora = new Paragraph();
+                        mejora.Add(new Chunk("Mejora: ", boldFont));
+                        mejora.Add(new Chunk($"{respuestaTraducida}", normalFont));
+                        mejora.Alignment = Element.ALIGN_JUSTIFIED;
+                        //mejora.SpacingAfter = 20f;  // Agrega un espacio más grande después de este párrafo.
+                        document.Add(mejora);
+
+                        // Agrega un espacio después de cada conjunto de 'Prioridad', 'Respuesta del Cliente' y 'Mejora'.
+                        document.Add(new Chunk("\n"));
+                    }
+
+                    // Agregar la respuesta de OpenAI al documento.
+                    //document.Add(new Paragraph(respuestaOpenAI));
+
                 }
-
-                // Generar texto utilizando OpenAI.
-                string preguntaParaOpenAI = "Como te llamas?";
-                string respuestaOpenAI = await new OpenAIService().GenerarTextoConOpenAI(preguntaParaOpenAI);
-
-                // Agregar la respuesta de OpenAI al documento.
-                document.Add(new Paragraph(respuestaOpenAI));
 
                 // Cerrar el documento.
                 document.Close();
@@ -204,7 +456,7 @@ namespace PRY2022254.PresentacionAdmin.Controllers
                 byte[] bytes = stream.ToArray();
 
                 // Devolver el array de bytes como un archivo para descarga.
-                return File(bytes, "application/pdf", "Reporte" + email + ".pdf");
+                return File(bytes, "application/pdf", "Reporte_" + codigo + ".pdf");
             }
         }
 
@@ -212,18 +464,21 @@ namespace PRY2022254.PresentacionAdmin.Controllers
         {
             private readonly string apiKey = "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";
 
-            public async Task<string> GenerarTextoConOpenAI(string email)
+            public async Task<string> GenerarTextoConOpenAI(string mensaje)
             {
                 // Crear el mensaje para enviar a GPT-3.
-                string mensaje = " Quiero saber como implementar un api. " /*+ email*/;
+                //string mensaje = " Quiero saber como implementar un api. " /*+ email*/;
 
                 using (var httpClient = new HttpClient())
                 {
+                    // Aumentar el tiempo de espera a 2 minutos (el tiempo de espera predeterminado es 100 segundos).
+                    httpClient.Timeout = TimeSpan.FromMinutes(2);
+
                     httpClient.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", apiKey);
 
                     var content = new StringContent(
-                        JsonConvert.SerializeObject(new { prompt = email, max_tokens = 60 }),
+                        JsonConvert.SerializeObject(new { prompt = mensaje, max_tokens = 2048 }),
                         Encoding.UTF8,
                         "application/json");
 
@@ -236,6 +491,7 @@ namespace PRY2022254.PresentacionAdmin.Controllers
 
                     // Quitar los caracteres "\n" del inicio del texto.
                     text = text.TrimStart('\n');
+                    text = text.TrimStart('+');
 
                     return text;
                 }
@@ -250,6 +506,25 @@ namespace PRY2022254.PresentacionAdmin.Controllers
         public class OpenAIChoice
         {
             public string Text { get; set; }
+        }
+
+        public static string TranslateText(string input, string targetLanguage = "es")
+        {
+            //TranslationClient client = TranslationClient.CreateFromApiKey("clave_api");
+            //var response = client.TranslateText(input, targetLanguage);
+            //return response.TranslatedText;
+            try
+            {
+                TranslationClient client = TranslationClient.CreateFromApiKey("AIzaSyCyGcSoPp1MG_eWrEdYW1kIz0AnHxnXijs");
+                var response = client.TranslateText(input, targetLanguage);
+                return response.TranslatedText;
+            }
+            catch (Exception)
+            {
+                // Puedes registrar el error aquí si lo deseas.
+                // Retorna el texto original si la traducción falla.
+                return input;
+            }
         }
 
         //private string GenerarTextoConOpenAI(string email)
@@ -792,7 +1067,7 @@ namespace PRY2022254.PresentacionAdmin.Controllers
                             promedioBrechaFinal = (promedio.PromedioBrecha * 2) / 31;
                             break;
                         default:
-                            
+
                             break;
                     }
 
@@ -854,6 +1129,115 @@ namespace PRY2022254.PresentacionAdmin.Controllers
                 // Aplicar formato a las celdas, como ajustar el ancho de las columnas, centrar el texto, etc.
                 worksheetResultados.Cells.AutoFitColumns();
 
+                // Agregar encabezados
+                worksheetResultados.Cells["H9"].Value = "Prioridad";
+                worksheetResultados.Cells["I9"].Value = "Cantidad";
+
+                // Agregar las categorías de prioridad
+                worksheetResultados.Cells["H10"].Value = "Objetivo Alcanzado";
+                worksheetResultados.Cells["H11"].Value = "Bajo";
+                worksheetResultados.Cells["H12"].Value = "Medio";
+                worksheetResultados.Cells["H13"].Value = "Alto";
+                worksheetResultados.Cells["H14"].Value = "Crítico";
+
+                // Calcular el número de cada tipo de prioridad en la hoja de "Resumen"
+                var prioridadCounts = new Dictionary<string, int>()
+                {
+                    { "Objetivo Alcanzado", 0 },
+                    { "Bajo", 0 },
+                    { "Medio", 0 },
+                    { "Alto", 0 },
+                    { "Crítico", 0 }
+                };
+
+                for (int i = 3; i <= worksheet.Dimension.End.Row; i++)
+                {
+                    string prioridad = worksheet.Cells[i, 9].Value.ToString();
+                    if (prioridadCounts.ContainsKey(prioridad))
+                    {
+                        prioridadCounts[prioridad]++;
+                    }
+                }
+
+                // Agregar los resultados a la hoja de "Resultados"
+                worksheetResultados.Cells["I10"].Value = prioridadCounts["Objetivo Alcanzado"];
+                worksheetResultados.Cells["I11"].Value = prioridadCounts["Bajo"];
+                worksheetResultados.Cells["I12"].Value = prioridadCounts["Medio"];
+                worksheetResultados.Cells["I13"].Value = prioridadCounts["Alto"];
+                worksheetResultados.Cells["I14"].Value = prioridadCounts["Crítico"];
+
+                // Establecer un rango para aplicar bordes (H9:I14)
+                ExcelRange rangeWithBordersPrioridades = worksheetResultados.Cells["H9:I14"];
+
+                // Aplicar bordes a todas las celdas en el rango
+                rangeWithBordersPrioridades.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                rangeWithBordersPrioridades.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                rangeWithBordersPrioridades.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                rangeWithBordersPrioridades.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+                // Agregar encabezados en las columnas N, O, P
+                worksheetResultados.Cells["N1"].Value = "Nivel de Madurez";
+                worksheetResultados.Cells["O1"].Value = "Estado Actual";
+                worksheetResultados.Cells["P1"].Value = "Estado Deseado";
+
+                // Definir los niveles de madurez
+                string[] nivelesMadurez = { "Inicial", "Gestionado", "Definido", "Predecible", "Optimizado" };
+
+                for (int i = 0; i < nivelesMadurez.Length; i++)
+                {
+                    // Escribir el nivel de madurez en la columna N
+                    worksheetResultados.Cells[i + 2, 14].Value = nivelesMadurez[i];
+
+                    // Contar y escribir el número de ocurrencias en el estado actual (columna C de "Resumen")
+                    int countActual = resumenes.Count(r => r.oPuntajeActual.idPuntaje == i + 1);
+                    worksheetResultados.Cells[i + 2, 15].Value = countActual;
+
+                    // Contar y escribir el número de ocurrencias en el estado deseado (columna E de "Resumen")
+                    int countDeseado = resumenes.Count(r => r.oPuntajeDeseado.idPuntaje == i + 1);
+                    worksheetResultados.Cells[i + 2, 16].Value = countDeseado;
+                }
+
+                // Definir el rango desde N1 hasta P6
+                ExcelRange rangeN1P6 = worksheetResultados.Cells["N1:P6"];
+
+                // Centrar horizontal y verticalmente el texto en las celdas
+                rangeN1P6.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                rangeN1P6.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                // Aplicar bordes a todas las celdas en el rango
+                rangeN1P6.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                rangeN1P6.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                rangeN1P6.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                rangeN1P6.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+                // Ajustar el texto en las celdas de la columna "N" desde N1 hasta N6
+                for (int i = 1; i <= 6; i++)
+                {
+                    worksheetResultados.Cells[i, 14].Style.WrapText = true;
+                }
+
+                // Ajustar el texto en las celdas de la columna "O" desde O1 hasta O6
+                for (int i = 1; i <= 6; i++)
+                {
+                    worksheetResultados.Cells[i, 15].Style.WrapText = true;
+                }
+
+                // Ajustar el texto en las celdas de la columna "P" desde P1 hasta P6
+                for (int i = 1; i <= 6; i++)
+                {
+                    worksheetResultados.Cells[i, 16].Style.WrapText = true;
+                }
+
+                // Establecer el ancho de la columna "N" a 16 unidades (aproximadamente 150 píxeles)
+                worksheetResultados.Column(14).Width = 16;
+
+                // Establecer el ancho de la columna "O" a 16 unidades
+                worksheetResultados.Column(15).Width = 16;
+
+                // Establecer el ancho de la columna "P" a 16 unidades
+                worksheetResultados.Column(16).Width = 16;
+
+
                 #endregion
 
                 #region HOJA ESTADISTICA
@@ -867,6 +1251,12 @@ namespace PRY2022254.PresentacionAdmin.Controllers
                 var chartRangeBrecha = worksheetResumen_Estadistica.Cells["K2:K6"];
                 var chartRangeObjetivo = worksheetResumen_Estadistica.Cells["J2:J6"];
 
+                // Añade un gráfico de barras en la posición dada (fila 22, columna 0 en este ejemplo)
+                var barChart = worksheetEstadistica.Drawings.AddChart("barChart", eChartType.ColumnClustered) as ExcelBarChart;
+
+                // Añade un gráfico de barras en la posición dada (fila 22, columna 8 en este ejemplo)
+                var barChartTendencia = worksheetEstadistica.Drawings.AddChart("barChartTendencia", eChartType.ColumnClustered) as ExcelBarChart;
+
                 // Añade un gráfico en la posición dada (fila 7, columna 5 en este ejemplo)
                 var pieChartBrecha = worksheetEstadistica.Drawings.AddChart("pieChartBrecha", eChartType.Pie) as ExcelPieChart;
                 var pieChartObjetivo = worksheetEstadistica.Drawings.AddChart("pieChartObjetivo", eChartType.Pie) as ExcelPieChart;
@@ -875,12 +1265,19 @@ namespace PRY2022254.PresentacionAdmin.Controllers
                 var serieBrecha = pieChartBrecha.Series.Add(worksheetResumen_Estadistica.Cells["K2:K6"], worksheetResumen_Estadistica.Cells["H2:H6"]);
                 var serieObjetivo = pieChartObjetivo.Series.Add(worksheetResumen_Estadistica.Cells["J2:J6"], worksheetResumen_Estadistica.Cells["H2:H6"]);
 
+                // Define los datos del gráfico
+                var seriePrioridad = barChart.Series.Add(worksheetResumen_Estadistica.Cells["I10:I14"], worksheetResumen_Estadistica.Cells["H10:H14"]);
+
+                // Define las dos series de datos del gráfico
+                var seriesActual = barChartTendencia.Series.Add(worksheetResumen_Estadistica.Cells["O2:O6"], worksheetResumen_Estadistica.Cells["N2:N6"]);
+                var seriesDeseado = barChartTendencia.Series.Add(worksheetResumen_Estadistica.Cells["P2:P6"], worksheetResumen_Estadistica.Cells["N2:N6"]);
+
                 // Establece las propiedades del gráfico
-                pieChartBrecha.Title.Text = "Brecha";
+                pieChartBrecha.Title.Text = "Prioridad según Función";
                 //pieChartBrecha.DataLabel.ShowCategory = true;
                 pieChartBrecha.DataLabel.ShowPercent = true;
 
-                pieChartObjetivo.Title.Text = "Objetivo";
+                pieChartObjetivo.Title.Text = "Estado Deseado según Función";
                 //pieChartObjetivo.DataLabel.ShowCategory = true;
                 pieChartObjetivo.DataLabel.ShowPercent = true;
 
@@ -891,6 +1288,35 @@ namespace PRY2022254.PresentacionAdmin.Controllers
                 // Define la posición del segundo gráfico
                 pieChartObjetivo.SetPosition(0, 0, 7, 0); // El gráfico de objetivo comienza en la fila 5, columna 15
                 pieChartObjetivo.SetSize(400, 400);
+
+                // Establece las propiedades del gráfico
+                barChart.Title.Text = "Cantidad de Prioridades"; 
+                barChart.DataLabel.ShowCategory = false;
+                barChart.DataLabel.ShowValue = true;
+
+                // Define la posición del gráfico
+                barChart.SetPosition(22, 0, 0, 0); // El gráfico comienza en la fila 22, columna 0
+                barChart.SetSize(400, 400);
+
+                // Establece las propiedades de las series
+                seriesActual.Header = worksheetResumen_Estadistica.Cells["O1"].Value.ToString(); // Pone el encabezado de la columna O como nombre de la serie
+                seriesDeseado.Header = worksheetResumen_Estadistica.Cells["P1"].Value.ToString(); // Pone el encabezado de la columna P como nombre de la serie
+
+                // Establece las propiedades del gráfico
+                barChartTendencia.Title.Text = "Estado Actual vs Estado Deseado"; 
+                barChartTendencia.DataLabel.ShowCategory = false;
+                barChartTendencia.DataLabel.ShowValue = true;
+                barChartTendencia.Legend.Position = eLegendPosition.Bottom;
+
+                // Añadir una línea de tendencia al gráfico para la serie "Estado Actual"
+                var trendline = seriesActual.TrendLines.Add(eTrendLine.Linear);
+                trendline.DisplayEquation = false;
+                trendline.DisplayRSquaredValue = false;
+
+                // Define la posición del gráfico
+                barChartTendencia.SetPosition(22, 0, 7, 0); // El gráfico comienza en la fila 22, columna 7
+                barChartTendencia.SetSize(400, 400);
+
 
                 //// Copia los datos de subcategorías y prioridades de la hoja "Resumen" a la hoja "Estadística"
                 //for (int i = 3; i <= worksheetResumen_Estadistica.Dimension.End.Row; i++)
