@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Principal";
 
 
 }
@@ -85,6 +85,14 @@
 
             </div>
         </div>
+        @*if (!string.IsNullOrEmpty(TempData["ExternalAccessErrorMessage"] as string))
+        {
+            <div class="alert alert-danger">@TempData["ExternalAccessErrorMessage"]</div>
+        }*@
+        @*if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+            {
+                <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+            }*@
     }
     else
     {
@@ -162,6 +170,14 @@
 
             </div>
         </div>
+        @*if (!string.IsNullOrEmpty(TempData["ExternalAccessErrorMessage"] as string))
+        {
+            <div class="alert alert-danger">@TempData["ExternalAccessErrorMessage"]</div>
+        }*@
+        @*if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+            {
+                <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+            }*@
     }
 }
 

@@ -39,6 +39,16 @@ namespace PRY2022254.PresentacionAdmin.Controllers
         {
             string correo = Convert.ToString(Session["email"]);
             int rol = Convert.ToInt32(Session["rolUsuario"]);
+
+            //// Obtener el mensaje de error de intento de acceso externo de la sesión
+            //string errorMessage = Session["ExternalAccessErrorMessage"] as string;
+
+            //// Limpiar el mensaje de error de la sesión
+            //Session["ExternalAccessErrorMessage"] = null;
+
+            //// Pasar el mensaje a la vista
+            //ViewBag.ErrorMessage = errorMessage;
+
             return View();
         }
 
@@ -462,7 +472,8 @@ namespace PRY2022254.PresentacionAdmin.Controllers
 
         public class OpenAIService
         {
-            private readonly string apiKey = "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";
+            //private readonly string apiKey = "clave_api";
+            private readonly string apiKeyOpenAI = Environment.GetEnvironmentVariable("OpenAI");
 
             public async Task<string> GenerarTextoConOpenAI(string mensaje)
             {
@@ -475,7 +486,7 @@ namespace PRY2022254.PresentacionAdmin.Controllers
                     httpClient.Timeout = TimeSpan.FromMinutes(2);
 
                     httpClient.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", apiKey);
+                        new AuthenticationHeaderValue("Bearer", apiKeyOpenAI);
 
                     var content = new StringContent(
                         JsonConvert.SerializeObject(new { prompt = mensaje, max_tokens = 2048 }),
@@ -507,15 +518,16 @@ namespace PRY2022254.PresentacionAdmin.Controllers
         {
             public string Text { get; set; }
         }
-
+ 
         public static string TranslateText(string input, string targetLanguage = "es")
         {
             //TranslationClient client = TranslationClient.CreateFromApiKey("clave_api");
             //var response = client.TranslateText(input, targetLanguage);
             //return response.TranslatedText;
+            string apiKeyGoogleTranslate = Environment.GetEnvironmentVariable("ApiGoogleTranslate");
             try
             {
-                TranslationClient client = TranslationClient.CreateFromApiKey("AIzaSyCyGcSoPp1MG_eWrEdYW1kIz0AnHxnXijs");
+                TranslationClient client = TranslationClient.CreateFromApiKey(apiKeyGoogleTranslate);
                 var response = client.TranslateText(input, targetLanguage);
                 return response.TranslatedText;
             }
@@ -530,7 +542,7 @@ namespace PRY2022254.PresentacionAdmin.Controllers
         //private string GenerarTextoConOpenAI(string email)
         //{
         //    // Conexion de la api de Open AI
-        //    string apiKey = "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";
+        //    string apiKey = "clave_api";
         //    string answer = string.Empty;
 
         //    // Configurar el modelo y los parámetros de generación de OpenAI.
@@ -1339,9 +1351,269 @@ namespace PRY2022254.PresentacionAdmin.Controllers
 
                 #endregion
 
+                #region HOJA DEL MAPA DE CALOR
+
+                // Agregar una nueva hoja de trabajo llamada "Mapa de Calor"
+                ExcelWorksheet worksheetMapaCalor = excelPackage.Workbook.Worksheets.Add("Mapa de Calor");
+
+                // Obteniendo la hoja de Resumen
+                var worksheetMapaCalor_Resumen = excelPackage.Workbook.Worksheets["Resumen"];
+
+                // Agregar encabezados, datos y aplicar formato a las celdas de la nueva hoja de trabajo
+                worksheetMapaCalor.Cells["B2"].Value = "Mapa de Calor por Función";
+                worksheetMapaCalor.Cells["B3"].Value = "Función/Prioridad";
+                worksheetMapaCalor.Cells["C3"].Value = "Objetivo Alcanzado";
+                worksheetMapaCalor.Cells["D3"].Value = "Bajo";
+                worksheetMapaCalor.Cells["E3"].Value = "Medio";
+                worksheetMapaCalor.Cells["F3"].Value = "Alto";
+                worksheetMapaCalor.Cells["G3"].Value = "Crítico";
+                worksheetMapaCalor.Cells["B4"].Value = "Identificar";
+                worksheetMapaCalor.Cells["B5"].Value = "Proteger";
+                worksheetMapaCalor.Cells["B6"].Value = "Detectar";
+                worksheetMapaCalor.Cells["B7"].Value = "Responder";
+                worksheetMapaCalor.Cells["B8"].Value = "Recuperar";
+
+                // Unir las celdas B2:G2
+                ExcelRange rangeMergeCells = worksheetMapaCalor.Cells["B2:G2"];
+                rangeMergeCells.Merge = true;
+
+                // Centrar el contenido de las celdas unidas
+                rangeMergeCells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                rangeMergeCells.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                // Aplicar estilos de borde a las celdas unidas
+                rangeMergeCells.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                rangeMergeCells.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                rangeMergeCells.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                rangeMergeCells.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+                // Obtener los datos relevantes de la hoja "Resumen"
+                var columnAData = worksheetMapaCalor_Resumen.Cells["A3:A33"].Select(c => c.Value.ToString()).ToList();
+                var columnIData = worksheetMapaCalor_Resumen.Cells["I3:I33"].Select(c => c.Value.ToString()).ToList();
+
+                // Procesar los datos obtenidos
+                Dictionary<string, Dictionary<string, int>> groupCount = new Dictionary<string, Dictionary<string, int>>();
+                for (int i = 0; i < columnAData.Count; i++)
+                {
+                    var group = columnAData[i].Substring(columnAData[i].IndexOf("-") + 1, columnAData[i].IndexOf(".") - columnAData[i].IndexOf("-") - 1);
+                    var category = columnIData[i];
+
+                    if (!groupCount.ContainsKey(group))
+                        groupCount[group] = new Dictionary<string, int>();
+
+                    if (groupCount[group].ContainsKey(category))
+                        groupCount[group][category]++;
+                    else
+                        groupCount[group][category] = 1;
+                }
+
+                // Actualizar el mapa de calor en la hoja "Mapa de Calor"
+                int startCol = 0;
+                foreach (var group in groupCount)
+                {
+                    int startRow = GetRowIndexByCategory(group.Key);
+                    foreach (var category in group.Value)
+                    {
+                        int count = category.Value;
+                        int col = startCol + GetColumnIndexByCategory(category.Key);
+                        int row = startRow;
+
+
+                        worksheetMapaCalor.Cells[row, col].Value = count;
+                    }
+                }
+
+                // Actualizar el mapa de calor en la hoja "Mapa de Calor"
+                int startColCero = 2; // Índice de columna inicial para el rango C4:G8
+                int startRowCero = 3; // Índice de fila inicial para el rango C4:G8
+
+                int rowCountCero = 5; // Número total de filas en el rango C4:G8
+                int colCountCero = 5; // Número total de columnas en el rango C4:G8
+
+                for (int row = startRowCero; row <= startRowCero + rowCountCero; row++)
+                {
+                    for (int col = startColCero; col <= startColCero + colCountCero; col++)
+                    {
+                        var cell = worksheetMapaCalor.Cells[row, col];
+
+                        // Verificar si la celda está vacía y asignar 0 en caso afirmativo
+                        if (cell.Value == null)
+                        {
+                            cell.Value = 0;
+                        }
+                    }
+                }
+
+                /* Metodo para hacer el mapa de colores */
+                int minValue = 0;
+                int maxValue = int.MinValue;
+
+                foreach (var cell in range)
+                {
+                    if (cell.Value != null && int.TryParse(cell.Value.ToString(), out int value))
+                    {
+                        if (value > maxValue)
+                        {
+                            maxValue = value;
+                        }
+                    }
+                }
+
+                // Obtener el rango C4:G8
+                var rangoC4G8 = worksheetMapaCalor.Cells["C4:G8"];
+
+                // Recorrer cada celda del rango y establecer el color de fondo
+                foreach (var cell in rangoC4G8)
+                {
+                    if (cell.Value == null)
+                    {
+                        cell.Value = 0;
+                        cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        cell.Style.Fill.BackgroundColor.SetColor(Color.LightGreen);
+                    }
+                    else
+                    {
+                        int value = int.Parse(cell.Value.ToString());
+                        double percentage = (double)value / maxValue;
+
+                        Color color = InterpolateColor(Color.LightGreen, Color.Red, percentage);
+
+                        cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        cell.Style.Fill.BackgroundColor.SetColor(color);
+                        //int value = int.Parse(cell.Value.ToString());
+                        //double percentage = (double)value / maxValue;
+
+                        //Color color = GetColorByPercentage(percentage);
+
+                        //cell.Value = value;
+                        //cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        //cell.Style.Fill.BackgroundColor.SetColor(color);
+                    }
+                }
+
+                // Aplicar formato condicional de escalas de colores al rango C4:G8
+                var rango = worksheetMapaCalor.Cells["C4:G8"];
+                var conditionalFormatting = rango.ConditionalFormatting.AddThreeColorScale();
+
+                // Establecer los colores mínimo, medio y máximo
+                Color minColor = Color.FromArgb(0, 196, 89);   // Verde claro
+                Color midColor = Color.FromArgb(239, 255, 121);   // Amarillo claro
+                Color maxColor = Color.FromArgb(255, 79, 79);   // Rojo claro
+
+                conditionalFormatting.LowValue.Color = minColor;
+                conditionalFormatting.MiddleValue.Color = midColor;
+                conditionalFormatting.HighValue.Color = maxColor;
+
+                // Aplicar el formato condicional al rango
+                rango.Style.Numberformat.Format = "General"; // Establecer el formato numérico
+
+                // Establecer un rango para aplicar bordes (B2:G8)
+                ExcelRange rangeWithBordersMapaCalor = worksheetMapaCalor.Cells["B3:G8"];
+
+                // Centrar el contenido de las celdas
+                rangeWithBordersMapaCalor.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                rangeWithBordersMapaCalor.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                // Aplicar bordes a todas las celdas en el rango
+                rangeWithBordersMapaCalor.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                rangeWithBordersMapaCalor.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                rangeWithBordersMapaCalor.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                rangeWithBordersMapaCalor.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+                rangeWithBordersMapaCalor.AutoFitColumns();
+
+
+
+                #endregion
+
                 // Guardar el paquete de Excel como un arreglo de bytes
                 byte[] fileContents = excelPackage.GetAsByteArray();
                 return fileContents;
+            }
+        }
+
+        private Color GetColorByPercentage(double percentage)
+        {
+            int red, green, blue;
+
+            if (percentage <= 0.5)
+            {
+                red = (int)(510 * percentage); // Desde 0 a 0.5, incrementa el rojo de 0 a 255
+                green = 255; // Mantén el verde en su valor máximo (255)
+            }
+            else
+            {
+                red = 255; // Mantén el rojo en su valor máximo (255)
+                green = (int)(510 * (1 - percentage)); // Desde 0.5 a 1, decrementa el verde de 255 a 0
+            }
+
+            blue = 0; // Mantén el azul en su valor mínimo (0)
+
+            return Color.FromArgb(red, green, blue);
+        }
+
+        // Método para interpolar un color entre dos colores dados en función de un porcentaje
+        private static Color InterpolateColor(Color minColor, Color maxColor, double percentage)
+        {
+            // Obtener los componentes RGB de los colores mínimo y máximo
+            int minR = minColor.R;
+            int minG = minColor.G;
+            int minB = minColor.B;
+
+            int maxR = maxColor.R;
+            int maxG = maxColor.G;
+            int maxB = maxColor.B;
+
+            // Calcular los valores interpolados de los componentes RGB
+            int r = (int)Math.Round(minR + (maxR - minR) * percentage);
+            int g = (int)Math.Round(minG + (maxG - minG) * percentage);
+            int b = (int)Math.Round(minB + (maxB - minB) * percentage);
+
+            // Asegurarse de que los valores de color estén dentro del rango válido (0-255)
+            r = Math.Max(0, Math.Min(255, r));
+            g = Math.Max(0, Math.Min(255, g));
+            b = Math.Max(0, Math.Min(255, b));
+
+            return Color.FromArgb(r, g, b);
+        }
+
+        // Método para obtener el índice de columna en el mapa de calor según la categoría
+        private int GetRowIndexByCategory(string category)
+        {
+            switch (category)
+            {
+                case "ID":
+                    return 4;
+                case "PR":
+                    return 5;
+                case "DE":
+                    return 6;
+                case "RS":
+                    return 7;
+                case "RC":
+                    return 8;
+                default:
+                    return -1;
+            }
+        }
+
+        // Método para obtener el índice de fila en el mapa de calor según la categoría
+        private int GetColumnIndexByCategory(string category)
+        {
+            switch (category)
+            {
+                case "Bajo":
+                    return 4;
+                case "Medio":
+                    return 5;
+                case "Alto":
+                    return 6;
+                case "Crítico":
+                    return 7;
+                case "Objetivo Alcanzado":
+                    return 3;
+                default:
+                    return -1;
             }
         }
 

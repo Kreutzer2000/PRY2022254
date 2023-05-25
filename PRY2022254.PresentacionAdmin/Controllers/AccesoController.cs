@@ -9,6 +9,7 @@ using CapaEntidad;
 using CapaNegocio;
 
 using System.Web.Security;
+using PRY2022254.PresentacionAdmin.Utils;
 
 namespace PRY2022254.PresentacionAdmin.Controllers
 {
@@ -30,11 +31,22 @@ namespace PRY2022254.PresentacionAdmin.Controllers
             return View();
         }
 
+        private static Dictionary<string, string> activeSessions = new Dictionary<string, string>();
+
         [HttpPost]
         public ActionResult Index(string correo, string clave)
         {
             Usuario usuario = new Usuario();
             string contraseña = CN_Recursos.ConvertirSha1(clave);
+
+            // Verificar si ya existe una sesión activa para este usuario
+            //if (Session["idusuario"] != null)
+            //{
+            //    // Ya existe una sesión activa para este usuario
+            //    NotificacionesHub.EnviarMensaje("Intento de acceso a la cuenta desde otro lugar.");
+            //    return RedirectToAction("Index", "Acceso");
+            //}
+
             Session["email"] = correo;
             usuario = new CN_Usuario().UsuarioLogeo(correo);
             //List<Usuario> usuarios = new CN_Usuario().Listar();
@@ -43,6 +55,27 @@ namespace PRY2022254.PresentacionAdmin.Controllers
 
             if (usuario.email == correo && usuario.clave == contraseña)
             {
+
+                // Verificar si el usuario ya tiene una sesión activa en otro navegador
+                if (activeSessions.ContainsKey(usuario.email))
+                {
+                    string sessionToken = activeSessions[usuario.email];
+                    if (sessionToken != Session.SessionID)
+                    {
+                        // Se detecta un intento de acceso externo a la cuenta
+                        //string errorMessage = "Usted ya inició sesión en un navegador.";
+
+                        // Almacenar el mensaje de error en la sesión del usuario activo
+                        ViewBag.Error = "Su cuenta está actualmente en uso en otro navegador.";
+                        return View();
+                    }
+                }
+                else
+                {
+                    // El usuario no tiene sesiones activas, guardar el token de sesión actual
+                    activeSessions.Add(usuario.email, Session.SessionID);
+                }
+
                 if (usuario.oRolc.idRol == 1)
                 {
                     Session["idusuario"] = usuario.idUsuario;
@@ -68,6 +101,20 @@ namespace PRY2022254.PresentacionAdmin.Controllers
 
             ViewBag.Error = "Correo o contraseña no correcta";
             return View();
+        }
+
+        // Método para cerrar sesión
+        public ActionResult CerrarSesionDuplicidadDeSesion()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                string correo = User.Identity.Name;
+                activeSessions.Remove(correo);
+            }
+
+            FormsAuthentication.SignOut();
+            Session.Clear();
+            return RedirectToAction("Index", "Acceso");
         }
 
         [HttpPost]
@@ -153,7 +200,16 @@ namespace PRY2022254.PresentacionAdmin.Controllers
 
         public ActionResult CerrarSesion()
         {
+            //FormsAuthentication.SignOut();
+            //return RedirectToAction("Index", "Acceso");
+            if (User.Identity.IsAuthenticated)
+            {
+                string correo = User.Identity.Name;
+                activeSessions.Remove(correo);
+            }
+
             FormsAuthentication.SignOut();
+            Session.Clear();
             return RedirectToAction("Index", "Acceso");
         }
     }

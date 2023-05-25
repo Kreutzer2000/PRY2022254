@@ -141,8 +141,13 @@
 
         let timeout;
         let timeAway = 0;
-        const timeToWait = 10 * 60 * 1000; // 10 segundos en milisegundos
-        const redirectToUrl = "https://localhost:44392"; // Asegúrate de actualizar esto a la ruta correcta
+        const timeToWait = 10 * 60 * 1000; // 10 minutos en milisegundos
+
+        //HABILITAR SOLO PARA QA
+        //const redirectToUrl = "https://localhost:44392"; // Asegúrate de actualizar esto a la ruta correcta
+
+        //HABILITAR SOLO PARA PRODUCCION
+        const redirectToUrl = "https://pry20220254-admin.azurewebsites.net"; // Asegúrate de actualizar esto a la ruta correcta
 
         function resetTimeout() {
             clearTimeout(timeout);
@@ -153,7 +158,7 @@
 
         function showInactiveAlert() {
             const userResponse = confirm(
-                "Has estado inactivo por 10 segundos. ¿Deseas continuar? (Presiona OK para continuar o Cancelar para ir a la página de inicio)"
+                "Has estado inactivo por 10 minutos. ¿Deseas continuar? (Presiona OK para continuar o Cancelar para ir a la página de inicio)"
             );
 
             if (!userResponse) {
@@ -219,7 +224,11 @@
                         <a href="@Url.Action("Index","Home")" class="nav-item nav-link active">Inicio</a>
                         <a href="@Url.Action("Evaluacion","Cuestionario")" class="nav-item nav-link">Evaluación</a>
                     </div>
-                    <a href="https://localhost:44300" class="btn rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Iniciar Sesión</a>
+                    <!-- SOLO HABILITAR PARA QA -->
+                    @*<a href="https://localhost:44300" class="btn rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Iniciar Sesión</a>*@
+
+                    <!-- SOLO HABILITAR PARA PRODUCCION -->
+                    <a href="https://pry20220254-admin.azurewebsites.net" class="btn rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Iniciar Sesión</a>
                 </div>
             </nav>
 
@@ -1861,7 +1870,8 @@
                     Swal.fire({
                         icon: 'success',
                         title: 'Evaluación completada con éxito',
-                        html: 'Haz clic <a href="https://localhost:44300" target="_blank" >aquí</a> e ingresa con tu usuario y contraseña para poder ver tus resultados.',
+                        //html: 'Haz clic <a href="https://localhost:44300" target="_blank" >aquí</a> e ingresa con tu usuario y contraseña para poder ver tus resultados.', // SOLO HABILITAR PARA QA
+                        html: 'Haz clic <a href="https://pry20220254-admin.azurewebsites.net" target="_blank" >aquí</a> e ingresa con tu usuario y contraseña para poder ver tus resultados.', // SOLO HABILITAR PARA PRODUCCION
                         confirmButtonText: 'Aceptar',
                         allowOutsideClick: false,
                         allowEscapeKey: false

@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    <title>@ViewBag.Title</title>
 
 
     <!-- Google Web Fonts -->
@@ -47,7 +47,11 @@
                         @*<a href="@Url.Action("Evaluacion","Cuestionario")" class="nav-item nav-link">Evaluación</a>*@
                         <a href="@Url.Action("Contact","Home")" class="nav-item nav-link">Contacto</a>
                     </div>
-                    <a href="https://localhost:44300" class="btn rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Iniciar Sesión</a>
+                    <!-- SOLO HABILITAR PARA QA -->
+                    @*<a href="https://localhost:44300" class="btn rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Iniciar Sesión</a>*@
+
+                    <!-- SOLO HABILITAR PARA PRODUCCION -->
+                    <a href="https://pry20220254-admin.azurewebsites.net" class="btn rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Iniciar Sesión</a>
                 </div>
             </nav>
 
@@ -82,10 +86,10 @@
             <div class="container py-5 px-lg-5">
                 <div class="row g-5">
                     <div class="col-md-6 col-lg-3">
-                        <p class="section-title text-white h5 mb-4">Address<span></span></p>
-                        <p><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                        <p><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                        <p><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                        <p class="section-title text-white h5 mb-4">Dirección<span></span></p>
+                        <p><i class="fa fa-map-marker-alt me-3"></i>UPC San Isidro, Lima - Perú</p>
+                        <p><i class="fa fa-phone-alt me-3"></i>+51 913 754 400</p>
+                        <p><i class="fa fa-envelope me-3"></i>pry20220254.tp2@gmail.com</p>
                         <div class="d-flex pt-2">
                             <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
                             <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
@@ -94,12 +98,12 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3">
-                        <p class="section-title text-white h5 mb-4">Quick Link<span></span></p>
-                        <a class="btn btn-link" href="">About Us</a>
-                        <a class="btn btn-link" href="">Contact Us</a>
-                        <a class="btn btn-link" href="">Privacy Policy</a>
-                        <a class="btn btn-link" href="">Terms & Condition</a>
-                        <a class="btn btn-link" href="">Career</a>
+                        <p class="section-title text-white h5 mb-4">Enlace Rápido<span></span></p>
+                        @*<a class="btn btn-link" href="">About Us</a>*@
+                        <a class="btn btn-link" href="">Contáctanos</a>
+                        <a class="btn btn-link" href="">Políticas de Privacidad</a>
+                        <a class="btn btn-link" href="">Términos & Condiciones</a>
+                        @*<a class="btn btn-link" href="">Career</a>*@
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <p class="section-title text-white h5 mb-4">Gallery<span></span></p>
@@ -138,18 +142,18 @@
                 <div class="copyright">
                     <div class="row">
                         <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                            &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
+                            &copy; <a class="border-bottom" href="#">PRY20220254</a>, Todos los derechos reservados.
 
                             <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
-                            Distributed By a <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                            Diseñador por <a class="border-bottom" href="https://www.linkedin.com/in/renzo-di-paola-jara-349a301a1/">Renzo Di Paola Jara</a><br><br>
+                            @*Distributed By a <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>*@
                         </div>
                         <div class="col-md-6 text-center text-md-end">
                             <div class="footer-menu">
-                                <a href="">Home</a>
-                                <a href="">Cookies</a>
-                                <a href="">Help</a>
-                                <a href="">FQAs</a>
+                                <a href="">Inicio</a>
+                                @*<a href="">Cookies</a>*@
+                                <a href="">Ayuda</a>
+                                @*<a href="">FQAs</a>*@
                             </div>
                         </div>
                     </div>
