@@ -4,10 +4,150 @@
 
 }
 
-<h1 class="mt-4">Reportes</h1>
-<ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item active">Reportes</li>
-</ol>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+<style>
+    .card-header {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .card-body {
+        padding: 1.25rem;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+
+    table.dataTable thead th {
+        font-weight: bold;
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+    }
+
+    table.dataTable tfoot th {
+        font-weight: bold;
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+    }
+
+    table.dataTable tbody td {
+        border-color: #dee2e6;
+    }
+</style>
+
+<style>
+    .btn-circle {
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        line-height: 30px;
+        text-align: center;
+    }
+
+    .btn-editar {
+        color: #fff;
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+
+        .btn-editar:hover {
+            background-color: #0b5ed7;
+            border-color: #0b5ed7;
+        }
+
+    .btn-eliminar {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+        .btn-eliminar:hover {
+            background-color: #c82333;
+            border-color: #c82333;
+        }
+
+    table.dataTable thead th {
+        font-weight: bold;
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+    }
+
+    table.dataTable tbody td {
+        vertical-align: middle;
+    }
+
+    #tablaCliente_wrapper {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        padding: 10px;
+    }
+
+    #tablaCliente_length,
+    #tablaCliente_filter {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+        #tablaCliente_length label,
+        #tablaCliente_filter label {
+            margin-bottom: 0;
+            margin-left: 10px;
+        }
+
+    #tablaCliente_paginate {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #tablaCliente_info {
+        margin-top: 10px;
+    }
+
+    #tablaCliente_filter input[type="search"] {
+        border-radius: 5px;
+        padding: 5px;
+        width: 200px;
+    }
+
+    #tablaCliente th,
+    #tablaCliente td {
+        padding: 10px;
+    }
+
+    #tablaCliente th {
+        background-color: #e9ecef;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    #tablaCliente tbody tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
+    #tablaCliente tbody tr:hover {
+        background-color: #e9ecef;
+    }
+</style>
+
+<div class="jumbotron jumbotron-fluid ">
+    <div class="container">
+        <h1 class="display-4">Reportes</h1>
+        <p class="lead">Accede a información y análisis detallados para la toma de decisiones.</p>
+    </div>
+</div>
+
 @{
     if (Convert.ToInt32(Session["rolUsuario"]) == 1)
     {
@@ -86,9 +226,9 @@
             </div>
         </div>
         @*if (!string.IsNullOrEmpty(TempData["ExternalAccessErrorMessage"] as string))
-        {
-            <div class="alert alert-danger">@TempData["ExternalAccessErrorMessage"]</div>
-        }*@
+            {
+                <div class="alert alert-danger">@TempData["ExternalAccessErrorMessage"]</div>
+            }*@
         @*if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
             {
                 <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
@@ -171,9 +311,9 @@
             </div>
         </div>
         @*if (!string.IsNullOrEmpty(TempData["ExternalAccessErrorMessage"] as string))
-        {
-            <div class="alert alert-danger">@TempData["ExternalAccessErrorMessage"]</div>
-        }*@
+            {
+                <div class="alert alert-danger">@TempData["ExternalAccessErrorMessage"]</div>
+            }*@
         @*if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
             {
                 <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
@@ -182,6 +322,9 @@
 }
 
 @section scripts{
+
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
 
     <script>
 
@@ -235,7 +378,13 @@
                 ],
                 "language": {
                     "url": "https://cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
-                }
+                },
+                "dom": '<"row"<"col-sm-6"l><"col-sm-6"f>>t<"row"<"col-sm-6"i><"col-sm-6"p>>',
+                "lengthMenu": [10, 25, 50, 75, 100],
+                "pageLength": 10,
+                "initComplete": function () {
+                    $('#tablaCliente_filter input').addClass('form-control');
+                },
             });
 
             $('#tablaReporte tbody').on('click', '.btn-excel', function () {

@@ -3,17 +3,157 @@
     ViewBag.Title = "Usuarios";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+<style>
+    .card-header {
+        background-color: #007bff;
+        color: #fff;
+    }
 
-<h1 class="mt-4">Usuarios</h1>
+    .card-body {
+        padding: 1.25rem;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+
+    table.dataTable thead th {
+        font-weight: bold;
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+    }
+
+    table.dataTable tfoot th {
+        font-weight: bold;
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+    }
+
+    table.dataTable tbody td {
+        border-color: #dee2e6;
+    }
+</style>
+
+<style>
+    .btn-circle {
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        line-height: 30px;
+        text-align: center;
+    }
+
+    .btn-editar {
+        color: #fff;
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+
+        .btn-editar:hover {
+            background-color: #0b5ed7;
+            border-color: #0b5ed7;
+        }
+
+    .btn-eliminar {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+        .btn-eliminar:hover {
+            background-color: #c82333;
+            border-color: #c82333;
+        }
+
+    table.dataTable thead th {
+        font-weight: bold;
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+    }
+
+    table.dataTable tbody td {
+        vertical-align: middle;
+    }
+
+    #tablaCliente_wrapper {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        padding: 10px;
+    }
+
+    #tablaCliente_length,
+    #tablaCliente_filter {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+        #tablaCliente_length label,
+        #tablaCliente_filter label {
+            margin-bottom: 0;
+            margin-left: 10px;
+        }
+
+    #tablaCliente_paginate {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #tablaCliente_info {
+        margin-top: 10px;
+    }
+
+    #tablaCliente_filter input[type="search"] {
+        border-radius: 5px;
+        padding: 5px;
+        width: 200px;
+    }
+
+    #tablaCliente th,
+    #tablaCliente td {
+        padding: 10px;
+    }
+
+    #tablaCliente th {
+        background-color: #e9ecef;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    #tablaCliente tbody tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
+    #tablaCliente tbody tr:hover {
+        background-color: #e9ecef;
+    }
+
+</style>
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Usuarios</h1>
+        <p class="lead">Gestiona y administra los usuarios de tu aplicación.</p>
+    </div>
+</div>
 
 <div class="card">
     <div class="card-header">
         <i class="fas fa-users"></i> Lista de Usuarios
     </div>
     <div class="card-body">
-        @*<h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>*@
+
         <div class="row">
             <div class="col-12">
                 <button type="button" class="btn btn-success" onclick="abrirModal(null)">Crear Usuario</button>
@@ -35,19 +175,6 @@
                     <th>Mantenimiento</th>
                 </tr>
             </thead>
-
-            <tfoot>
-                <tr>
-                    <th>Nombres y Apellidos</th>
-                    <th>Cargo del Empleado</th>
-                    <th>Razon Social</th>
-                    <th>Ruc</th>
-                    <th>Email</th>
-                    <th>Rol</th>
-                    <th>Activo</th>
-                    <th>Mantenimiento</th>
-                </tr>
-            </tfoot>
         </table>
     </div>
 </div>
@@ -64,64 +191,113 @@
 
                 <input id="txtid" type="hidden" value="0" />
 
-                <div class="row  g-2">
-                    <div class="col-sm-6">
-                        <label for="formGroupExampleInput">Nombre</label>
-                        <input type="text" class="form-control" id="txtnombre" placeholder="Escriba aqui su nombre" autocomplete="off">
-                    </div>
-                    <div class="col-sm-6">
-                        <label for="formGroupExampleInput">Apellidos</label>
-                        <input type="text" class="form-control" id="txtapellido" placeholder="Escriba aqui su apellido" autocomplete="off">
-                    </div>
-                    <div class="col-sm-6">
-                        <label for="formGroupExampleInput">Cargo o Puesto</label>
-                        <input type="text" class="form-control" id="txtcargoEmpleado" placeholder="Escriba aqui el puesto" autocomplete="off">
-                    </div>
+                <div class="mb-3">
+                    <label for="txtnombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="txtnombre" placeholder="Escriba aquí su nombre" autocomplete="off">
+                </div>
+                <div class="mb-3">
+                    <label for="txtapellido" class="form-label">Apellidos</label>
+                    <input type="text" class="form-control" id="txtapellido" placeholder="Escriba aquí su apellido" autocomplete="off">
+                </div>
+                <div class="mb-3">
+                    <label for="txtcargoEmpleado" class="form-label">Cargo o Puesto</label>
+                    <input type="text" class="form-control" id="txtcargoEmpleado" placeholder="Escriba aquí el puesto" autocomplete="off">
+                </div>
 
-                    <div class="col-sm-6">
-                        <label for="formGroupExampleInput">RUC</label>
-                        <input type="text" class="form-control" id="txtruc" placeholder="Escriba aqui el ruc" autocomplete="off">
-                    </div>
-                    <div class="col-sm-12">
-                        <label for="formGroupExampleInput">Razon Social</label>
-                        <input type="text" class="form-control" id="txtrazonSocial" placeholder="Escriba aqui la razon social" autocomplete="off">
-                    </div>
-                    <div class="col-sm-12">
-                        <label for="formGroupExampleInput">Correo</label>
-                        <input type="email" class="form-control" id="txtcorreo" placeholder="Escriba aqui su correo" autocomplete="off">
-                    </div>
-                    <div class="col-sm-6">
-                        <label for="formGroupExampleInput">Activo</label>
+                <div class="mb-3">
+                    <label for="txtruc" class="form-label">RUC</label>
+                    <input type="text" class="form-control" id="txtruc" placeholder="Escriba aquí el RUC" autocomplete="off">
+                </div>
+                <div class="mb-3">
+                    <label for="txtrazonSocial" class="form-label">Razon Social</label>
+                    <input type="text" class="form-control" id="txtrazonSocial" placeholder="Escriba aquí la razón social" autocomplete="off">
+                </div>
+                <div class="mb-3">
+                    <label for="txtcorreo" class="form-label">Correo</label>
+                    <input type="email" class="form-control" id="txtcorreo" placeholder="Escriba aquí su correo" autocomplete="off">
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="cboactivo" class="form-label">Activo</label>
                         <select id="cboactivo" class="form-select">
                             <option value="1">Si</option>
                             <option value="0">No</option>
                         </select>
                     </div>
-                    <div class="col-sm-6">
-                        <label class="formGroupExampleInput">Rol</label>
+                    <div class="col">
+                        <label for="cboRol" class="form-label">Rol</label>
                         <select id="cboRol" class="form-select">
                         </select>
                     </div>
                 </div>
-                <div class="row mt-3">
-                    <div class="col-12">
-                        <div class="alert alert-danger" role="alert" id="mensajeError">
-                            A simple danger alert—check it out!
-                        </div>
-                    </div>
+                <div class="alert alert-danger mt-3" role="alert" id="mensajeError">
+                    A simple danger alert—check it out!
                 </div>
             </div>
-            <br />
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
             </div>
+
         </div>
     </div>
 </div>
 
+
 @section scripts{
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
     <script>
+
+        // Función para validar el campo de nombre
+        function validarNombre() {
+            var nombreInput = document.getElementById('txtnombre');
+            var nombreValue = nombreInput.value.trim();
+            var soloLetras = /^[a-zA-Z\s]+$/;
+
+            if (nombreValue !== '' && !soloLetras.test(nombreValue)) {
+                nombreInput.value = nombreValue.slice(0, -1); // Eliminar el último carácter no válido
+            }
+        }
+
+        // Función para validar el campo de apellidos
+        function validarApellidos() {
+            var apellidoInput = document.getElementById('txtapellido');
+            var apellidoValue = apellidoInput.value.trim();
+            var soloLetras = /^[a-zA-Z\s]+$/;
+
+            if (apellidoValue !== '' && !soloLetras.test(apellidoValue)) {
+                apellidoInput.value = apellidoValue.slice(0, -1); // Eliminar el último carácter no válido
+            }
+        }
+
+        // Función para validar el campo de cargo o puesto
+        function validarCargoPuesto() {
+            var cargoInput = document.getElementById('txtcargoEmpleado');
+            var cargoValue = cargoInput.value.trim();
+            var letrasNumeros = /^[a-zA-Z0-9\s]+$/;
+
+            if (cargoValue !== '' && !letrasNumeros.test(cargoValue)) {
+                cargoInput.value = cargoValue.slice(0, -1); // Eliminar el último carácter no válido
+            }
+        }
+
+        // Función para validar el campo de RUC
+        function validarRUC() {
+            var rucInput = document.getElementById('txtruc');
+            var rucValue = rucInput.value.trim();
+            var soloNumeros = /^[0-9]+$/;
+
+            if (rucValue.length > 11 || (rucValue !== '' && !soloNumeros.test(rucValue))) {
+                rucInput.value = rucValue.slice(0, -1); // Eliminar el último carácter no válido
+            }
+        }
+
+        // Agregar eventos de escucha a los campos de entrada
+        document.getElementById('txtnombre').addEventListener('input', validarNombre);
+        document.getElementById('txtapellido').addEventListener('input', validarApellidos);
+        document.getElementById('txtcargoEmpleado').addEventListener('input', validarCargoPuesto);
+        document.getElementById('txtruc').addEventListener('input', validarRUC);
 
         var tabladata;
         var filaSeleccionada;
@@ -192,7 +368,14 @@
             ],
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
-            }
+            },
+
+            "dom": '<"row"<"col-sm-6"l><"col-sm-6"f>>t<"row"<"col-sm-6"i><"col-sm-6"p>>',
+            "lengthMenu": [10, 25, 50, 75, 100],
+            "pageLength": 10,
+            "initComplete": function () {
+                $('#tablaCliente_filter input').addClass('form-control');
+            },
         });
 
         /* ///////////////// ABRIR MODAL ///////////////// */
@@ -206,6 +389,7 @@
             $("#txtruc").val("");
             $("#txtcorreo").val("");
             $("#cboactivo").val(1);
+            $("#cboRol").val(2);
 
             $("#mensajeError").hide();
 
@@ -371,4 +555,7 @@
 
 
     </script>
-} 
+
+
+
+}
