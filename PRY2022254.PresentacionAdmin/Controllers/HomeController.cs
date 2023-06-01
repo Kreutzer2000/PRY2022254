@@ -29,25 +29,80 @@ using System.Net.Http.Headers;
 using Aspose.Cells;
 using Aspose.Cells.Rendering;
 using Google.Cloud.Translation.V2;
+using Microsoft.AspNet.SignalR;
+using PRY2022254.PresentacionAdmin.Utils;
+using System.Threading;
+using System.Web.WebSockets;
 
 namespace PRY2022254.PresentacionAdmin.Controllers
 {
-    [Authorize]
+    
+    [System.Web.Mvc.Authorize]
+    [InactividadFilter]
+    [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
     public class HomeController : Controller
     {
+        private IHubContext _hubContext;
+
+        public HomeController(IHubContext hubContext)
+        {
+            _hubContext = hubContext;
+        }
+        // Constructor sin parámetros
+        public HomeController()
+        {
+            // Lógica adicional si es necesaria
+        }
+        public ActionResult WebSocket()
+        {
+            if (HttpContext.IsWebSocketRequest)
+            {
+                HttpContext.AcceptWebSocketRequest(HandleWebSocket);
+            }
+
+            return new HttpStatusCodeResult(400, "Bad Request");
+        }
+        private async Task HandleWebSocket(AspNetWebSocketContext context)
+        {
+            var socket = context.WebSocket;
+
+            // Aquí puedes realizar acciones adicionales cuando se establece la conexión WebSocket
+
+            var buffer = new byte[1024];
+            var result = await socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+
+            while (!result.CloseStatus.HasValue)
+            {
+                // Procesar el mensaje recibido desde el cliente WebSocket
+                var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
+
+                // Aquí puedes manejar el mensaje recibido
+
+                result = await socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            }
+
+            // Aquí puedes realizar acciones adicionales cuando se cierra la conexión WebSocket
+
+            socket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+        }
+
         public ActionResult Index()
         {
             string correo = Convert.ToString(Session["email"]);
             int rol = Convert.ToInt32(Session["rolUsuario"]);
 
-            //// Obtener el mensaje de error de intento de acceso externo de la sesión
-            //string errorMessage = Session["ExternalAccessErrorMessage"] as string;
+            // Obtener el correo electrónico del usuario autenticado
+            //string email = User.Identity.Name;
 
-            //// Limpiar el mensaje de error de la sesión
-            //Session["ExternalAccessErrorMessage"] = null;
+            //// Obtener la instancia de IHubContext
+            //var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificacionesHub>();
 
-            //// Pasar el mensaje a la vista
-            //ViewBag.ErrorMessage = errorMessage;
+            //// Verificar que hubContext no sea null
+            //if (hubContext != null)
+            //{
+            //    // Notificar a los clientes conectados que se ha iniciado sesión
+            //    hubContext.Clients.All.recibirNotificacion(email);
+            //}
 
             return View();
         }
@@ -1618,4 +1673,36 @@ namespace PRY2022254.PresentacionAdmin.Controllers
         }
 
     }
+
+    //public class InactividadFilter : ActionFilterAttribute
+    //{
+    //    public override void OnActionExecuting(ActionExecutingContext filterContext)
+    //    {
+    //        // Verificar si el usuario ha iniciado sesión
+    //        if (filterContext.HttpContext.User.Identity.IsAuthenticated)
+    //        {
+    //            // Obtener la última actividad registrada en la sesión
+    //            DateTime ultimaActividad = Convert.ToDateTime(filterContext.HttpContext.Session["ultimaActividad"]);
+
+    //            // Calcular la diferencia de tiempo entre la última actividad y el momento actual
+    //            TimeSpan tiempoInactividad = DateTime.Now - ultimaActividad;
+
+    //            // Comprobar si el tiempo de inactividad supera los 5 minutos (300 segundos)
+    //            if (tiempoInactividad.TotalSeconds > 300000000000000000)
+    //            {
+    //                // Cerrar la sesión y redirigir al controlador "Acceso" para cerrar sesión
+    //                filterContext.HttpContext.Session.Clear();
+    //                filterContext.HttpContext.Session.Abandon();
+    //                filterContext.HttpContext.Response.Cookies.Add(new HttpCookie("ASP.NET_SessionId", ""));
+    //                filterContext.HttpContext.Response.Redirect("~/Acceso/CerrarSesion");
+    //                return;
+    //            }
+    //        }
+
+    //        // Actualizar la última actividad registrada en la sesión
+    //        filterContext.HttpContext.Session["ultimaActividad"] = DateTime.Now;
+
+    //        base.OnActionExecuting(filterContext);
+    //    }
+    //}
 }

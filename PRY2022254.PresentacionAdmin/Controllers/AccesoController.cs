@@ -10,9 +10,12 @@ using CapaNegocio;
 
 using System.Web.Security;
 using PRY2022254.PresentacionAdmin.Utils;
+using System.Web.Routing;
+using Microsoft.AspNet.SignalR;
 
 namespace PRY2022254.PresentacionAdmin.Controllers
 {
+    [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
     public class AccesoController : Controller
     {
         // GET: Acceso
@@ -31,6 +34,8 @@ namespace PRY2022254.PresentacionAdmin.Controllers
             return View();
         }
 
+        
+
         private static Dictionary<string, string> activeSessions = new Dictionary<string, string>();
 
         [HttpPost]
@@ -39,19 +44,16 @@ namespace PRY2022254.PresentacionAdmin.Controllers
             Usuario usuario = new Usuario();
             string contraseña = CN_Recursos.ConvertirSha1(clave);
 
-            // Verificar si ya existe una sesión activa para este usuario
-            //if (Session["idusuario"] != null)
-            //{
-            //    // Ya existe una sesión activa para este usuario
-            //    NotificacionesHub.EnviarMensaje("Intento de acceso a la cuenta desde otro lugar.");
-            //    return RedirectToAction("Index", "Acceso");
-            //}
-
             Session["email"] = correo;
             usuario = new CN_Usuario().UsuarioLogeo(correo);
             //List<Usuario> usuarios = new CN_Usuario().Listar();
             //List<Usuario> usuariosAdmin = new CN_Usuario().ListarAdmins();
             //usuario = usuarios;
+            string mensaje = string.Empty;
+            int sesionGuardar = 0;
+
+            List<ActiveSession> sesiones = new List<ActiveSession>();
+            sesiones = new CN_Sesiones().ListarSesiones();
 
             if (usuario.email == correo && usuario.clave == contraseña)
             {
@@ -62,11 +64,25 @@ namespace PRY2022254.PresentacionAdmin.Controllers
                     string sessionToken = activeSessions[usuario.email];
                     if (sessionToken != Session.SessionID)
                     {
-                        // Se detecta un intento de acceso externo a la cuenta
-                        //string errorMessage = "Usted ya inició sesión en un navegador.";
-
                         // Almacenar el mensaje de error en la sesión del usuario activo
                         ViewBag.Error = "Su cuenta está actualmente en uso en otro navegador.";
+
+                        // Enviar notificación al usuario que tiene la sesión abierta
+                        NotificacionesHub.EnviarMensaje(usuario.email, "Hemos detectado un intento de inicio de sesión no autorizado " +
+                            "en tu cuenta desde un navegador desconocido. Te recomendamos cambiar tu contraseña de inmediato " +
+                            "para garantizar la seguridad de tu cuenta.");
+
+                        // Buscar el ConnectionId del usuario
+                        //ActiveSession session = new CN_Sesiones().ListarSesiones_Correo(correo);
+                        //string connectionId = session.key;
+
+                        // Enviar notificación al usuario específico
+                        //var context = GlobalHost.ConnectionManager.GetHubContext<NotificacionesHub>();
+                        //context.Clients.Client(connectionId).recibirNotificacion("Un usuario ha intentado iniciar sesión con tu cuenta en otro navegador.");
+
+                        //var context = GlobalHost.ConnectionManager.GetHubContext<NotificacionesHub>();
+                        //context.Clients.All.recibirNotificacion("Un usuario ha intentado iniciar sesión con tu cuenta en otro navegador.");
+
                         return View();
                     }
                 }
@@ -74,6 +90,9 @@ namespace PRY2022254.PresentacionAdmin.Controllers
                 {
                     // El usuario no tiene sesiones activas, guardar el token de sesión actual
                     activeSessions.Add(usuario.email, Session.SessionID);
+                    
+                    sesionGuardar = new CN_Sesiones().RegistrarSesion(usuario.email, Session.SessionID, out mensaje);
+
                 }
 
                 if (usuario.oRolc.idRol == 1)
@@ -99,7 +118,7 @@ namespace PRY2022254.PresentacionAdmin.Controllers
 
             }
 
-            ViewBag.Error = "Correo o contraseña no correcta";
+            ViewBag.Error = "Por favor, ingresar las credenciales correctas";
             return View();
         }
 
@@ -202,10 +221,17 @@ namespace PRY2022254.PresentacionAdmin.Controllers
         {
             //FormsAuthentication.SignOut();
             //return RedirectToAction("Index", "Acceso");
+            bool respuesta = false;
+            string mensaje = string.Empty;
+
             if (User.Identity.IsAuthenticated)
             {
                 string correo = User.Identity.Name;
-                activeSessions.Remove(correo);
+                respuesta = new CN_Sesiones().EliminarSesion(correo, out mensaje);
+                if (respuesta)
+                {
+                    activeSessions.Remove(correo);
+                }
             }
 
             FormsAuthentication.SignOut();
@@ -213,4 +239,45 @@ namespace PRY2022254.PresentacionAdmin.Controllers
             return RedirectToAction("Index", "Acceso");
         }
     }
+
+    public class InactividadFilter : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            // Verificar si el usuario ha iniciado sesión
+            if (filterContext.HttpContext.User.Identity.IsAuthenticated)
+            {
+                // Verificar si existe una marca de tiempo de inicio de sesión en la sesión
+                if (filterContext.HttpContext.Session["inicioSesion"] == null)
+                {
+                    // Establecer la marca de tiempo de inicio de sesión
+                    filterContext.HttpContext.Session["inicioSesion"] = DateTime.Now;
+                }
+                else
+                {
+                    // Obtener la marca de tiempo de inicio de sesión de la sesión
+                    DateTime inicioSesion = Convert.ToDateTime(filterContext.HttpContext.Session["inicioSesion"]);
+
+                    // Calcular la diferencia de tiempo entre el inicio de sesión y el momento actual
+                    TimeSpan tiempoInactividad = DateTime.Now - inicioSesion;
+
+                    // Comprobar si el tiempo de inactividad supera los 15 minutos (900 segundos)
+                    if (tiempoInactividad.TotalSeconds > 900)
+                    {
+                        // Cerrar la sesión y redirigir al controlador "Acceso" para cerrar sesión
+                        filterContext.HttpContext.Session.Clear();
+                        filterContext.HttpContext.Session.Abandon();
+                        filterContext.HttpContext.Response.Cookies.Add(new HttpCookie("ASP.NET_SessionId", ""));
+                        filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Acceso", action = "CerrarSesion" }));
+                        return;
+                    }
+                }
+            }
+
+            base.OnActionExecuting(filterContext);
+        }
+    }
+
+
+
 }

@@ -9,6 +9,8 @@ using System.Web.Mvc;
 namespace PRY2022254.PresentacionAdmin.Controllers
 {
     [Authorize]
+    [InactividadFilter]
+    [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
     public class FrameworkController : Controller
     {
         // GET: Framework

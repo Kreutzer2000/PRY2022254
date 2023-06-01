@@ -28,7 +28,7 @@
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
+                <span class="sr-only">Cargando...</span>
             </div>
         </div>
         <!-- Spinner End -->
@@ -50,7 +50,11 @@
                         @*<a href="@Url.Action("Evaluacion","Cuestionario")" class="nav-item nav-link">Evaluación</a>*@
                         <a href="@Url.Action("Contact","Home")" class="nav-item nav-link">Contacto</a>
                     </div>
-                    <a href="https://localhost:44300" class="btn rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Iniciar Sesión</a>
+                    <!-- SOLO HABILITAR PARA QA -->
+                    @*<a href="https://localhost:44300" target="_blank" class="btn rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Iniciar Sesión</a>*@
+
+                    <!-- SOLO HABILITAR PARA PRODUCCION -->
+                    <a href="https://pry20220254-admin.azurewebsites.net" target="_blank" class="btn rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Iniciar Sesión</a>
                 </div>
             </nav>
 
@@ -84,7 +88,7 @@
                             </div>
                             <div class="bg-light p-4">
                                 <form action="@Url.Action("Cuestionario", "Cuestionario")" method="post">
-                                    <h2 class="text-primary fw-medium mb-2">Para poder iniciar primero deberá ingresar su correo electrónico</h2>
+                                    <h2 class="text-primary fw-medium mb-2">Para comenzar, por favor ingrese su dirección de correo electrónico</h2>
                                     <br />
 
 

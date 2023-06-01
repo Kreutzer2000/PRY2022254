@@ -19,6 +19,7 @@ namespace PRY2022254.PresentacionAdmin
                 "~/Scripts/loadingoverlay/loadingoverlay.min.js",
                 "~/Scripts/sweetalert.min.js",
                 "~/Scripts/jquery-ui.js",
+                //"~/Scripts/jquery.signalR-2.4.3.min.js",
                 "~/Scripts/scripts.js"));
 
             //bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(

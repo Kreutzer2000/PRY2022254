@@ -13,7 +13,7 @@ namespace CapaNegocio
     public class CN_Usuario
     {
         private CD_Usuario objUsuario = new CD_Usuario();
-        
+
         public List<Usuario> Listar()
         {
             return objUsuario.Listar();
@@ -55,9 +55,9 @@ namespace CapaNegocio
             {
                 Mensaje = "El correo del usuario no puede ser vacío";
             }
-            else if (obj.oRolc.idRol == 0)
+            else if (obj.oRolc.idRol == 0 || obj.oRolc.idRol == 1)
             {
-                Mensaje = "Debe seleccionar un Rol";
+                Mensaje = "Debe seleccionar el Rol Cliente";
             }
 
             if (string.IsNullOrEmpty(Mensaje))
@@ -196,7 +196,7 @@ namespace CapaNegocio
                 return false;
             }
 
-            
+
         }
 
         /* FUNCION PARA ENVIAR CORREO A CORREO DEL PROYECTO */
@@ -226,10 +226,64 @@ namespace CapaNegocio
 
                 //asunto = "Creación de Cuenta";
 
-                string mensajeCorreo = "<h1 style=\"color: #5e9ca0;\">Mensaje de !name!</h1></br>" +
-                    "<p>!mensaje!</p>" +
-                    "<p>Atte.<br />" +
-                    "!name!.<br /><a href=\"!correo!\">!correo!</a></p>";
+                string mensajeCorreo = @"
+                <html>
+                <head>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            color: #333333;
+                        }
+                        .container {
+                            max-width: 600px;
+                            margin: 0 auto;
+                            padding: 20px;
+                            border: 1px solid #e1e1e1;
+                            border-radius: 5px;
+                            background-color: #f8f8f8;
+                        }
+                        .header {
+                            text-align: center;
+                            margin-bottom: 20px;
+                        }
+                        .title {
+                            color: #333333;
+                            font-size: 28px;
+                            font-weight: bold;
+                            text-transform: uppercase;
+                            margin-bottom: 10px;
+                        }
+                        .message {
+                            font-size: 16px;
+                            line-height: 1.5;
+                            margin-bottom: 20px;
+                        }
+                        .signature {
+                            font-weight: bold;
+                            margin-top: 20px;
+                        }
+                        .email {
+                            color: #5e9ca0;
+                            text-decoration: none;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class='container'>
+                        <div class='header'>
+                            <h1 class='title'>MENSAJE DE !name!</h1>
+                        </div>
+                        <div class='message'>
+                            <p>!mensaje!</p>
+                        </div>
+                        <div class='signature'>
+                            Atentamente,<br />
+                            <span class='sender'>!name!</span><br />
+                            <a href='mailto:!correo!' class='email'>!correo!</a>
+                        </div>
+                    </div>
+                </body>
+                </html>";
 
                 //mensajeCorreo = mensajeCorreo.Replace("!clave!", clave);
                 mensajeCorreo = mensajeCorreo.Replace("!correo!", correo);

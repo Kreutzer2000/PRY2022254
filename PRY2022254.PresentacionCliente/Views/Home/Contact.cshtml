@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "Contacto";
 }
 
 
@@ -8,12 +8,12 @@
     <div class="container py-5 px-lg-5">
         <div class="wow fadeInUp" data-wow-delay="0.1s">
             <p class="section-title text-secondary justify-content-center"><span></span>Contactanos<span></span></p>
-            <h1 class="text-center mb-5">Contacto Para Cualquier Consulta</h1>
+            <h1 class="text-center mb-5">Contacto para cualquier consulta o inquietud</h1>
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-7">
                 <div class="wow fadeInUp" data-wow-delay="0.3s">
-                    <p class="text-center mb-4">Escriba sus consultas y en la brevedad le responderemos a su correo</a>.</p>
+                    <p class="text-center mb-4">Escriba sus consultas y nos pondremos en contacto con usted a la brevedad posible a través de su dirección de correo electrónico proporcionada.</a>.</p>
                     <form action="@Url.Action("Contacto", "Home")" method="post">
                         <div class="row g-3">
                             <div class="col-md-6">
@@ -41,7 +41,7 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">Enviar Mensaje</button>
+                                <button class="btn btn-primary w-100 py-3" id="enviar_mensaje" type="submit">Enviar Mensaje</button>
                             </div>
                         </div>
                     </form>
