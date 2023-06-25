@@ -529,6 +529,7 @@ namespace PRY2022254.PresentacionAdmin.Controllers
         {
             //private readonly string apiKey = "clave_api";
             private readonly string apiKeyOpenAI = Environment.GetEnvironmentVariable("OpenAI");
+            
 
             public async Task<string> GenerarTextoConOpenAI(string mensaje)
             {

@@ -6,6 +6,9 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+
+<!-- Agrega los estilos de SweetAlert -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
 <style>
     .card-header {
         background-color: #007bff;
@@ -138,8 +141,9 @@
     #tablaCliente tbody tr:hover {
         background-color: #e9ecef;
     }
-
 </style>
+
+<div id="notificationAlert" class="alert alert-info" style="display: none;"></div>
 
 <div class="jumbotron">
     <div class="container">
@@ -247,7 +251,42 @@
 @section scripts{
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+    <!-- Agrega SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="/signalr/hubs"></script>
+
     <script>
+
+        $(function () {
+            // establece la conexión con el hub
+            debugger;
+            var notificaciones = $.connection.notificacionesHub;
+            console.log(notificaciones);
+            // define la función RecibirNotificacion para mostrar la notificación en la página
+            notificaciones.client.RecibirNotificacion = function (mensaje) {
+                debugger;
+                //$('#notificationAlert').text(mensaje).show();
+                Swal.fire({
+                    title: "Notificación",
+                    text: mensaje,
+                    icon: "warning",
+                    confirmButtonText: "OK",
+                    allowOutsideClick: false,
+                    customClass: {
+                        icon: 'swal2-icon-warning swal2-icon-4x',
+                        title: 'swal2-title-red'
+                    },
+                    position: "center"
+                });
+            };
+
+            // inicia la conexión
+            $.connection.hub.start().done(function () {
+                console.log('Conectado al hub de notificaciones');
+            });
+        });
 
         // Función para validar el campo de nombre
         function validarNombre() {
