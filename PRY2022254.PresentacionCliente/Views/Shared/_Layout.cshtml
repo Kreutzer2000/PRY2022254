@@ -32,7 +32,7 @@
         <!-- Navbar & Hero Start -->
         <div class="container-xxl position-relative p-0">
             <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
-                <a href="" class="navbar-brand p-0">
+                <a href="@Url.Action("Index","Home")" class="navbar-brand p-0">
                     <h1 class="m-0">PRY20220254</h1>
                     <!-- <img src="img/logo.png" alt="Logo"> -->
                 </a>
@@ -41,11 +41,15 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav mx-auto py-0">
-                        <a href="@Url.Action("Index","Home")" class="nav-item nav-link active">Inicio</a>
+                        <!--<a href="@Url.Action("Index","Home")" class="nav-item nav-link active">Inicio</a>-->
                         @*<a href="@Url.Action("Filtro","Home")" class="nav-item nav-link">Pregunta</a>*@
-                        <a href="@Url.Action("Cuestionario","Cuestionario")" class="nav-item nav-link">Cuestionario</a>
+                        <!--<a href="@Url.Action("Cuestionario","Cuestionario")" class="nav-item nav-link">Cuestionario</a>-->
                         @*<a href="@Url.Action("Evaluacion","Cuestionario")" class="nav-item nav-link">Evaluación</a>*@
-                        <a href="@Url.Action("Contact","Home")" class="nav-item nav-link">Contacto</a>
+                        <!--<a href="@Url.Action("Contact","Home")" class="nav-item nav-link">Contacto</a>-->
+                        <a href="@Url.Action("Index","Home")" class="nav-item nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">Inicio</a>
+                        <a href="@Url.Action("Cuestionario","Cuestionario")" class="nav-item nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Cuestionario" ? "active" : "")">Cuestionario</a>
+                        <a href="@Url.Action("Contact","Home")" class="nav-item nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")">Contacto</a>
+
                     </div>
                     <!-- SOLO HABILITAR PARA QA -->
                     @*<a href="https://localhost:44300" target="_blank" class="btn rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Iniciar Sesión</a>*@
@@ -60,7 +64,7 @@
                 <div class="container px-lg-5">
                     <div class="row g-5 align-items-end">
                         <div class="col-lg-6 text-center text-lg-start">
-                            <h1 class="text-white mb-4 animated slideInDown">Modelo de Madurez Para Evaluar los Protocolos de Seguridad</h1>
+                            <h1 class="text-white mb-4 animated slideInDown">Modelo de Madurez Para Evaluar los Protocolos de Respuestas</h1>
                             <p class="text-white pb-3 animated slideInDown">Un enfoque que nos ayuda a medir qué tan buenos son los protocolos de seguridad en un sistema. Utilizando este modelo, podemos evaluar el nivel de desarrollo de los protocolos y ver si necesitan mejorar. Esto nos permite proteger mejor la información sensible y establecer metas para fortalecer la seguridad. <p>
                                 <a href="https://www.sei.cmu.edu/about/divisions/cert/index.cfm" target="_blank" class="btn btn-secondary py-sm-3 px-sm-5 rounded-pill me-3 animated slideInLeft">Leer Más</a>
                                 <a href="@Url.Action("Contact","Home")" class="btn btn-light py-sm-3 px-sm-5 rounded-pill animated slideInRight">Contactanos</a>
@@ -100,41 +104,21 @@
                     <div class="col-md-6 col-lg-3">
                         <p class="section-title text-white h5 mb-4">Enlace Rápido<span></span></p>
                         @*<a class="btn btn-link" href="">About Us</a>*@
-                        <a class="btn btn-link" href="">Contáctanos</a>
-                        <a class="btn btn-link" href="">Políticas de Privacidad</a>
-                        <a class="btn btn-link" href="">Términos & Condiciones</a>
+                        <a class="btn btn-link" href="@Url.Action("Contact","Home")">Contáctanos</a>
+                        @*<a class="btn btn-link" href="">Políticas de Privacidad</a>
+                        <a class="btn btn-link" href="">Términos & Condiciones</a>*@
                         @*<a class="btn btn-link" href="">Career</a>*@
                     </div>
                     <div class="col-md-6 col-lg-3">
-                        <p class="section-title text-white h5 mb-4">Gallery<span></span></p>
-                        <div class="row g-2">
-                            <div class="col-4">
-                                <img class="img-fluid" src="~/img/portfolio-1.jpg" alt="Image">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid" src="~/img/portfolio-2.jpg" alt="Image">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid" src="~/img/portfolio-3.jpg" alt="Image">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid" src="~/img/portfolio-4.jpg" alt="Image">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid" src="~/img/portfolio-5.jpg" alt="Image">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid" src="~/img/portfolio-6.jpg" alt="Image">
-                            </div>
-                        </div>
+                        <p class="section-title text-white h5 mb-4">Servicios<span></span></p>
+                        <p>Modelo de Madurez</p>
+                        <p>Análisis de Datos</p>
+                        <p>Recomendaciones de Mejora</p>
                     </div>
                     <div class="col-md-6 col-lg-3">
-                        <p class="section-title text-white h5 mb-4">Newsletter<span></span></p>
-                        <p>Lorem ipsum dolor sit amet elit. Phasellus nec pretium mi. Curabitur facilisis ornare velit non vulpu</p>
-                        <div class="position-relative w-100 mt-3">
-                            <input class="form-control border-0 rounded-pill w-100 ps-4 pe-5" type="text" placeholder="Your Email" style="height: 48px;">
-                            <button type="button" class="btn shadow-none position-absolute top-0 end-0 mt-1 me-2"><i class="fa fa-paper-plane text-primary fs-4"></i></button>
-                        </div>
+                        <p class="section-title text-white h5 mb-4">Equipo<span></span></p>
+                        <p><i class="fas fa-user"></i> Brian Solís León</p>
+                        <p><i class="fas fa-user"></i> Renzo Di Paola Jara</p>
                     </div>
                 </div>
             </div>
@@ -145,14 +129,14 @@
                             &copy; <a class="border-bottom" href="#">PRY20220254</a>, Todos los derechos reservados.
 
                             <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Diseñador por <a class="border-bottom" href="https://www.linkedin.com/in/renzo-di-paola-jara-349a301a1/">Renzo Di Paola Jara</a><br><br>
+                            Diseñador por <a class="border-bottom" target="_blank" href="https://www.linkedin.com/in/renzo-di-paola-jara-349a301a1/">Renzo Di Paola Jara</a><br><br>
                             @*Distributed By a <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>*@
                         </div>
                         <div class="col-md-6 text-center text-md-end">
                             <div class="footer-menu">
-                                <a href="">Inicio</a>
+                                <a href="@Url.Action("Index","Home")">Inicio</a>
                                 @*<a href="">Cookies</a>*@
-                                <a href="">Ayuda</a>
+                                @*<a href="">Ayuda</a>*@
                                 @*<a href="">FQAs</a>*@
                             </div>
                         </div>

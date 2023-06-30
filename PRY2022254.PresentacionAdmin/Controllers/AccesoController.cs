@@ -55,68 +55,76 @@ namespace PRY2022254.PresentacionAdmin.Controllers
             List<ActiveSession> sesiones = new List<ActiveSession>();
             sesiones = new CN_Sesiones().ListarSesiones();
 
-            if (usuario.email == correo && usuario.clave == contraseña)
-            {
-
-                // Verificar si el usuario ya tiene una sesión activa en otro navegador
-                if (activeSessions.ContainsKey(usuario.email))
+            if(usuario != null){
+                if (usuario.email == correo && usuario.clave == contraseña)
                 {
-                    string sessionToken = activeSessions[usuario.email];
-                    if (sessionToken != Session.SessionID)
+
+                    // Verificar si el usuario ya tiene una sesión activa en otro navegador
+                    if (activeSessions.ContainsKey(usuario.email))
                     {
-                        // Almacenar el mensaje de error en la sesión del usuario activo
-                        ViewBag.Error = "Su cuenta está actualmente en uso en otro navegador.";
+                        string sessionToken = activeSessions[usuario.email];
+                        if (sessionToken != Session.SessionID)
+                        {
+                            // Almacenar el mensaje de error en la sesión del usuario activo
+                            ViewBag.Error = "Su cuenta está actualmente en uso en otro navegador.";
 
-                        // Enviar notificación al usuario que tiene la sesión abierta
-                        NotificacionesHub.EnviarMensaje(usuario.email, "Hemos detectado un intento de inicio de sesión no autorizado " +
-                            "en tu cuenta desde un navegador desconocido. Te recomendamos cambiar tu contraseña de inmediato " +
-                            "para garantizar la seguridad de tu cuenta.");
+                            // Enviar notificación al usuario que tiene la sesión abierta
+                            NotificacionesHub.EnviarMensaje(usuario.email, "Hemos detectado un intento de inicio de sesión no autorizado " +
+                                "en tu cuenta desde un navegador desconocido. Te recomendamos cambiar tu contraseña de inmediato " +
+                                "para garantizar la seguridad de tu cuenta.");
 
-                        // Buscar el ConnectionId del usuario
-                        //ActiveSession session = new CN_Sesiones().ListarSesiones_Correo(correo);
-                        //string connectionId = session.key;
+                            // Buscar el ConnectionId del usuario
+                            //ActiveSession session = new CN_Sesiones().ListarSesiones_Correo(correo);
+                            //string connectionId = session.key;
 
-                        // Enviar notificación al usuario específico
-                        //var context = GlobalHost.ConnectionManager.GetHubContext<NotificacionesHub>();
-                        //context.Clients.Client(connectionId).recibirNotificacion("Un usuario ha intentado iniciar sesión con tu cuenta en otro navegador.");
+                            // Enviar notificación al usuario específico
+                            //var context = GlobalHost.ConnectionManager.GetHubContext<NotificacionesHub>();
+                            //context.Clients.Client(connectionId).recibirNotificacion("Un usuario ha intentado iniciar sesión con tu cuenta en otro navegador.");
 
-                        //var context = GlobalHost.ConnectionManager.GetHubContext<NotificacionesHub>();
-                        //context.Clients.All.recibirNotificacion("Un usuario ha intentado iniciar sesión con tu cuenta en otro navegador.");
+                            //var context = GlobalHost.ConnectionManager.GetHubContext<NotificacionesHub>();
+                            //context.Clients.All.recibirNotificacion("Un usuario ha intentado iniciar sesión con tu cuenta en otro navegador.");
 
-                        return View();
+                            return View();
+                        }
                     }
-                }
-                else
-                {
-                    // El usuario no tiene sesiones activas, guardar el token de sesión actual
-                    activeSessions.Add(usuario.email, Session.SessionID);
-                    
-                    sesionGuardar = new CN_Sesiones().RegistrarSesion(usuario.email, Session.SessionID, out mensaje);
+                    else
+                    {
+                        // El usuario no tiene sesiones activas, guardar el token de sesión actual
+                        activeSessions.Add(usuario.email, Session.SessionID);
 
-                }
+                        sesionGuardar = new CN_Sesiones().RegistrarSesion(usuario.email, Session.SessionID, out mensaje);
 
-                if (usuario.oRolc.idRol == 1)
-                {
-                    Session["idusuario"] = usuario.idUsuario;
-                    FormsAuthentication.SetAuthCookie(usuario.email, false);
-                    Session["rolUsuario"] = usuario.oRolc.idRol;
-                    ViewBag.Error = null;
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    if (usuario.restablecer)
+                    }
+
+                    if (usuario.oRolc.idRol == 1)
                     {
                         Session["idusuario"] = usuario.idUsuario;
-                        return RedirectToAction("CambiarClave");
+                        FormsAuthentication.SetAuthCookie(usuario.email, false);
+                        Session["rolUsuario"] = usuario.oRolc.idRol;
+                        ViewBag.Error = null;
+                        return RedirectToAction("Index", "Home");
                     }
-                    FormsAuthentication.SetAuthCookie(usuario.email, false);
-                    Session["rolUsuario"] = usuario.oRolc.idRol;
-                    ViewBag.Error = null;
-                    return RedirectToAction("Index", "Home");
-                }
+                    else
+                    {
+                        if (usuario.restablecer)
+                        {
+                            Session["idusuario"] = usuario.idUsuario;
+                            return RedirectToAction("CambiarClave");
+                        }
+                        FormsAuthentication.SetAuthCookie(usuario.email, false);
+                        Session["rolUsuario"] = usuario.oRolc.idRol;
+                        ViewBag.Error = null;
+                        return RedirectToAction("Index", "Home");
+                    }
 
+                }
             }
+            else
+            {
+                ViewBag.Error = "El usuario no existe, por favor ingresar un usuario válido";
+                return View();
+            }
+            
 
             ViewBag.Error = "Por favor, ingresar las credenciales correctas";
             return View();
@@ -189,7 +197,7 @@ namespace PRY2022254.PresentacionAdmin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Reestablecer(string correo)
+        public ActionResult RestablecerClave(string correo)
         {
             Usuario usuario = new Usuario();
 

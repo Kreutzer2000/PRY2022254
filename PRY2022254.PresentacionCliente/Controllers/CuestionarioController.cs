@@ -22,6 +22,11 @@ namespace PRY2022254.PresentacionCliente.Controllers
 
         public ActionResult Evaluacion()
         {
+            // Verificar si la evaluación ya se ha completado
+            if (Session["EvaluacionCompletada"] != null && (bool)Session["EvaluacionCompletada"] == true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             string correo = Convert.ToString(Session["emailCliente"]);
 
@@ -62,7 +67,7 @@ namespace PRY2022254.PresentacionCliente.Controllers
             }
             else
             {
-                if (usuario.oRolc.idRol == 1)
+                if (usuario.oRolc.idRol == 1 || usuario.activo == false)
                 {
                     ViewBag.Error = "El correo no es válido, por favor ingresar uno correcto";
                     return View();
@@ -142,7 +147,8 @@ namespace PRY2022254.PresentacionCliente.Controllers
                 return Json(new { resultado = 0, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
             }
 
-            
+            // Marcar la evaluación como completada en la sesión
+            Session["EvaluacionCompletada"] = true;
 
             return Json(new { resultado = 0, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
             //return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
